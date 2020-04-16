@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
+
+/***/ }),
+
 /***/ "./node_modules/@uppy/companion-client/lib/AuthError.js":
 /*!**************************************************************!*\
   !*** ./node_modules/@uppy/companion-client/lib/AuthError.js ***!
@@ -2680,7 +2692,7 @@ function () {
   return Uppy;
 }();
 
-Uppy.VERSION = "1.10.0";
+Uppy.VERSION = "1.10.1";
 
 module.exports = function (opts) {
   return new Uppy(opts);
@@ -2935,33 +2947,13 @@ function (_Component) {
         onclick: _this.triggerFileInputClick,
         "data-uppy-super-focusable": numberOfAcquirers === 0
       }, _this.props.i18n('browse'));
-
-      var renderDropFilesSubtitle = function renderDropFilesSubtitle(numberOfAcquirers) {
-        if (numberOfAcquirers > 0) {
-          return _this.props.i18nArray('dropPasteImport', {
-            browse: browse
-          });
-        }
-
-        return _this.props.i18nArray('dropPaste', {
-          browse: browse
-        });
-      };
-
       return h("div", {
-        class: "uppy-Dashboard-dropFilesTitleGroup"
-      }, h("div", {
-        class: "uppy-Dashboard-dropFilesTitle"
-      }, renderDropFilesSubtitle(numberOfAcquirers)));
-    };
-
-    _this.renderBrowseButton = function () {
-      return h("button", {
-        type: "button",
-        class: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Dashboard-browseBtn",
-        onclick: _this.triggerFileInputClick,
-        "data-uppy-super-focusable": true
-      }, "Browse My Device");
+        class: "uppy-Dashboard-AddFiles-title"
+      }, numberOfAcquirers > 0 ? _this.props.i18nArray('dropPasteImport', {
+        browse: browse
+      }) : _this.props.i18nArray('dropPaste', {
+        browse: browse
+      }));
     };
 
     _this.renderAcquirer = function (acquirer) {
@@ -2990,7 +2982,7 @@ function (_Component) {
       var acquirersWithoutLastTwo = [].concat(acquirers);
       var lastTwoAcquirers = acquirersWithoutLastTwo.splice(acquirers.length - 2, acquirers.length);
       return h("div", {
-        class: "uppy-DashboardTabs-list",
+        class: "uppy-Dashboard-AddFiles-list",
         role: "tablist"
       }, _this.renderMyDeviceAcquirer(), acquirersWithoutLastTwo.map(function (acquirer) {
         return _this.renderAcquirer(acquirer);
@@ -3037,14 +3029,12 @@ function (_Component) {
 
   _proto.render = function render() {
     return h("div", {
-      class: "uppy-DashboardAddFiles"
-    }, this.renderHiddenFileInput(), h("div", {
-      class: "uppy-DashboardTabs"
-    }, this.renderDropPasteBrowseTagline(), this.props.acquirers.length > 0 && this.renderAcquirers(this.props.acquirers), h("div", {
-      class: "uppy-DashboardAddFiles-info"
+      class: "uppy-Dashboard-AddFiles"
+    }, this.renderHiddenFileInput(), this.renderDropPasteBrowseTagline(), this.props.acquirers.length > 0 && this.renderAcquirers(this.props.acquirers), h("div", {
+      class: "uppy-Dashboard-AddFiles-info"
     }, this.props.note && h("div", {
       class: "uppy-Dashboard-note"
-    }, this.props.note), this.props.proudlyDisplayPoweredByUppy && this.renderPoweredByUppy(this.props))));
+    }, this.props.note), this.props.proudlyDisplayPoweredByUppy && this.renderPoweredByUppy(this.props)));
   };
 
   return AddFiles;
@@ -5533,7 +5523,7 @@ function (_Plugin) {
   }
 
   return Dashboard;
-}(Plugin), _class.VERSION = "1.8.1", _temp);
+}(Plugin), _class.VERSION = "1.8.2", _temp);
 
 /***/ }),
 
@@ -5889,196 +5879,6 @@ module.exports = function truncateString(string, maxLength) {
 
 /***/ }),
 
-/***/ "./node_modules/@uppy/form/lib/index.js":
-/*!**********************************************!*\
-  !*** ./node_modules/@uppy/form/lib/index.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _class, _temp;
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
-
-var _require = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/index.js"),
-    Plugin = _require.Plugin;
-
-var findDOMElement = __webpack_require__(/*! @uppy/utils/lib/findDOMElement */ "./node_modules/@uppy/utils/lib/findDOMElement.js");
-
-var toArray = __webpack_require__(/*! @uppy/utils/lib/toArray */ "./node_modules/@uppy/utils/lib/toArray.js"); // Rollup uses get-form-data's ES modules build, and rollup-plugin-commonjs automatically resolves `.default`.
-// So, if we are being built using rollup, this require() won't have a `.default` property.
-
-
-var getFormData = __webpack_require__(/*! get-form-data */ "./node_modules/get-form-data/es/index.js").default || __webpack_require__(/*! get-form-data */ "./node_modules/get-form-data/es/index.js");
-/**
- * Form
- */
-
-
-module.exports = (_temp = _class =
-/*#__PURE__*/
-function (_Plugin) {
-  _inheritsLoose(Form, _Plugin);
-
-  function Form(uppy, opts) {
-    var _this;
-
-    _this = _Plugin.call(this, uppy, opts) || this;
-    _this.type = 'acquirer';
-    _this.id = _this.opts.id || 'Form';
-    _this.title = 'Form'; // set default options
-
-    var defaultOptions = {
-      target: null,
-      resultName: 'uppyResult',
-      getMetaFromForm: true,
-      addResultToForm: true,
-      multipleResults: false,
-      submitOnSuccess: false,
-      triggerUploadOnSubmit: false
-    }; // merge default options with the ones set by user
-
-    _this.opts = _extends({}, defaultOptions, {}, opts);
-    _this.handleFormSubmit = _this.handleFormSubmit.bind(_assertThisInitialized(_this));
-    _this.handleUploadStart = _this.handleUploadStart.bind(_assertThisInitialized(_this));
-    _this.handleSuccess = _this.handleSuccess.bind(_assertThisInitialized(_this));
-    _this.addResultToForm = _this.addResultToForm.bind(_assertThisInitialized(_this));
-    _this.getMetaFromForm = _this.getMetaFromForm.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  var _proto = Form.prototype;
-
-  _proto.handleUploadStart = function handleUploadStart() {
-    if (this.opts.getMetaFromForm) {
-      this.getMetaFromForm();
-    }
-  };
-
-  _proto.handleSuccess = function handleSuccess(result) {
-    if (this.opts.addResultToForm) {
-      this.addResultToForm(result);
-    }
-
-    if (this.opts.submitOnSuccess) {
-      this.form.submit();
-    }
-  };
-
-  _proto.handleFormSubmit = function handleFormSubmit(ev) {
-    var _this2 = this;
-
-    if (this.opts.triggerUploadOnSubmit) {
-      ev.preventDefault();
-      var elements = toArray(ev.target.elements);
-      var disabledByUppy = [];
-      elements.forEach(function (el) {
-        var isButton = el.tagName === 'BUTTON' || el.tagName === 'INPUT' && el.type === 'submit';
-
-        if (isButton && !el.disabled) {
-          el.disabled = true;
-          disabledByUppy.push(el);
-        }
-      });
-      this.uppy.upload().then(function () {
-        disabledByUppy.forEach(function (button) {
-          button.disabled = false;
-        });
-      }, function (err) {
-        disabledByUppy.forEach(function (button) {
-          button.disabled = false;
-        });
-        return Promise.reject(err);
-      }).catch(function (err) {
-        _this2.uppy.log(err.stack || err.message || err);
-      });
-    }
-  };
-
-  _proto.addResultToForm = function addResultToForm(result) {
-    this.uppy.log('[Form] Adding result to the original form:');
-    this.uppy.log(result);
-    var resultInput = this.form.querySelector("[name=\"" + this.opts.resultName + "\"]");
-
-    if (resultInput) {
-      if (this.opts.multipleResults) {
-        // Append new result to the previous result array.
-        // If the previous result is empty, or not an array,
-        // set it to an empty array.
-        var updatedResult;
-
-        try {
-          updatedResult = JSON.parse(resultInput.value);
-        } catch (err) {// Nothing, since we check for array below anyway
-        }
-
-        if (!Array.isArray(updatedResult)) {
-          updatedResult = [];
-        }
-
-        updatedResult.push(result);
-        resultInput.value = JSON.stringify(updatedResult);
-      } else {
-        // Replace existing result with the newer result on `complete` event.
-        // This behavior is not ideal, since you most likely want to always keep
-        // all results in the input. This is kept for backwards compatability until 2.0.
-        resultInput.value = JSON.stringify(result);
-      }
-
-      return;
-    }
-
-    resultInput = document.createElement('input');
-    resultInput.name = this.opts.resultName;
-    resultInput.type = 'hidden';
-
-    if (this.opts.multipleResults) {
-      // Wrap result in an array so we can have multiple results
-      resultInput.value = JSON.stringify([result]);
-    } else {
-      // Result is an object, kept for backwards compatability until 2.0
-      resultInput.value = JSON.stringify(result);
-    }
-
-    this.form.appendChild(resultInput);
-  };
-
-  _proto.getMetaFromForm = function getMetaFromForm() {
-    var formMeta = getFormData(this.form); // We want to exclude meta the the Form plugin itself has added
-    // See https://github.com/transloadit/uppy/issues/1637
-
-    delete formMeta[this.opts.resultName];
-    this.uppy.setMeta(formMeta);
-  };
-
-  _proto.install = function install() {
-    this.form = findDOMElement(this.opts.target);
-
-    if (!this.form || this.form.nodeName !== 'FORM') {
-      this.uppy.log('Form plugin requires a <form> target element passed in options to operate, none was found', 'error');
-      return;
-    }
-
-    this.form.addEventListener('submit', this.handleFormSubmit);
-    this.uppy.on('upload', this.handleUploadStart);
-    this.uppy.on('complete', this.handleSuccess);
-  };
-
-  _proto.uninstall = function uninstall() {
-    this.form.removeEventListener('submit', this.handleFormSubmit);
-    this.uppy.off('upload', this.handleUploadStart);
-    this.uppy.off('complete', this.handleSuccess);
-  };
-
-  return Form;
-}(Plugin), _class.VERSION = "1.3.10", _temp);
-
-/***/ }),
-
 /***/ "./node_modules/@uppy/informer/lib/index.js":
 /*!**************************************************!*\
   !*** ./node_modules/@uppy/informer/lib/index.js ***!
@@ -6172,7 +5972,7 @@ function (_Plugin) {
   };
 
   return Informer;
-}(Plugin), _class.VERSION = "1.5.1", _temp);
+}(Plugin), _class.VERSION = "1.5.2", _temp);
 
 /***/ }),
 
@@ -6878,7 +6678,7 @@ function (_Plugin) {
   };
 
   return StatusBar;
-}(Plugin), _class.VERSION = "1.6.1", _temp);
+}(Plugin), _class.VERSION = "1.6.2", _temp);
 
 /***/ }),
 
@@ -7435,14 +7235,812 @@ function (_Plugin) {
   };
 
   return ThumbnailGenerator;
-}(Plugin), _class.VERSION = "1.5.8", _temp);
+}(Plugin), _class.VERSION = "1.5.9", _temp);
 
 /***/ }),
 
-/***/ "./node_modules/@uppy/utils/lib/EventTracker.js":
+/***/ "./node_modules/@uppy/tus/lib/getFingerprint.js":
 /*!******************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/EventTracker.js ***!
+  !*** ./node_modules/@uppy/tus/lib/getFingerprint.js ***!
   \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var tus = __webpack_require__(/*! tus-js-client */ "./node_modules/tus-js-client/lib.es5/index.js");
+
+function isCordova() {
+  return typeof window !== 'undefined' && (typeof window.PhoneGap !== 'undefined' || typeof window.Cordova !== 'undefined' || typeof window.cordova !== 'undefined');
+}
+
+function isReactNative() {
+  return typeof navigator !== 'undefined' && typeof navigator.product === 'string' && navigator.product.toLowerCase() === 'reactnative';
+} // We override tus fingerprint to uppy’s `file.id`, since the `file.id`
+// now also includes `relativePath` for files added from folders.
+// This means you can add 2 identical files, if one is in folder a,
+// the other in folder b — `a/file.jpg` and `b/file.jpg`, when added
+// together with a folder, will be treated as 2 separate files.
+//
+// For React Native and Cordova, we let tus-js-client’s default
+// fingerprint handling take charge.
+
+
+module.exports = function getFingerprint(uppyFileObj) {
+  return function (file, options, callback) {
+    if (isCordova() || isReactNative()) {
+      return tus.Upload.defaultOptions.fingerprint(file, options, callback);
+    }
+
+    var uppyFingerprint = ['tus', uppyFileObj.id, options.endpoint].join('-');
+    return callback(null, uppyFingerprint);
+  };
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/tus/lib/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/@uppy/tus/lib/index.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _class, _temp;
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/index.js"),
+    Plugin = _require.Plugin;
+
+var tus = __webpack_require__(/*! tus-js-client */ "./node_modules/tus-js-client/lib.es5/index.js");
+
+var _require2 = __webpack_require__(/*! @uppy/companion-client */ "./node_modules/@uppy/companion-client/lib/index.js"),
+    Provider = _require2.Provider,
+    RequestClient = _require2.RequestClient,
+    Socket = _require2.Socket;
+
+var emitSocketProgress = __webpack_require__(/*! @uppy/utils/lib/emitSocketProgress */ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/emitSocketProgress.js");
+
+var getSocketHost = __webpack_require__(/*! @uppy/utils/lib/getSocketHost */ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/getSocketHost.js");
+
+var settle = __webpack_require__(/*! @uppy/utils/lib/settle */ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/settle.js");
+
+var EventTracker = __webpack_require__(/*! @uppy/utils/lib/EventTracker */ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/EventTracker.js");
+
+var RateLimitedQueue = __webpack_require__(/*! @uppy/utils/lib/RateLimitedQueue */ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/RateLimitedQueue.js");
+
+var getFingerprint = __webpack_require__(/*! ./getFingerprint */ "./node_modules/@uppy/tus/lib/getFingerprint.js");
+/** @typedef {import('..').TusOptions} TusOptions */
+
+/** @typedef {import('@uppy/core').Uppy} Uppy */
+
+/** @typedef {import('@uppy/core').UppyFile} UppyFile */
+
+/** @typedef {import('@uppy/core').FailedUppyFile<{}>} FailedUppyFile */
+
+/**
+ * Extracted from https://github.com/tus/tus-js-client/blob/master/lib/upload.js#L13
+ * excepted we removed 'fingerprint' key to avoid adding more dependencies
+ *
+ * @type {TusOptions}
+ */
+
+
+var tusDefaultOptions = {
+  endpoint: '',
+  resume: true,
+  onProgress: null,
+  onChunkComplete: null,
+  onSuccess: null,
+  onError: null,
+  headers: {},
+  chunkSize: Infinity,
+  withCredentials: false,
+  uploadUrl: null,
+  uploadSize: null,
+  overridePatchMethod: false,
+  retryDelays: null
+};
+/**
+ * Tus resumable file uploader
+ */
+
+module.exports = (_temp = _class =
+/*#__PURE__*/
+function (_Plugin) {
+  _inheritsLoose(Tus, _Plugin);
+
+  /**
+   * @param {Uppy} uppy
+   * @param {TusOptions} opts
+   */
+  function Tus(uppy, opts) {
+    var _this;
+
+    _this = _Plugin.call(this, uppy, opts) || this;
+    _this.type = 'uploader';
+    _this.id = _this.opts.id || 'Tus';
+    _this.title = 'Tus'; // set default options
+
+    var defaultOptions = {
+      resume: true,
+      autoRetry: true,
+      useFastRemoteRetry: true,
+      limit: 0,
+      retryDelays: [0, 1000, 3000, 5000]
+    }; // merge default options with the ones set by user
+
+    /** @type {import("..").TusOptions} */
+
+    _this.opts = _extends({}, defaultOptions, opts);
+    /**
+     * Simultaneous upload limiting is shared across all uploads with this plugin.
+     *
+     * @type {RateLimitedQueue}
+     */
+
+    _this.requests = new RateLimitedQueue(_this.opts.limit);
+    _this.uploaders = Object.create(null);
+    _this.uploaderEvents = Object.create(null);
+    _this.uploaderSockets = Object.create(null);
+    _this.handleResetProgress = _this.handleResetProgress.bind(_assertThisInitialized(_this));
+    _this.handleUpload = _this.handleUpload.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  var _proto = Tus.prototype;
+
+  _proto.handleResetProgress = function handleResetProgress() {
+    var files = _extends({}, this.uppy.getState().files);
+
+    Object.keys(files).forEach(function (fileID) {
+      // Only clone the file object if it has a Tus `uploadUrl` attached.
+      if (files[fileID].tus && files[fileID].tus.uploadUrl) {
+        var tusState = _extends({}, files[fileID].tus);
+
+        delete tusState.uploadUrl;
+        files[fileID] = _extends({}, files[fileID], {
+          tus: tusState
+        });
+      }
+    });
+    this.uppy.setState({
+      files: files
+    });
+  }
+  /**
+   * Clean up all references for a file's upload: the tus.Upload instance,
+   * any events related to the file, and the Companion WebSocket connection.
+   *
+   * @param {string} fileID
+   */
+  ;
+
+  _proto.resetUploaderReferences = function resetUploaderReferences(fileID, opts) {
+    if (opts === void 0) {
+      opts = {};
+    }
+
+    if (this.uploaders[fileID]) {
+      var uploader = this.uploaders[fileID];
+      uploader.abort();
+
+      if (opts.abort) {
+        // to avoid 423 error from tus server, we wait
+        // to be sure the previous request has been aborted before terminating the upload
+        // @todo remove the timeout when this "wait" is handled in tus-js-client internally
+        setTimeout(function () {
+          return uploader.abort(true);
+        }, 1000);
+      }
+
+      this.uploaders[fileID] = null;
+    }
+
+    if (this.uploaderEvents[fileID]) {
+      this.uploaderEvents[fileID].remove();
+      this.uploaderEvents[fileID] = null;
+    }
+
+    if (this.uploaderSockets[fileID]) {
+      this.uploaderSockets[fileID].close();
+      this.uploaderSockets[fileID] = null;
+    }
+  }
+  /**
+   * Create a new Tus upload.
+   *
+   * A lot can happen during an upload, so this is quite hard to follow!
+   * - First, the upload is started. If the file was already paused by the time the upload starts, nothing should happen.
+   *   If the `limit` option is used, the upload must be queued onto the `this.requests` queue.
+   *   When an upload starts, we store the tus.Upload instance, and an EventTracker instance that manages the event listeners
+   *   for pausing, cancellation, removal, etc.
+   * - While the upload is in progress, it may be paused or cancelled.
+   *   Pausing aborts the underlying tus.Upload, and removes the upload from the `this.requests` queue. All other state is
+   *   maintained.
+   *   Cancelling removes the upload from the `this.requests` queue, and completely aborts the upload--the tus.Upload instance
+   *   is aborted and discarded, the EventTracker instance is destroyed (removing all listeners).
+   *   Resuming the upload uses the `this.requests` queue as well, to prevent selectively pausing and resuming uploads from
+   *   bypassing the limit.
+   * - After completing an upload, the tus.Upload and EventTracker instances are cleaned up, and the upload is marked as done
+   *   in the `this.requests` queue.
+   * - When an upload completed with an error, the same happens as on successful completion, but the `upload()` promise is rejected.
+   *
+   * When working on this function, keep in mind:
+   *  - When an upload is completed or cancelled for any reason, the tus.Upload and EventTracker instances need to be cleaned up using this.resetUploaderReferences().
+   *  - When an upload is cancelled or paused, for any reason, it needs to be removed from the `this.requests` queue using `queuedRequest.abort()`.
+   *  - When an upload is completed for any reason, including errors, it needs to be marked as such using `queuedRequest.done()`.
+   *  - When an upload is started or resumed, it needs to go through the `this.requests` queue. The `queuedRequest` variable must be updated so the other uses of it are valid.
+   *  - Before replacing the `queuedRequest` variable, the previous `queuedRequest` must be aborted, else it will keep taking up a spot in the queue.
+   *
+   * @param {UppyFile} file for use with upload
+   * @param {number} current file in a queue
+   * @param {number} total number of files in a queue
+   * @returns {Promise<void>}
+   */
+  ;
+
+  _proto.upload = function upload(file, current, total) {
+    var _this2 = this;
+
+    this.resetUploaderReferences(file.id); // Create a new tus upload
+
+    return new Promise(function (resolve, reject) {
+      _this2.uppy.emit('upload-started', file);
+
+      var optsTus = _extends({}, tusDefaultOptions, _this2.opts, // Install file-specific upload overrides.
+      file.tus || {}); // We override tus fingerprint to uppy’s `file.id`, since the `file.id`
+      // now also includes `relativePath` for files added from folders.
+      // This means you can add 2 identical files, if one is in folder a,
+      // the other in folder b.
+
+
+      optsTus.fingerprint = getFingerprint(file);
+
+      optsTus.onError = function (err) {
+        _this2.uppy.log(err);
+
+        _this2.uppy.emit('upload-error', file, err);
+
+        err.message = "Failed because: " + err.message;
+
+        _this2.resetUploaderReferences(file.id);
+
+        queuedRequest.done();
+        reject(err);
+      };
+
+      optsTus.onProgress = function (bytesUploaded, bytesTotal) {
+        _this2.onReceiveUploadUrl(file, upload.url);
+
+        _this2.uppy.emit('upload-progress', file, {
+          uploader: _this2,
+          bytesUploaded: bytesUploaded,
+          bytesTotal: bytesTotal
+        });
+      };
+
+      optsTus.onSuccess = function () {
+        var uploadResp = {
+          uploadURL: upload.url
+        };
+
+        _this2.uppy.emit('upload-success', file, uploadResp);
+
+        if (upload.url) {
+          _this2.uppy.log('Download ' + upload.file.name + ' from ' + upload.url);
+        }
+
+        _this2.resetUploaderReferences(file.id);
+
+        queuedRequest.done();
+        resolve(upload);
+      };
+
+      var copyProp = function copyProp(obj, srcProp, destProp) {
+        if (Object.prototype.hasOwnProperty.call(obj, srcProp) && !Object.prototype.hasOwnProperty.call(obj, destProp)) {
+          obj[destProp] = obj[srcProp];
+        }
+      };
+
+      var meta = {};
+      var metaFields = Array.isArray(optsTus.metaFields) ? optsTus.metaFields // Send along all fields by default.
+      : Object.keys(file.meta);
+      metaFields.forEach(function (item) {
+        meta[item] = file.meta[item];
+      }); // tusd uses metadata fields 'filetype' and 'filename'
+
+      copyProp(meta, 'type', 'filetype');
+      copyProp(meta, 'name', 'filename');
+      optsTus.metadata = meta;
+      var upload = new tus.Upload(file.data, optsTus);
+      _this2.uploaders[file.id] = upload;
+      _this2.uploaderEvents[file.id] = new EventTracker(_this2.uppy);
+
+      var queuedRequest = _this2.requests.run(function () {
+        if (!file.isPaused) {
+          upload.start();
+        } // Don't do anything here, the caller will take care of cancelling the upload itself
+        // using resetUploaderReferences(). This is because resetUploaderReferences() has to be
+        // called when this request is still in the queue, and has not been started yet, too. At
+        // that point this cancellation function is not going to be called.
+        // Also, we need to remove the request from the queue _without_ destroying everything
+        // related to this upload to handle pauses.
+
+
+        return function () {};
+      });
+
+      _this2.onFileRemove(file.id, function (targetFileID) {
+        queuedRequest.abort();
+
+        _this2.resetUploaderReferences(file.id, {
+          abort: !!upload.url
+        });
+
+        resolve("upload " + targetFileID + " was removed");
+      });
+
+      _this2.onPause(file.id, function (isPaused) {
+        if (isPaused) {
+          // Remove this file from the queue so another file can start in its place.
+          queuedRequest.abort();
+          upload.abort();
+        } else {
+          // Resuming an upload should be queued, else you could pause and then resume a queued upload to make it skip the queue.
+          queuedRequest.abort();
+          queuedRequest = _this2.requests.run(function () {
+            upload.start();
+            return function () {};
+          });
+        }
+      });
+
+      _this2.onPauseAll(file.id, function () {
+        queuedRequest.abort();
+        upload.abort();
+      });
+
+      _this2.onCancelAll(file.id, function () {
+        queuedRequest.abort();
+
+        _this2.resetUploaderReferences(file.id, {
+          abort: !!upload.url
+        });
+
+        resolve("upload " + file.id + " was canceled");
+      });
+
+      _this2.onResumeAll(file.id, function () {
+        queuedRequest.abort();
+
+        if (file.error) {
+          upload.abort();
+        }
+
+        queuedRequest = _this2.requests.run(function () {
+          upload.start();
+          return function () {};
+        });
+      });
+    }).catch(function (err) {
+      _this2.uppy.emit('upload-error', file, err);
+
+      throw err;
+    });
+  }
+  /**
+   * @param {UppyFile} file for use with upload
+   * @param {number} current file in a queue
+   * @param {number} total number of files in a queue
+   * @returns {Promise<void>}
+   */
+  ;
+
+  _proto.uploadRemote = function uploadRemote(file, current, total) {
+    var _this3 = this;
+
+    this.resetUploaderReferences(file.id);
+
+    var opts = _extends({}, this.opts);
+
+    if (file.tus) {
+      // Install file-specific upload overrides.
+      _extends(opts, file.tus);
+    }
+
+    this.uppy.emit('upload-started', file);
+    this.uppy.log(file.remote.url);
+
+    if (file.serverToken) {
+      return this.connectToServerSocket(file);
+    }
+
+    return new Promise(function (resolve, reject) {
+      var Client = file.remote.providerOptions.provider ? Provider : RequestClient;
+      var client = new Client(_this3.uppy, file.remote.providerOptions); // !! cancellation is NOT supported at this stage yet
+
+      client.post(file.remote.url, _extends({}, file.remote.body, {
+        endpoint: opts.endpoint,
+        uploadUrl: opts.uploadUrl,
+        protocol: 'tus',
+        size: file.data.size,
+        metadata: file.meta
+      })).then(function (res) {
+        _this3.uppy.setFileState(file.id, {
+          serverToken: res.token
+        });
+
+        file = _this3.uppy.getFile(file.id);
+        return _this3.connectToServerSocket(file);
+      }).then(function () {
+        resolve();
+      }).catch(function (err) {
+        _this3.uppy.emit('upload-error', file, err);
+
+        reject(err);
+      });
+    });
+  }
+  /**
+   * See the comment on the upload() method.
+   *
+   * Additionally, when an upload is removed, completed, or cancelled, we need to close the WebSocket connection. This is handled by the resetUploaderReferences() function, so the same guidelines apply as in upload().
+   *
+   * @param {UppyFile} file
+   */
+  ;
+
+  _proto.connectToServerSocket = function connectToServerSocket(file) {
+    var _this4 = this;
+
+    return new Promise(function (resolve, reject) {
+      var token = file.serverToken;
+      var host = getSocketHost(file.remote.companionUrl);
+      var socket = new Socket({
+        target: host + "/api/" + token,
+        autoOpen: false
+      });
+      _this4.uploaderSockets[file.id] = socket;
+      _this4.uploaderEvents[file.id] = new EventTracker(_this4.uppy);
+
+      _this4.onFileRemove(file.id, function () {
+        queuedRequest.abort(); // still send pause event in case we are dealing with older version of companion
+        // @todo don't send pause event in the next major release.
+
+        socket.send('pause', {});
+        socket.send('cancel', {});
+
+        _this4.resetUploaderReferences(file.id);
+
+        resolve("upload " + file.id + " was removed");
+      });
+
+      _this4.onPause(file.id, function (isPaused) {
+        if (isPaused) {
+          // Remove this file from the queue so another file can start in its place.
+          queuedRequest.abort();
+          socket.send('pause', {});
+        } else {
+          // Resuming an upload should be queued, else you could pause and then resume a queued upload to make it skip the queue.
+          queuedRequest.abort();
+          queuedRequest = _this4.requests.run(function () {
+            socket.send('resume', {});
+            return function () {};
+          });
+        }
+      });
+
+      _this4.onPauseAll(file.id, function () {
+        queuedRequest.abort();
+        socket.send('pause', {});
+      });
+
+      _this4.onCancelAll(file.id, function () {
+        queuedRequest.abort(); // still send pause event in case we are dealing with older version of companion
+        // @todo don't send pause event in the next major release.
+
+        socket.send('pause', {});
+        socket.send('cancel', {});
+
+        _this4.resetUploaderReferences(file.id);
+
+        resolve("upload " + file.id + " was canceled");
+      });
+
+      _this4.onResumeAll(file.id, function () {
+        queuedRequest.abort();
+
+        if (file.error) {
+          socket.send('pause', {});
+        }
+
+        queuedRequest = _this4.requests.run(function () {
+          socket.send('resume', {});
+          return function () {};
+        });
+      });
+
+      _this4.onRetry(file.id, function () {
+        // Only do the retry if the upload is actually in progress;
+        // else we could try to send these messages when the upload is still queued.
+        // We may need a better check for this since the socket may also be closed
+        // for other reasons, like network failures.
+        if (socket.isOpen) {
+          socket.send('pause', {});
+          socket.send('resume', {});
+        }
+      });
+
+      _this4.onRetryAll(file.id, function () {
+        // See the comment in the onRetry() call
+        if (socket.isOpen) {
+          socket.send('pause', {});
+          socket.send('resume', {});
+        }
+      });
+
+      socket.on('progress', function (progressData) {
+        return emitSocketProgress(_this4, progressData, file);
+      });
+      socket.on('error', function (errData) {
+        var message = errData.error.message;
+
+        var error = _extends(new Error(message), {
+          cause: errData.error
+        }); // If the remote retry optimisation should not be used,
+        // close the socket—this will tell companion to clear state and delete the file.
+
+
+        if (!_this4.opts.useFastRemoteRetry) {
+          _this4.resetUploaderReferences(file.id); // Remove the serverToken so that a new one will be created for the retry.
+
+
+          _this4.uppy.setFileState(file.id, {
+            serverToken: null
+          });
+        } else {
+          socket.close();
+        }
+
+        _this4.uppy.emit('upload-error', file, error);
+
+        queuedRequest.done();
+        reject(error);
+      });
+      socket.on('success', function (data) {
+        var uploadResp = {
+          uploadURL: data.url
+        };
+
+        _this4.uppy.emit('upload-success', file, uploadResp);
+
+        _this4.resetUploaderReferences(file.id);
+
+        queuedRequest.done();
+        resolve();
+      });
+
+      var queuedRequest = _this4.requests.run(function () {
+        socket.open();
+
+        if (file.isPaused) {
+          socket.send('pause', {});
+        } // Don't do anything here, the caller will take care of cancelling the upload itself
+        // using resetUploaderReferences(). This is because resetUploaderReferences() has to be
+        // called when this request is still in the queue, and has not been started yet, too. At
+        // that point this cancellation function is not going to be called.
+        // Also, we need to remove the request from the queue _without_ destroying everything
+        // related to this upload to handle pauses.
+
+
+        return function () {};
+      });
+    });
+  }
+  /**
+   * Store the uploadUrl on the file options, so that when Golden Retriever
+   * restores state, we will continue uploading to the correct URL.
+   *
+   * @param {UppyFile} file
+   * @param {string} uploadURL
+   */
+  ;
+
+  _proto.onReceiveUploadUrl = function onReceiveUploadUrl(file, uploadURL) {
+    var currentFile = this.uppy.getFile(file.id);
+    if (!currentFile) return; // Only do the update if we didn't have an upload URL yet.
+
+    if (!currentFile.tus || currentFile.tus.uploadUrl !== uploadURL) {
+      this.uppy.log('[Tus] Storing upload url');
+      this.uppy.setFileState(currentFile.id, {
+        tus: _extends({}, currentFile.tus, {
+          uploadUrl: uploadURL
+        })
+      });
+    }
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(string): void} cb
+   */
+  ;
+
+  _proto.onFileRemove = function onFileRemove(fileID, cb) {
+    this.uploaderEvents[fileID].on('file-removed', function (file) {
+      if (fileID === file.id) cb(file.id);
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(boolean): void} cb
+   */
+  ;
+
+  _proto.onPause = function onPause(fileID, cb) {
+    this.uploaderEvents[fileID].on('upload-pause', function (targetFileID, isPaused) {
+      if (fileID === targetFileID) {
+        // const isPaused = this.uppy.pauseResume(fileID)
+        cb(isPaused);
+      }
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onRetry = function onRetry(fileID, cb) {
+    this.uploaderEvents[fileID].on('upload-retry', function (targetFileID) {
+      if (fileID === targetFileID) {
+        cb();
+      }
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onRetryAll = function onRetryAll(fileID, cb) {
+    var _this5 = this;
+
+    this.uploaderEvents[fileID].on('retry-all', function (filesToRetry) {
+      if (!_this5.uppy.getFile(fileID)) return;
+      cb();
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onPauseAll = function onPauseAll(fileID, cb) {
+    var _this6 = this;
+
+    this.uploaderEvents[fileID].on('pause-all', function () {
+      if (!_this6.uppy.getFile(fileID)) return;
+      cb();
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onCancelAll = function onCancelAll(fileID, cb) {
+    var _this7 = this;
+
+    this.uploaderEvents[fileID].on('cancel-all', function () {
+      if (!_this7.uppy.getFile(fileID)) return;
+      cb();
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onResumeAll = function onResumeAll(fileID, cb) {
+    var _this8 = this;
+
+    this.uploaderEvents[fileID].on('resume-all', function () {
+      if (!_this8.uppy.getFile(fileID)) return;
+      cb();
+    });
+  }
+  /**
+   * @param {(UppyFile | FailedUppyFile)[]} files
+   */
+  ;
+
+  _proto.uploadFiles = function uploadFiles(files) {
+    var _this9 = this;
+
+    var promises = files.map(function (file, i) {
+      var current = i + 1;
+      var total = files.length;
+
+      if ('error' in file && file.error) {
+        return Promise.reject(new Error(file.error));
+      } else if (file.isRemote) {
+        return _this9.uploadRemote(file, current, total);
+      } else {
+        return _this9.upload(file, current, total);
+      }
+    });
+    return settle(promises);
+  }
+  /**
+   * @param {string[]} fileIDs
+   */
+  ;
+
+  _proto.handleUpload = function handleUpload(fileIDs) {
+    var _this10 = this;
+
+    if (fileIDs.length === 0) {
+      this.uppy.log('[Tus] No files to upload');
+      return Promise.resolve();
+    }
+
+    if (this.opts.limit === 0) {
+      this.uppy.log('[Tus] When uploading multiple files at once, consider setting the `limit` option (to `10` for example), to limit the number of concurrent uploads, which helps prevent memory and network issues: https://uppy.io/docs/tus/#limit-0', 'warning');
+    }
+
+    this.uppy.log('[Tus] Uploading...');
+    var filesToUpload = fileIDs.map(function (fileID) {
+      return _this10.uppy.getFile(fileID);
+    });
+    return this.uploadFiles(filesToUpload).then(function () {
+      return null;
+    });
+  };
+
+  _proto.install = function install() {
+    this.uppy.setState({
+      capabilities: _extends({}, this.uppy.getState().capabilities, {
+        resumableUploads: true
+      })
+    });
+    this.uppy.addUploader(this.handleUpload);
+    this.uppy.on('reset-progress', this.handleResetProgress);
+
+    if (this.opts.autoRetry) {
+      this.uppy.on('back-online', this.uppy.retryAll);
+    }
+  };
+
+  _proto.uninstall = function uninstall() {
+    this.uppy.setState({
+      capabilities: _extends({}, this.uppy.getState().capabilities, {
+        resumableUploads: false
+      })
+    });
+    this.uppy.removeUploader(this.handleUpload);
+
+    if (this.opts.autoRetry) {
+      this.uppy.off('back-online', this.uppy.retryAll);
+    }
+  };
+
+  return Tus;
+}(Plugin), _class.VERSION = "1.5.10", _temp);
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/EventTracker.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/EventTracker.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -7482,75 +8080,10 @@ function () {
 
 /***/ }),
 
-/***/ "./node_modules/@uppy/utils/lib/FOCUSABLE_ELEMENTS.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/FOCUSABLE_ELEMENTS.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ['a[href]:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'area[href]:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'input:not([disabled]):not([inert]):not([aria-hidden])', 'select:not([disabled]):not([inert]):not([aria-hidden])', 'textarea:not([disabled]):not([inert]):not([aria-hidden])', 'button:not([disabled]):not([inert]):not([aria-hidden])', 'iframe:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'object:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'embed:not([tabindex^="-"]):not([inert]):not([aria-hidden])', '[contenteditable]:not([tabindex^="-"]):not([inert]):not([aria-hidden])', '[tabindex]:not([tabindex^="-"]):not([inert]):not([aria-hidden])'];
-
-/***/ }),
-
-/***/ "./node_modules/@uppy/utils/lib/ProgressTimeout.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/ProgressTimeout.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Helper to abort upload requests if there has not been any progress for `timeout` ms.
- * Create an instance using `timer = new ProgressTimeout(10000, onTimeout)`
- * Call `timer.progress()` to signal that there has been progress of any kind.
- * Call `timer.done()` when the upload has completed.
- */
-var ProgressTimeout =
-/*#__PURE__*/
-function () {
-  function ProgressTimeout(timeout, timeoutHandler) {
-    this._timeout = timeout;
-    this._onTimedOut = timeoutHandler;
-    this._isDone = false;
-    this._aliveTimer = null;
-    this._onTimedOut = this._onTimedOut.bind(this);
-  }
-
-  var _proto = ProgressTimeout.prototype;
-
-  _proto.progress = function progress() {
-    // Some browsers fire another progress event when the upload is
-    // cancelled, so we have to ignore progress after the timer was
-    // told to stop.
-    if (this._isDone) return;
-
-    if (this._timeout > 0) {
-      if (this._aliveTimer) clearTimeout(this._aliveTimer);
-      this._aliveTimer = setTimeout(this._onTimedOut, this._timeout);
-    }
-  };
-
-  _proto.done = function done() {
-    if (this._aliveTimer) {
-      clearTimeout(this._aliveTimer);
-      this._aliveTimer = null;
-    }
-
-    this._isDone = true;
-  };
-
-  return ProgressTimeout;
-}();
-
-module.exports = ProgressTimeout;
-
-/***/ }),
-
-/***/ "./node_modules/@uppy/utils/lib/RateLimitedQueue.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/RateLimitedQueue.js ***!
-  \**********************************************************/
+/***/ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/RateLimitedQueue.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/RateLimitedQueue.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -7746,6 +8279,97 @@ function () {
 
   return RateLimitedQueue;
 }();
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/emitSocketProgress.js":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/emitSocketProgress.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var throttle = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
+
+function _emitSocketProgress(uploader, progressData, file) {
+  var progress = progressData.progress,
+      bytesUploaded = progressData.bytesUploaded,
+      bytesTotal = progressData.bytesTotal;
+
+  if (progress) {
+    uploader.uppy.log("Upload progress: " + progress);
+    uploader.uppy.emit('upload-progress', file, {
+      uploader: uploader,
+      bytesUploaded: bytesUploaded,
+      bytesTotal: bytesTotal
+    });
+  }
+}
+
+module.exports = throttle(_emitSocketProgress, 300, {
+  leading: true,
+  trailing: true
+});
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/getSocketHost.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/getSocketHost.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function getSocketHost(url) {
+  // get the host domain
+  var regex = /^(?:https?:\/\/|\/\/)?(?:[^@\n]+@)?(?:www\.)?([^\n]+)/i;
+  var host = regex.exec(url)[1];
+  var socketProtocol = /^http:\/\//i.test(url) ? 'ws' : 'wss';
+  return socketProtocol + "://" + host;
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/settle.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@uppy/tus/node_modules/@uppy/utils/lib/settle.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function settle(promises) {
+  var resolutions = [];
+  var rejections = [];
+
+  function resolved(value) {
+    resolutions.push(value);
+  }
+
+  function rejected(error) {
+    rejections.push(error);
+  }
+
+  var wait = Promise.all(promises.map(function (promise) {
+    return promise.then(resolved, rejected);
+  }));
+  return wait.then(function () {
+    return {
+      successful: resolutions,
+      failed: rejections
+    };
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/utils/lib/FOCUSABLE_ELEMENTS.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/FOCUSABLE_ELEMENTS.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ['a[href]:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'area[href]:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'input:not([disabled]):not([inert]):not([aria-hidden])', 'select:not([disabled]):not([inert]):not([aria-hidden])', 'textarea:not([disabled]):not([inert]):not([aria-hidden])', 'button:not([disabled]):not([inert]):not([aria-hidden])', 'iframe:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'object:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'embed:not([tabindex^="-"]):not([inert]):not([aria-hidden])', '[contenteditable]:not([tabindex^="-"]):not([inert]):not([aria-hidden])', '[tabindex]:not([tabindex^="-"]):not([inert]):not([aria-hidden])'];
 
 /***/ }),
 
@@ -7965,37 +8589,6 @@ module.exports = function dataURItoBlob(dataURI, opts, toFile) {
     type: mimeType
   });
 };
-
-/***/ }),
-
-/***/ "./node_modules/@uppy/utils/lib/emitSocketProgress.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/emitSocketProgress.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var throttle = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
-
-function _emitSocketProgress(uploader, progressData, file) {
-  var progress = progressData.progress,
-      bytesUploaded = progressData.bytesUploaded,
-      bytesTotal = progressData.bytesTotal;
-
-  if (progress) {
-    uploader.uppy.log("Upload progress: " + progress);
-    uploader.uppy.emit('upload-progress', file, {
-      uploader: uploader,
-      bytesUploaded: bytesUploaded,
-      bytesTotal: bytesTotal
-    });
-  }
-}
-
-module.exports = throttle(_emitSocketProgress, 300, {
-  leading: true,
-  trailing: true
-});
 
 /***/ }),
 
@@ -8374,23 +8967,6 @@ module.exports = function getFileType(file) {
 
 /***/ }),
 
-/***/ "./node_modules/@uppy/utils/lib/getSocketHost.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/getSocketHost.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function getSocketHost(url) {
-  // get the host domain
-  var regex = /^(?:https?:\/\/|\/\/)?(?:[^@\n]+@)?(?:www\.)?([^\n]+)/i;
-  var host = regex.exec(url)[1];
-  var socketProtocol = /^http:\/\//i.test(url) ? 'ws' : 'wss';
-  return socketProtocol + "://" + host;
-};
-
-/***/ }),
-
 /***/ "./node_modules/@uppy/utils/lib/getSpeed.js":
 /*!**************************************************!*\
   !*** ./node_modules/@uppy/utils/lib/getSpeed.js ***!
@@ -8683,38 +9259,6 @@ module.exports = function secondsToTime(rawSeconds) {
 
 /***/ }),
 
-/***/ "./node_modules/@uppy/utils/lib/settle.js":
-/*!************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/settle.js ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function settle(promises) {
-  var resolutions = [];
-  var rejections = [];
-
-  function resolved(value) {
-    resolutions.push(value);
-  }
-
-  function rejected(error) {
-    rejections.push(error);
-  }
-
-  var wait = Promise.all(promises.map(function (promise) {
-    return promise.then(resolved, rejected);
-  }));
-  return wait.then(function () {
-    return {
-      successful: resolutions,
-      failed: rejections
-    };
-  });
-};
-
-/***/ }),
-
 /***/ "./node_modules/@uppy/utils/lib/toArray.js":
 /*!*************************************************!*\
   !*** ./node_modules/@uppy/utils/lib/toArray.js ***!
@@ -8728,717 +9272,6 @@ module.exports = function settle(promises) {
 module.exports = function toArray(list) {
   return Array.prototype.slice.call(list || [], 0);
 };
-
-/***/ }),
-
-/***/ "./node_modules/@uppy/xhr-upload/lib/index.js":
-/*!****************************************************!*\
-  !*** ./node_modules/@uppy/xhr-upload/lib/index.js ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _class, _temp;
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-var _require = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/index.js"),
-    Plugin = _require.Plugin;
-
-var cuid = __webpack_require__(/*! cuid */ "./node_modules/cuid/index.js");
-
-var Translator = __webpack_require__(/*! @uppy/utils/lib/Translator */ "./node_modules/@uppy/utils/lib/Translator.js");
-
-var _require2 = __webpack_require__(/*! @uppy/companion-client */ "./node_modules/@uppy/companion-client/lib/index.js"),
-    Provider = _require2.Provider,
-    RequestClient = _require2.RequestClient,
-    Socket = _require2.Socket;
-
-var emitSocketProgress = __webpack_require__(/*! @uppy/utils/lib/emitSocketProgress */ "./node_modules/@uppy/utils/lib/emitSocketProgress.js");
-
-var getSocketHost = __webpack_require__(/*! @uppy/utils/lib/getSocketHost */ "./node_modules/@uppy/utils/lib/getSocketHost.js");
-
-var settle = __webpack_require__(/*! @uppy/utils/lib/settle */ "./node_modules/@uppy/utils/lib/settle.js");
-
-var EventTracker = __webpack_require__(/*! @uppy/utils/lib/EventTracker */ "./node_modules/@uppy/utils/lib/EventTracker.js");
-
-var ProgressTimeout = __webpack_require__(/*! @uppy/utils/lib/ProgressTimeout */ "./node_modules/@uppy/utils/lib/ProgressTimeout.js");
-
-var RateLimitedQueue = __webpack_require__(/*! @uppy/utils/lib/RateLimitedQueue */ "./node_modules/@uppy/utils/lib/RateLimitedQueue.js");
-
-function buildResponseError(xhr, error) {
-  // No error message
-  if (!error) error = new Error('Upload error'); // Got an error message string
-
-  if (typeof error === 'string') error = new Error(error); // Got something else
-
-  if (!(error instanceof Error)) {
-    error = _extends(new Error('Upload error'), {
-      data: error
-    });
-  }
-
-  error.request = xhr;
-  return error;
-}
-/**
- * Set `data.type` in the blob to `file.meta.type`,
- * because we might have detected a more accurate file type in Uppy
- * https://stackoverflow.com/a/50875615
- *
- * @param {object} file File object with `data`, `size` and `meta` properties
- * @returns {object} blob updated with the new `type` set from `file.meta.type`
- */
-
-
-function setTypeInBlob(file) {
-  var dataWithUpdatedType = file.data.slice(0, file.data.size, file.meta.type);
-  return dataWithUpdatedType;
-}
-
-module.exports = (_temp = _class =
-/*#__PURE__*/
-function (_Plugin) {
-  _inheritsLoose(XHRUpload, _Plugin);
-
-  function XHRUpload(uppy, opts) {
-    var _this;
-
-    _this = _Plugin.call(this, uppy, opts) || this;
-    _this.type = 'uploader';
-    _this.id = _this.opts.id || 'XHRUpload';
-    _this.title = 'XHRUpload';
-    _this.defaultLocale = {
-      strings: {
-        timedOut: 'Upload stalled for %{seconds} seconds, aborting.'
-      }
-    }; // Default options
-
-    var defaultOptions = {
-      formData: true,
-      fieldName: 'files[]',
-      method: 'post',
-      metaFields: null,
-      responseUrlFieldName: 'url',
-      bundle: false,
-      headers: {},
-      timeout: 30 * 1000,
-      limit: 0,
-      withCredentials: false,
-      responseType: '',
-
-      /**
-       * @typedef respObj
-       * @property {string} responseText
-       * @property {number} status
-       * @property {string} statusText
-       * @property {object.<string, string>} headers
-       *
-       * @param {string} responseText the response body string
-       * @param {XMLHttpRequest | respObj} response the response object (XHR or similar)
-       */
-      getResponseData: function getResponseData(responseText, response) {
-        var parsedResponse = {};
-
-        try {
-          parsedResponse = JSON.parse(responseText);
-        } catch (err) {
-          console.log(err);
-        }
-
-        return parsedResponse;
-      },
-
-      /**
-       *
-       * @param {string} responseText the response body string
-       * @param {XMLHttpRequest | respObj} response the response object (XHR or similar)
-       */
-      getResponseError: function getResponseError(responseText, response) {
-        return new Error('Upload error');
-      },
-
-      /**
-       * Check if the response from the upload endpoint indicates that the upload was successful.
-       *
-       * @param {number} status the response status code
-       * @param {string} responseText the response body string
-       * @param {XMLHttpRequest | respObj} response the response object (XHR or similar)
-       */
-      validateStatus: function validateStatus(status, responseText, response) {
-        return status >= 200 && status < 300;
-      }
-    };
-    _this.opts = _extends({}, defaultOptions, {}, opts);
-
-    _this.i18nInit();
-
-    _this.handleUpload = _this.handleUpload.bind(_assertThisInitialized(_this)); // Simultaneous upload limiting is shared across all uploads with this plugin.
-    // __queue is for internal Uppy use only!
-
-    if (_this.opts.__queue instanceof RateLimitedQueue) {
-      _this.requests = _this.opts.__queue;
-    } else {
-      _this.requests = new RateLimitedQueue(_this.opts.limit);
-    }
-
-    if (_this.opts.bundle && !_this.opts.formData) {
-      throw new Error('`opts.formData` must be true when `opts.bundle` is enabled.');
-    }
-
-    _this.uploaderEvents = Object.create(null);
-    return _this;
-  }
-
-  var _proto = XHRUpload.prototype;
-
-  _proto.setOptions = function setOptions(newOpts) {
-    _Plugin.prototype.setOptions.call(this, newOpts);
-
-    this.i18nInit();
-  };
-
-  _proto.i18nInit = function i18nInit() {
-    this.translator = new Translator([this.defaultLocale, this.uppy.locale, this.opts.locale]);
-    this.i18n = this.translator.translate.bind(this.translator);
-    this.setPluginState(); // so that UI re-renders and we see the updated locale
-  };
-
-  _proto.getOptions = function getOptions(file) {
-    var overrides = this.uppy.getState().xhrUpload;
-
-    var opts = _extends({}, this.opts, {}, overrides || {}, {}, file.xhrUpload || {}, {
-      headers: {}
-    });
-
-    _extends(opts.headers, this.opts.headers);
-
-    if (overrides) {
-      _extends(opts.headers, overrides.headers);
-    }
-
-    if (file.xhrUpload) {
-      _extends(opts.headers, file.xhrUpload.headers);
-    }
-
-    return opts;
-  };
-
-  _proto.addMetadata = function addMetadata(formData, meta, opts) {
-    var metaFields = Array.isArray(opts.metaFields) ? opts.metaFields // Send along all fields by default.
-    : Object.keys(meta);
-    metaFields.forEach(function (item) {
-      formData.append(item, meta[item]);
-    });
-  };
-
-  _proto.createFormDataUpload = function createFormDataUpload(file, opts) {
-    var formPost = new FormData();
-    this.addMetadata(formPost, file.meta, opts);
-    var dataWithUpdatedType = setTypeInBlob(file);
-
-    if (file.name) {
-      formPost.append(opts.fieldName, dataWithUpdatedType, file.meta.name);
-    } else {
-      formPost.append(opts.fieldName, dataWithUpdatedType);
-    }
-
-    return formPost;
-  };
-
-  _proto.createBundledUpload = function createBundledUpload(files, opts) {
-    var _this2 = this;
-
-    var formPost = new FormData();
-
-    var _this$uppy$getState = this.uppy.getState(),
-        meta = _this$uppy$getState.meta;
-
-    this.addMetadata(formPost, meta, opts);
-    files.forEach(function (file) {
-      var opts = _this2.getOptions(file);
-
-      var dataWithUpdatedType = setTypeInBlob(file);
-
-      if (file.name) {
-        formPost.append(opts.fieldName, dataWithUpdatedType, file.name);
-      } else {
-        formPost.append(opts.fieldName, dataWithUpdatedType);
-      }
-    });
-    return formPost;
-  };
-
-  _proto.createBareUpload = function createBareUpload(file, opts) {
-    return file.data;
-  };
-
-  _proto.upload = function upload(file, current, total) {
-    var _this3 = this;
-
-    var opts = this.getOptions(file);
-    this.uppy.log("uploading " + current + " of " + total);
-    return new Promise(function (resolve, reject) {
-      _this3.uppy.emit('upload-started', file);
-
-      var data = opts.formData ? _this3.createFormDataUpload(file, opts) : _this3.createBareUpload(file, opts);
-      var xhr = new XMLHttpRequest();
-      _this3.uploaderEvents[file.id] = new EventTracker(_this3.uppy);
-      var timer = new ProgressTimeout(opts.timeout, function () {
-        xhr.abort();
-        queuedRequest.done();
-        var error = new Error(_this3.i18n('timedOut', {
-          seconds: Math.ceil(opts.timeout / 1000)
-        }));
-
-        _this3.uppy.emit('upload-error', file, error);
-
-        reject(error);
-      });
-      var id = cuid();
-      xhr.upload.addEventListener('loadstart', function (ev) {
-        _this3.uppy.log("[XHRUpload] " + id + " started");
-      });
-      xhr.upload.addEventListener('progress', function (ev) {
-        _this3.uppy.log("[XHRUpload] " + id + " progress: " + ev.loaded + " / " + ev.total); // Begin checking for timeouts when progress starts, instead of loading,
-        // to avoid timing out requests on browser concurrency queue
-
-
-        timer.progress();
-
-        if (ev.lengthComputable) {
-          _this3.uppy.emit('upload-progress', file, {
-            uploader: _this3,
-            bytesUploaded: ev.loaded,
-            bytesTotal: ev.total
-          });
-        }
-      });
-      xhr.addEventListener('load', function (ev) {
-        _this3.uppy.log("[XHRUpload] " + id + " finished");
-
-        timer.done();
-        queuedRequest.done();
-
-        if (_this3.uploaderEvents[file.id]) {
-          _this3.uploaderEvents[file.id].remove();
-
-          _this3.uploaderEvents[file.id] = null;
-        }
-
-        if (opts.validateStatus(ev.target.status, xhr.responseText, xhr)) {
-          var body = opts.getResponseData(xhr.responseText, xhr);
-          var uploadURL = body[opts.responseUrlFieldName];
-          var uploadResp = {
-            status: ev.target.status,
-            body: body,
-            uploadURL: uploadURL
-          };
-
-          _this3.uppy.emit('upload-success', file, uploadResp);
-
-          if (uploadURL) {
-            _this3.uppy.log("Download " + file.name + " from " + uploadURL);
-          }
-
-          return resolve(file);
-        } else {
-          var _body = opts.getResponseData(xhr.responseText, xhr);
-
-          var error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr));
-          var response = {
-            status: ev.target.status,
-            body: _body
-          };
-
-          _this3.uppy.emit('upload-error', file, error, response);
-
-          return reject(error);
-        }
-      });
-      xhr.addEventListener('error', function (ev) {
-        _this3.uppy.log("[XHRUpload] " + id + " errored");
-
-        timer.done();
-        queuedRequest.done();
-
-        if (_this3.uploaderEvents[file.id]) {
-          _this3.uploaderEvents[file.id].remove();
-
-          _this3.uploaderEvents[file.id] = null;
-        }
-
-        var error = buildResponseError(xhr, opts.getResponseError(xhr.responseText, xhr));
-
-        _this3.uppy.emit('upload-error', file, error);
-
-        return reject(error);
-      });
-      xhr.open(opts.method.toUpperCase(), opts.endpoint, true); // IE10 does not allow setting `withCredentials` and `responseType`
-      // before `open()` is called.
-
-      xhr.withCredentials = opts.withCredentials;
-
-      if (opts.responseType !== '') {
-        xhr.responseType = opts.responseType;
-      }
-
-      Object.keys(opts.headers).forEach(function (header) {
-        xhr.setRequestHeader(header, opts.headers[header]);
-      });
-
-      var queuedRequest = _this3.requests.run(function () {
-        xhr.send(data);
-        return function () {
-          timer.done();
-          xhr.abort();
-        };
-      });
-
-      _this3.onFileRemove(file.id, function () {
-        queuedRequest.abort();
-        reject(new Error('File removed'));
-      });
-
-      _this3.onCancelAll(file.id, function () {
-        queuedRequest.abort();
-        reject(new Error('Upload cancelled'));
-      });
-    });
-  };
-
-  _proto.uploadRemote = function uploadRemote(file, current, total) {
-    var _this4 = this;
-
-    var opts = this.getOptions(file);
-    return new Promise(function (resolve, reject) {
-      _this4.uppy.emit('upload-started', file);
-
-      var fields = {};
-      var metaFields = Array.isArray(opts.metaFields) ? opts.metaFields // Send along all fields by default.
-      : Object.keys(file.meta);
-      metaFields.forEach(function (name) {
-        fields[name] = file.meta[name];
-      });
-      var Client = file.remote.providerOptions.provider ? Provider : RequestClient;
-      var client = new Client(_this4.uppy, file.remote.providerOptions);
-      client.post(file.remote.url, _extends({}, file.remote.body, {
-        endpoint: opts.endpoint,
-        size: file.data.size,
-        fieldname: opts.fieldName,
-        metadata: fields,
-        httpMethod: opts.method,
-        headers: opts.headers
-      })).then(function (res) {
-        var token = res.token;
-        var host = getSocketHost(file.remote.companionUrl);
-        var socket = new Socket({
-          target: host + "/api/" + token,
-          autoOpen: false
-        });
-        _this4.uploaderEvents[file.id] = new EventTracker(_this4.uppy);
-
-        _this4.onFileRemove(file.id, function () {
-          socket.send('pause', {});
-          queuedRequest.abort();
-          resolve("upload " + file.id + " was removed");
-        });
-
-        _this4.onCancelAll(file.id, function () {
-          socket.send('pause', {});
-          queuedRequest.abort();
-          resolve("upload " + file.id + " was canceled");
-        });
-
-        _this4.onRetry(file.id, function () {
-          socket.send('pause', {});
-          socket.send('resume', {});
-        });
-
-        _this4.onRetryAll(file.id, function () {
-          socket.send('pause', {});
-          socket.send('resume', {});
-        });
-
-        socket.on('progress', function (progressData) {
-          return emitSocketProgress(_this4, progressData, file);
-        });
-        socket.on('success', function (data) {
-          var body = opts.getResponseData(data.response.responseText, data.response);
-          var uploadURL = body[opts.responseUrlFieldName];
-          var uploadResp = {
-            status: data.response.status,
-            body: body,
-            uploadURL: uploadURL
-          };
-
-          _this4.uppy.emit('upload-success', file, uploadResp);
-
-          queuedRequest.done();
-
-          if (_this4.uploaderEvents[file.id]) {
-            _this4.uploaderEvents[file.id].remove();
-
-            _this4.uploaderEvents[file.id] = null;
-          }
-
-          return resolve();
-        });
-        socket.on('error', function (errData) {
-          var resp = errData.response;
-          var error = resp ? opts.getResponseError(resp.responseText, resp) : _extends(new Error(errData.error.message), {
-            cause: errData.error
-          });
-
-          _this4.uppy.emit('upload-error', file, error);
-
-          queuedRequest.done();
-
-          if (_this4.uploaderEvents[file.id]) {
-            _this4.uploaderEvents[file.id].remove();
-
-            _this4.uploaderEvents[file.id] = null;
-          }
-
-          reject(error);
-        });
-
-        var queuedRequest = _this4.requests.run(function () {
-          socket.open();
-
-          if (file.isPaused) {
-            socket.send('pause', {});
-          }
-
-          return function () {
-            return socket.close();
-          };
-        });
-      }).catch(function (err) {
-        _this4.uppy.emit('upload-error', file, err);
-
-        reject(err);
-      });
-    });
-  };
-
-  _proto.uploadBundle = function uploadBundle(files) {
-    var _this5 = this;
-
-    return new Promise(function (resolve, reject) {
-      var endpoint = _this5.opts.endpoint;
-      var method = _this5.opts.method;
-
-      var optsFromState = _this5.uppy.getState().xhrUpload;
-
-      var formData = _this5.createBundledUpload(files, _extends({}, _this5.opts, {}, optsFromState || {}));
-
-      var xhr = new XMLHttpRequest();
-      var timer = new ProgressTimeout(_this5.opts.timeout, function () {
-        xhr.abort();
-        var error = new Error(_this5.i18n('timedOut', {
-          seconds: Math.ceil(_this5.opts.timeout / 1000)
-        }));
-        emitError(error);
-        reject(error);
-      });
-
-      var emitError = function emitError(error) {
-        files.forEach(function (file) {
-          _this5.uppy.emit('upload-error', file, error);
-        });
-      };
-
-      xhr.upload.addEventListener('loadstart', function (ev) {
-        _this5.uppy.log('[XHRUpload] started uploading bundle');
-
-        timer.progress();
-      });
-      xhr.upload.addEventListener('progress', function (ev) {
-        timer.progress();
-        if (!ev.lengthComputable) return;
-        files.forEach(function (file) {
-          _this5.uppy.emit('upload-progress', file, {
-            uploader: _this5,
-            bytesUploaded: ev.loaded / ev.total * file.size,
-            bytesTotal: file.size
-          });
-        });
-      });
-      xhr.addEventListener('load', function (ev) {
-        timer.done();
-
-        if (_this5.opts.validateStatus(ev.target.status, xhr.responseText, xhr)) {
-          var body = _this5.opts.getResponseData(xhr.responseText, xhr);
-
-          var uploadResp = {
-            status: ev.target.status,
-            body: body
-          };
-          files.forEach(function (file) {
-            _this5.uppy.emit('upload-success', file, uploadResp);
-          });
-          return resolve();
-        }
-
-        var error = _this5.opts.getResponseError(xhr.responseText, xhr) || new Error('Upload error');
-        error.request = xhr;
-        emitError(error);
-        return reject(error);
-      });
-      xhr.addEventListener('error', function (ev) {
-        timer.done();
-        var error = _this5.opts.getResponseError(xhr.responseText, xhr) || new Error('Upload error');
-        emitError(error);
-        return reject(error);
-      });
-
-      _this5.uppy.on('cancel-all', function () {
-        timer.done();
-        xhr.abort();
-      });
-
-      xhr.open(method.toUpperCase(), endpoint, true); // IE10 does not allow setting `withCredentials` and `responseType`
-      // before `open()` is called.
-
-      xhr.withCredentials = _this5.opts.withCredentials;
-
-      if (_this5.opts.responseType !== '') {
-        xhr.responseType = _this5.opts.responseType;
-      }
-
-      Object.keys(_this5.opts.headers).forEach(function (header) {
-        xhr.setRequestHeader(header, _this5.opts.headers[header]);
-      });
-      xhr.send(formData);
-      files.forEach(function (file) {
-        _this5.uppy.emit('upload-started', file);
-      });
-    });
-  };
-
-  _proto.uploadFiles = function uploadFiles(files) {
-    var _this6 = this;
-
-    var promises = files.map(function (file, i) {
-      var current = parseInt(i, 10) + 1;
-      var total = files.length;
-
-      if (file.error) {
-        return Promise.reject(new Error(file.error));
-      } else if (file.isRemote) {
-        return _this6.uploadRemote(file, current, total);
-      } else {
-        return _this6.upload(file, current, total);
-      }
-    });
-    return settle(promises);
-  };
-
-  _proto.onFileRemove = function onFileRemove(fileID, cb) {
-    this.uploaderEvents[fileID].on('file-removed', function (file) {
-      if (fileID === file.id) cb(file.id);
-    });
-  };
-
-  _proto.onRetry = function onRetry(fileID, cb) {
-    this.uploaderEvents[fileID].on('upload-retry', function (targetFileID) {
-      if (fileID === targetFileID) {
-        cb();
-      }
-    });
-  };
-
-  _proto.onRetryAll = function onRetryAll(fileID, cb) {
-    var _this7 = this;
-
-    this.uploaderEvents[fileID].on('retry-all', function (filesToRetry) {
-      if (!_this7.uppy.getFile(fileID)) return;
-      cb();
-    });
-  };
-
-  _proto.onCancelAll = function onCancelAll(fileID, cb) {
-    var _this8 = this;
-
-    this.uploaderEvents[fileID].on('cancel-all', function () {
-      if (!_this8.uppy.getFile(fileID)) return;
-      cb();
-    });
-  };
-
-  _proto.handleUpload = function handleUpload(fileIDs) {
-    var _this9 = this;
-
-    if (fileIDs.length === 0) {
-      this.uppy.log('[XHRUpload] No files to upload!');
-      return Promise.resolve();
-    } // no limit configured by the user, and no RateLimitedQueue passed in by a "parent" plugin (basically just AwsS3) using the top secret `__queue` option
-
-
-    if (this.opts.limit === 0 && !this.opts.__queue) {
-      this.uppy.log('[XHRUpload] When uploading multiple files at once, consider setting the `limit` option (to `10` for example), to limit the number of concurrent uploads, which helps prevent memory and network issues: https://uppy.io/docs/xhr-upload/#limit-0', 'warning');
-    }
-
-    this.uppy.log('[XHRUpload] Uploading...');
-    var files = fileIDs.map(function (fileID) {
-      return _this9.uppy.getFile(fileID);
-    });
-
-    if (this.opts.bundle) {
-      // if bundle: true, we don’t support remote uploads
-      var isSomeFileRemote = files.some(function (file) {
-        return file.isRemote;
-      });
-
-      if (isSomeFileRemote) {
-        throw new Error('Can’t upload remote files when bundle: true option is set');
-      }
-
-      return this.uploadBundle(files);
-    }
-
-    return this.uploadFiles(files).then(function () {
-      return null;
-    });
-  };
-
-  _proto.install = function install() {
-    if (this.opts.bundle) {
-      var _this$uppy$getState2 = this.uppy.getState(),
-          capabilities = _this$uppy$getState2.capabilities;
-
-      this.uppy.setState({
-        capabilities: _extends({}, capabilities, {
-          individualCancellation: false
-        })
-      });
-    }
-
-    this.uppy.addUploader(this.handleUpload);
-  };
-
-  _proto.uninstall = function uninstall() {
-    if (this.opts.bundle) {
-      var _this$uppy$getState3 = this.uppy.getState(),
-          capabilities = _this$uppy$getState3.capabilities;
-
-      this.uppy.setState({
-        capabilities: _extends({}, capabilities, {
-          individualCancellation: true
-        })
-      });
-    }
-
-    this.uppy.removeUploader(this.handleUpload);
-  };
-
-  return XHRUpload;
-}(Plugin), _class.VERSION = "1.5.6", _temp);
 
 /***/ }),
 
@@ -11297,18 +11130,32 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _uppy_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/index.js");
-/* harmony import */ var _uppy_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_uppy_core__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _uppy_xhr_upload__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @uppy/xhr-upload */ "./node_modules/@uppy/xhr-upload/lib/index.js");
-/* harmony import */ var _uppy_xhr_upload__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_uppy_xhr_upload__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _uppy_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/index.js");
+/* harmony import */ var _uppy_core__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_uppy_core__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _uppy_dashboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @uppy/dashboard */ "./node_modules/@uppy/dashboard/lib/index.js");
 /* harmony import */ var _uppy_dashboard__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_uppy_dashboard__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _uppy_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @uppy/form */ "./node_modules/@uppy/form/lib/index.js");
-/* harmony import */ var _uppy_form__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_uppy_form__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _uppy_core_dist_style_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @uppy/core/dist/style.css */ "./node_modules/@uppy/core/dist/style.css");
-/* harmony import */ var _uppy_core_dist_style_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_uppy_core_dist_style_css__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _uppy_dashboard_dist_style_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @uppy/dashboard/dist/style.css */ "./node_modules/@uppy/dashboard/dist/style.css");
-/* harmony import */ var _uppy_dashboard_dist_style_css__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_uppy_dashboard_dist_style_css__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _uppy_core_dist_style_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @uppy/core/dist/style.css */ "./node_modules/@uppy/core/dist/style.css");
+/* harmony import */ var _uppy_core_dist_style_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_uppy_core_dist_style_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _uppy_dashboard_dist_style_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @uppy/dashboard/dist/style.css */ "./node_modules/@uppy/dashboard/dist/style.css");
+/* harmony import */ var _uppy_dashboard_dist_style_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_uppy_dashboard_dist_style_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _uppy_tus__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @uppy/tus */ "./node_modules/@uppy/tus/lib/index.js");
+/* harmony import */ var _uppy_tus__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_uppy_tus__WEBPACK_IMPORTED_MODULE_5__);
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
 //
 //
 //
@@ -11330,19 +11177,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 
-
- // import notify from './mixins/noty';
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // props: {
-  //   maxFileSizeInBytes: {
-  //     type: Number,
-  //     required: true
-  //   }
-  // },
-  // mixins: [notify],
   data: function data() {
     return {
       payload: null,
@@ -11351,7 +11189,11 @@ __webpack_require__.r(__webpack_exports__);
       status: {
         type: "",
         description: ""
-      }
+      },
+      uploadLink: "",
+      selectedFile: null,
+      uploadOffset: 0,
+      checkProgressInterval: 0
     };
   },
   mounted: function mounted() {
@@ -11361,40 +11203,89 @@ __webpack_require__.r(__webpack_exports__);
     instantiateUppy: function instantiateUppy() {
       var _this = this;
 
-      this.uppy = _uppy_core__WEBPACK_IMPORTED_MODULE_0___default()({
-        debug: true,
+      this.uppy = _uppy_core__WEBPACK_IMPORTED_MODULE_1___default()({
+        logger: _uppy_core__WEBPACK_IMPORTED_MODULE_1___default.a.debugLogger,
         restrictions: {
-          // maxFileSize: this.maxFileSizeInBytes,
           minNumberOfFiles: 1,
           maxNumberOfFiles: 1,
           allowedFileTypes: ["video/*"]
-        }
+        },
+        allowMultipleUploads: false
       }).use(_uppy_dashboard__WEBPACK_IMPORTED_MODULE_2___default.a, {
         hideUploadButton: false,
         height: 450,
         target: this.$refs.dashboardContainer,
         replaceTargetContent: true,
         showProgressDetails: true,
-        browserBackButtonClose: true
-      }).use(_uppy_xhr_upload__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        limit: 10,
-        endpoint: "/video/upload",
-        formData: true,
-        fieldName: "file",
-        headers: {
-          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content") // from <meta name="csrf-token" content="{{ csrf_token() }}">
+        browserBackButtonClose: true,
+        closeModalOnClickOutside: true
+      }).use(_uppy_tus__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        uploadUrl: this.uploadLink,
+        resume: true,
+        autoRetry: true,
+        retryDelays: [0, 1000, 3000, 5000]
+      });
+      this.uppy.on("upload", /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(data) {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  // data object consists of `id` with upload ID and `fileIDs` array
+                  // with file IDs in current upload
+                  // data: { id, fileIDs }
+                  console.log("Starting upload id: ".concat(data.id, ", fileIDs: ").concat(data.fileIDs));
+                  _context.next = 3;
+                  return _this.getUploadLink();
 
-        }
+                case 3:
+                  console.log("upload link", _this.uploadLink);
+
+                case 4:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        }));
+
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      }());
+      this.uppy.on("upload-progress", function (file, progress) {
+        // file: { id, name, type, ... }
+        // progress: { uploader, bytesUploaded, bytesTotal }
+        console.log("upload-progress", file.id, progress.bytesUploaded, progress.bytesTotal);
+      });
+      this.uppy.on("upload-success", function (file, response) {
+        console.log("upload-success", file.name, response.uploadURL);
+      });
+      this.uppy.on("upload-error", function (file, error, response) {
+        console.log("error with file:", file.id);
+        console.log("error message:", error);
+      });
+      this.uppy.on("upload-retry", function (fileID) {
+        console.log("upload retried:", fileID);
       });
       this.uppy.on("complete", function (event) {
-        if (event.successful[0] !== undefined) {
-          _this.payload = event.successful[0].response.body.path;
+        console.log("complted", event);
 
-          _this.confirmUpload();
+        if (event.successful[0] !== undefined) {// this.payload = event.successful[0].response.body.path;
+          // this.confirmUpload();
         }
       });
-      uppy.on("dashboard:modal-open", function () {
+      this.uppy.on("dashboard:modal-open", function () {
         _this.setStatus("", "");
+      });
+      this.uppy.on("file-added", function (file) {
+        console.log("file-added", file);
+        _this.selectedFile = file;
+        console.log("this.selectedFile", _this.selectedFile);
+      });
+      this.uppy.on("file-removed", function (file) {
+        _this.selectedFile = null;
+        console.log("Removed file", file);
       });
     },
     setStatus: function setStatus(type, description) {
@@ -11404,35 +11295,33 @@ __webpack_require__.r(__webpack_exports__);
       };
       return this;
     },
+    getUploadLink: function getUploadLink() {
+      return axios.post("/videos/uploadLink", _objectSpread({}, this.selectedFile), {
+        headers: {
+          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+        }
+      }).then(function (res) {
+        if (res.data) {
+          var data = res.data.body;
+          console.log("uploadLink Data", data);
+          return data.upload.upload_link;
+        }
+      })["catch"](function (err) {
+        throw err;
+      });
+    },
     closeModal: function closeModal() {
       this.uppy.getPlugin("Dashboard").closeModal();
       return this;
     },
-    updatePreviewPath: function updatePreviewPath(_ref) {
-      var path = _ref.path;
+    updatePreviewPath: function updatePreviewPath(_ref2) {
+      var path = _ref2.path;
       this.previewPath = path;
       return this;
     },
     resetUploader: function resetUploader() {
       this.uppy.reset();
       return this;
-    },
-    confirmUpload: function confirmUpload() {
-      var _this2 = this;
-
-      if (this.payload) {
-        axios.post("/store", {
-          file: this.payload
-        }).then(function (_ref2) {
-          var data = _ref2.data;
-
-          _this2.updatePreviewPath(data).resetUploader().setStatus("success", "Upload Successful!").closeModal();
-        })["catch"](function (err) {
-          console.error(err);
-
-          _this2.resetUploader();
-        });
-      }
     }
   }
 });
@@ -18029,7 +17918,7 @@ exports = module.exports = __webpack_require__(/*! ../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".uppy-Informer {\n  position: absolute;\n  bottom: 60px;\n  left: 0;\n  right: 0;\n  text-align: center;\n  opacity: 1;\n  transform: none;\n  transition: all 250ms ease-in;\n  z-index: 1005; }\n\n.uppy-Informer[aria-hidden=true] {\n  opacity: 0;\n  transform: translateY(350%);\n  transition: all 300ms ease-in;\n  z-index: -1000; }\n\n.uppy-Informer p {\n  display: inline-block;\n  margin: 0;\n  padding: 0;\n  font-size: 12px;\n  line-height: 1.4;\n  font-weight: 400;\n  padding: 6px 15px;\n  background-color: #757575;\n  color: #fff;\n  border-radius: 18px;\n  max-width: 90%; }\n  .uppy-size--md .uppy-Informer p {\n    font-size: 14px;\n    line-height: 1.3;\n    max-width: 500px;\n    padding: 10px 20px; }\n  [data-uppy-theme=\"dark\"] .uppy-Informer p {\n    background-color: #333; }\n\n.uppy-Informer span {\n  line-height: 12px;\n  width: 13px;\n  height: 13px;\n  display: inline-block;\n  vertical-align: middle;\n  color: #525252;\n  background-color: #fff;\n  border-radius: 50%;\n  position: relative;\n  top: -1px;\n  left: 3px;\n  font-size: 10px;\n  margin-left: -1px; }\n\n.uppy-Informer span:hover {\n  cursor: help; }\n\n.uppy-Informer span:after {\n  line-height: 1.3;\n  word-wrap: break-word; }\n\n/* -------------------------------------------------------------------\n  Microtip\n\n  Modern, lightweight css-only tooltips\n  Just 1kb minified and gzipped\n\n  @author Ghosh\n  @package Microtip\n\n----------------------------------------------------------------------\n  1. Base Styles\n  2. Direction Modifiers\n  3. Position Modifiers\n--------------------------------------------------------------------*/\n/* ------------------------------------------------\n  [1] Base Styles\n-------------------------------------------------*/\n.uppy-Root [aria-label][role~=\"tooltip\"] {\n  /* no important */\n  position: relative; }\n\n.uppy-Root [aria-label][role~=\"tooltip\"]::before,\n.uppy-Root [aria-label][role~=\"tooltip\"]::after {\n  /* no important */\n  transform: translate3d(0, 0, 0);\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  will-change: transform;\n  opacity: 0;\n  pointer-events: none;\n  transition: all var(--microtip-transition-duration, 0.18s) var(--microtip-transition-easing, ease-in-out) var(--microtip-transition-delay, 0s);\n  position: absolute;\n  box-sizing: border-box;\n  z-index: 10;\n  transform-origin: top; }\n\n.uppy-Root [aria-label][role~=\"tooltip\"]::before {\n  /* no important */\n  background-size: 100% auto !important;\n  content: \"\"; }\n\n.uppy-Root [aria-label][role~=\"tooltip\"]::after {\n  /* no important */\n  background: rgba(17, 17, 17, 0.9);\n  border-radius: 4px;\n  color: #ffffff;\n  content: attr(aria-label);\n  font-size: var(--microtip-font-size, 13px);\n  font-weight: var(--microtip-font-weight, normal);\n  text-transform: var(--microtip-text-transform, none);\n  padding: .5em 1em;\n  white-space: nowrap;\n  box-sizing: content-box; }\n\n.uppy-Root [aria-label][role~=\"tooltip\"]:hover::before,\n.uppy-Root [aria-label][role~=\"tooltip\"]:hover::after,\n.uppy-Root [aria-label][role~=\"tooltip\"]:focus::before,\n.uppy-Root [aria-label][role~=\"tooltip\"]:focus::after {\n  /* no important */\n  opacity: 1;\n  pointer-events: auto; }\n\n/* ------------------------------------------------\n  [2] Position Modifiers\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]::before {\n  /* no important */\n  background: url(\"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E\") no-repeat;\n  height: 6px;\n  width: 18px;\n  margin-bottom: 5px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]::after {\n  /* no important */\n  margin-bottom: 11px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]::before {\n  /* no important */\n  transform: translate3d(-50%, 0, 0);\n  bottom: 100%;\n  left: 50%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]:hover::before {\n  /* no important */\n  transform: translate3d(-50%, -5px, 0); }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]::after {\n  /* no important */\n  transform: translate3d(-50%, 0, 0);\n  bottom: 100%;\n  left: 50%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top\"]:hover::after {\n  /* no important */\n  transform: translate3d(-50%, -5px, 0); }\n\n/* ------------------------------------------------\n  [2.1] Top Left\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top-left\"]::after {\n  /* no important */\n  transform: translate3d(calc(-100% + 16px), 0, 0);\n  bottom: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top-left\"]:hover::after {\n  /* no important */\n  transform: translate3d(calc(-100% + 16px), -5px, 0); }\n\n/* ------------------------------------------------\n  [2.2] Top Right\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top-right\"]::after {\n  /* no important */\n  transform: translate3d(calc(0% + -16px), 0, 0);\n  bottom: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top-right\"]:hover::after {\n  /* no important */\n  transform: translate3d(calc(0% + -16px), -5px, 0); }\n\n/* ------------------------------------------------\n  [2.3] Bottom\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]::before {\n  /* no important */\n  background: url(\"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E\") no-repeat;\n  height: 6px;\n  width: 18px;\n  margin-top: 5px;\n  margin-bottom: 0; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]::after {\n  /* no important */\n  margin-top: 11px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]::before {\n  /* no important */\n  transform: translate3d(-50%, -10px, 0);\n  bottom: auto;\n  left: 50%;\n  top: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]:hover::before {\n  /* no important */\n  transform: translate3d(-50%, 0, 0); }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]::after {\n  /* no important */\n  transform: translate3d(-50%, -10px, 0);\n  top: 100%;\n  left: 50%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom\"]:hover::after {\n  /* no important */\n  transform: translate3d(-50%, 0, 0); }\n\n/* ------------------------------------------------\n  [2.4] Bottom Left\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom-left\"]::after {\n  /* no important */\n  transform: translate3d(calc(-100% + 16px), -10px, 0);\n  top: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom-left\"]:hover::after {\n  /* no important */\n  transform: translate3d(calc(-100% + 16px), 0, 0); }\n\n/* ------------------------------------------------\n  [2.5] Bottom Right\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom-right\"]::after {\n  /* no important */\n  transform: translate3d(calc(0% + -16px), -10px, 0);\n  top: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom-right\"]:hover::after {\n  /* no important */\n  transform: translate3d(calc(0% + -16px), 0, 0); }\n\n/* ------------------------------------------------\n  [2.6] Left\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]::before,\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]::after {\n  /* no important */\n  bottom: auto;\n  left: auto;\n  right: 100%;\n  top: 50%;\n  transform: translate3d(10px, -50%, 0); }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]::before {\n  /* no important */\n  background: url(\"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28-90%2018%2018%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E\") no-repeat;\n  height: 18px;\n  width: 6px;\n  margin-right: 5px;\n  margin-bottom: 0; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]::after {\n  /* no important */\n  margin-right: 11px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]:hover::before,\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]:hover::after {\n  /* no important */\n  transform: translate3d(0, -50%, 0); }\n\n/* ------------------------------------------------\n  [2.7] Right\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]::before,\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]::after {\n  /* no important */\n  bottom: auto;\n  left: 100%;\n  top: 50%;\n  transform: translate3d(-10px, -50%, 0); }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]::before {\n  /* no important */\n  background: url(\"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%2890%206%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E\") no-repeat;\n  height: 18px;\n  width: 6px;\n  margin-bottom: 0;\n  margin-left: 5px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]::after {\n  /* no important */\n  margin-left: 11px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]:hover::before,\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]:hover::after {\n  /* no important */\n  transform: translate3d(0, -50%, 0); }\n\n/* ------------------------------------------------\n  [3] Size\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-size=\"small\"]::after {\n  /* no important */\n  white-space: initial;\n  width: 80px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-size=\"medium\"]::after {\n  /* no important */\n  white-space: initial;\n  width: 150px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-size=\"large\"]::after {\n  /* no important */\n  white-space: initial;\n  width: 260px; }\n\n.uppy-StatusBar {\n  display: flex;\n  position: relative;\n  height: 40px;\n  line-height: 40px;\n  font-size: 12px;\n  font-weight: 400;\n  color: #fff;\n  background-color: #fff;\n  z-index: 1001;\n  transition: height .2s; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar {\n    background-color: #1f1f1f; }\n\n.uppy-size--md .uppy-StatusBar {\n  height: 46px; }\n\n.uppy-StatusBar:before {\n  content: '';\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  width: 100%;\n  height: 2px;\n  background-color: #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar:before {\n    background-color: #757575; }\n\n.uppy-StatusBar[aria-hidden=true] {\n  overflow-y: hidden;\n  height: 0; }\n\n.uppy-StatusBar.is-complete .uppy-StatusBar-progress {\n  background-color: #1bb240; }\n\n.uppy-StatusBar.is-error .uppy-StatusBar-progress {\n  background-color: #e32437; }\n\n.uppy-StatusBar.is-complete .uppy-StatusBar-statusIndicator {\n  color: #1bb240; }\n\n.uppy-StatusBar.is-error .uppy-StatusBar-statusIndicator {\n  color: #e32437; }\n\n.uppy-StatusBar:not([aria-hidden=true]).is-waiting {\n  background-color: #fff;\n  height: 65px;\n  border-top: 1px solid #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar:not([aria-hidden=true]).is-waiting {\n    background-color: #1f1f1f;\n    border-top: 1px solid #333; }\n\n.uppy-StatusBar-progress {\n  background-color: #2275d7;\n  height: 2px;\n  position: absolute;\n  z-index: 1001;\n  transition: background-color, width .3s ease-out; }\n  .uppy-StatusBar-progress.is-indeterminate {\n    background-size: 64px 64px;\n    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.3) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3) 75%, transparent 75%, transparent);\n    -webkit-animation: uppy-StatusBar-ProgressStripes 1s linear infinite;\n            animation: uppy-StatusBar-ProgressStripes 1s linear infinite; }\n\n@-webkit-keyframes uppy-StatusBar-ProgressStripes {\n  from {\n    background-position: 0 0; }\n  to {\n    background-position: 64px 0; } }\n\n@keyframes uppy-StatusBar-ProgressStripes {\n  from {\n    background-position: 0 0; }\n  to {\n    background-position: 64px 0; } }\n\n.uppy-StatusBar.is-preprocessing .uppy-StatusBar-progress,\n.uppy-StatusBar.is-postprocessing .uppy-StatusBar-progress {\n  background-color: #f6a623; }\n\n.uppy-StatusBar.is-waiting .uppy-StatusBar-progress {\n  display: none; }\n\n.uppy-StatusBar-content {\n  display: flex;\n  align-items: center;\n  position: relative;\n  z-index: 1002;\n  padding-left: 10px;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  color: #333;\n  height: 100%; }\n  .uppy-size--md .uppy-StatusBar-content {\n    padding-left: 15px; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar-content {\n    color: #fff; }\n\n.uppy-StatusBar-status {\n  line-height: 1.4;\n  font-weight: normal;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  padding-right: 0.3em; }\n\n.uppy-Root:not(.uppy-size--md) .uppy-StatusBar-additionalInfo {\n  display: none; }\n\n.uppy-StatusBar-statusPrimary {\n  font-weight: 500;\n  line-height: 1; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar-statusPrimary {\n    color: #fff; }\n\n.uppy-StatusBar-statusSecondary {\n  margin-top: 1px;\n  font-size: 11px;\n  line-height: 1.2;\n  display: inline-block;\n  color: #757575;\n  white-space: nowrap; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar-statusSecondary {\n    color: #cfcfcf; }\n\n.uppy-StatusBar-statusSecondaryHint {\n  display: inline-block;\n  vertical-align: middle;\n  margin-right: 5px;\n  line-height: 1; }\n  .uppy-size--md .uppy-StatusBar-statusSecondaryHint {\n    margin-right: 8px; }\n\n.uppy-StatusBar-statusIndicator {\n  position: relative;\n  top: 1px;\n  color: #525252;\n  margin-right: 7px; }\n  .uppy-StatusBar-statusIndicator svg {\n    vertical-align: text-bottom; }\n\n.uppy-StatusBar-actions {\n  display: flex;\n  align-items: center;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  right: 10px;\n  z-index: 1004; }\n\n.uppy-StatusBar.is-waiting .uppy-StatusBar-actions {\n  width: 100%;\n  position: static;\n  padding: 0 15px;\n  background-color: #fafafa; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar.is-waiting .uppy-StatusBar-actions {\n    background-color: #1f1f1f; }\n\n.uppy-StatusBar-actionCircleBtn {\n  line-height: 1;\n  cursor: pointer;\n  margin: 3px;\n  opacity: 0.9; }\n  .uppy-StatusBar-actionCircleBtn:focus {\n    outline: none; }\n  .uppy-StatusBar-actionCircleBtn::-moz-focus-inner {\n    border: 0; }\n  .uppy-StatusBar-actionCircleBtn:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.5); }\n  .uppy-StatusBar-actionCircleBtn:hover {\n    opacity: 1; }\n  .uppy-StatusBar-actionCircleBtn:focus {\n    border-radius: 50%; }\n\n.uppy-StatusBar-actionCircleBtn svg {\n  vertical-align: bottom; }\n\n.uppy-StatusBar-actionBtn {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 10px;\n  line-height: inherit;\n  color: #2275d7; }\n  .uppy-size--md .uppy-StatusBar-actionBtn {\n    font-size: 11px; }\n\n.uppy-StatusBar-actionBtn--retry {\n  height: 16px;\n  border-radius: 8px;\n  margin-right: 6px;\n  background-color: #ff4b23;\n  line-height: 1;\n  color: #fff;\n  padding: 1px 6px 3px 18px;\n  position: relative; }\n  .uppy-StatusBar-actionBtn--retry:focus {\n    outline: none; }\n  .uppy-StatusBar-actionBtn--retry::-moz-focus-inner {\n    border: 0; }\n  .uppy-StatusBar-actionBtn--retry:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.5); }\n  .uppy-StatusBar-actionBtn--retry:hover {\n    background-color: #f92d00; }\n  .uppy-StatusBar-actionBtn--retry svg {\n    position: absolute;\n    top: 3px;\n    left: 6px; }\n\n.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload {\n  font-size: 14px;\n  width: 100%;\n  padding: 15px 10px;\n  color: #fff;\n  background-color: #1bb240;\n  line-height: 1; }\n\n.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload:hover {\n  background-color: #148630; }\n\n.uppy-size--md .uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload {\n  padding: 13px 22px;\n  width: auto; }\n\n.uppy-StatusBar:not(.is-waiting) .uppy-StatusBar-actionBtn--upload {\n  background-color: transparent;\n  color: #2275d7; }\n\n.uppy-StatusBar-actionBtn--uploadNewlyAdded {\n  padding-right: 3px;\n  padding-left: 3px;\n  padding-bottom: 1px;\n  border-radius: 3px; }\n  .uppy-StatusBar-actionBtn--uploadNewlyAdded:focus {\n    outline: none; }\n  .uppy-StatusBar-actionBtn--uploadNewlyAdded::-moz-focus-inner {\n    border: 0; }\n  .uppy-StatusBar-actionBtn--uploadNewlyAdded:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.5); }\n\n.uppy-StatusBar-details {\n  line-height: 12px;\n  width: 13px;\n  height: 13px;\n  display: inline-block;\n  vertical-align: middle;\n  color: #fff;\n  background-color: #939393;\n  border-radius: 50%;\n  position: relative;\n  top: 0;\n  left: 2px;\n  font-size: 10px;\n  font-weight: 600;\n  text-align: center;\n  cursor: help; }\n\n.uppy-StatusBar-details:after {\n  line-height: 1.3;\n  word-wrap: break-word; }\n\n.uppy-StatusBar-spinner {\n  -webkit-animation-name: uppy-StatusBar-spinnerAnimation;\n          animation-name: uppy-StatusBar-spinnerAnimation;\n  -webkit-animation-duration: 1s;\n          animation-duration: 1s;\n  -webkit-animation-iteration-count: infinite;\n          animation-iteration-count: infinite;\n  -webkit-animation-timing-function: linear;\n          animation-timing-function: linear;\n  margin-right: 10px;\n  fill: #2275d7; }\n\n.uppy-StatusBar.is-preprocessing .uppy-StatusBar-spinner,\n.uppy-StatusBar.is-postprocessing .uppy-StatusBar-spinner {\n  fill: #f6a623; }\n\n@-webkit-keyframes uppy-StatusBar-spinnerAnimation {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(360deg); } }\n\n@keyframes uppy-StatusBar-spinnerAnimation {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(360deg); } }\n\n.uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  align-items: flex-start;\n  padding: 6px; }\n  .uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list::after {\n    content: '';\n    flex: auto; }\n\n.uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem {\n  width: 50%;\n  position: relative;\n  margin: 0; }\n  .uppy-size--md .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem {\n    width: 33.3333%; }\n  .uppy-size--lg .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem {\n    width: 25%; }\n  .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem::before {\n    content: '';\n    padding-top: 100%;\n    display: block; }\n\n.uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--selected img, .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--selected svg {\n  opacity: 0.85; }\n\n.uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview .uppy-ProviderBrowserItem-inner {\n  background-color: rgba(147, 147, 147, 0.2); }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview .uppy-ProviderBrowserItem-inner {\n    background-color: rgba(234, 234, 234, 0.2); }\n\n.uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview svg {\n  fill: rgba(0, 0, 0, 0.7);\n  width: 30%;\n  height: 30%; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview svg {\n    fill: rgba(255, 255, 255, 0.8); }\n\n.uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner {\n  border-radius: 4px;\n  overflow: hidden;\n  position: absolute;\n  top: 7px;\n  left: 7px;\n  right: 7px;\n  bottom: 7px;\n  text-align: center;\n  width: calc(100% - 14px);\n  height: calc(100% - 14px); }\n  .uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner:focus {\n    outline: none;\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.9); }\n  .uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner img {\n    width: 100%;\n    height: 100%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 4px; }\n\n.uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-fakeCheckbox {\n  position: absolute;\n  top: 16px;\n  right: 16px;\n  width: 26px;\n  height: 26px;\n  background-color: #2275d7;\n  border-radius: 50%;\n  z-index: 1002;\n  opacity: 0; }\n  .uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-fakeCheckbox:after {\n    width: 12px;\n    height: 7px;\n    left: 7px;\n    top: 8px; }\n\n.uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-fakeCheckbox--is-checked {\n  opacity: 1; }\n\n.uppy-ProviderBrowser-viewType--list {\n  background-color: #fff; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-viewType--list {\n    background-color: #000; }\n  .uppy-ProviderBrowser-viewType--list li.uppy-ProviderBrowserItem {\n    display: flex;\n    align-items: center;\n    padding: 7px 15px;\n    margin: 0; }\n    [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-viewType--list li.uppy-ProviderBrowserItem {\n      color: #fff; }\n  .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox {\n    margin-right: 15px;\n    height: 17px;\n    width: 17px;\n    border-radius: 3px;\n    background-color: #fff;\n    border: 1px solid #cfcfcf; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox:focus {\n      border: 1px solid #2275d7;\n      box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.25);\n      outline: none; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox::after {\n      opacity: 0;\n      height: 5px;\n      width: 9px;\n      left: 3px;\n      top: 4px; }\n  .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox--is-checked {\n    background-color: #2275d7;\n    border-color: #2275d7; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox--is-checked::after {\n      opacity: 1; }\n  .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-inner {\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n    display: flex;\n    align-items: center;\n    padding: 2px; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-inner:focus {\n      outline: none;\n      text-decoration: underline; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-inner img, .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-inner svg {\n      margin-right: 8px;\n      max-width: 20px;\n      max-height: 20px; }\n\n.uppy-ProviderBrowserItem-fakeCheckbox {\n  position: relative;\n  cursor: pointer;\n  flex-shrink: 0; }\n  .uppy-ProviderBrowserItem-fakeCheckbox::after {\n    content: '';\n    position: absolute;\n    cursor: pointer;\n    border-left: 2px solid #fff;\n    border-bottom: 2px solid #fff;\n    transform: rotate(-45deg); }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowserItem-fakeCheckbox {\n    background-color: #525252; }\n\n.uppy-DashboardContent-panelBody {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex: 1; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-panelBody {\n    background-color: #000; }\n\n.uppy-Provider-auth,\n.uppy-Provider-error,\n.uppy-Provider-loading,\n.uppy-Provider-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-flow: column wrap;\n  flex: 1;\n  color: #939393; }\n\n.uppy-Provider-empty {\n  color: #939393; }\n\n.uppy-Provider-authIcon svg {\n  width: 100px;\n  height: 75px;\n  margin-bottom: 15px; }\n\n.uppy-Provider-authTitle {\n  font-size: 17px;\n  line-height: 1.4;\n  font-weight: 400;\n  margin-bottom: 30px;\n  padding: 0 15px;\n  max-width: 500px;\n  text-align: center;\n  color: #757575; }\n  .uppy-size--md .uppy-Provider-authTitle {\n    font-size: 20px; }\n  [data-uppy-theme=\"dark\"] .uppy-Provider-authTitle {\n    color: #cfcfcf; }\n\n.uppy-Provider-breadcrumbs {\n  flex: 1;\n  color: #525252;\n  font-size: 12px;\n  margin-bottom: 10px;\n  text-align: left; }\n  .uppy-size--md .uppy-Provider-breadcrumbs {\n    margin-bottom: 0; }\n  [data-uppy-theme=\"dark\"] .uppy-Provider-breadcrumbs {\n    color: #fff; }\n\n.uppy-Provider-breadcrumbsIcon {\n  display: inline-block;\n  color: #525252;\n  vertical-align: middle;\n  margin-right: 4px;\n  line-height: 1; }\n\n.uppy-Provider-breadcrumbsIcon svg {\n  width: 13px;\n  height: 13px;\n  fill: #525252; }\n\n.uppy-Provider-breadcrumbs button {\n  display: inline-block;\n  line-height: inherit;\n  padding: 4px;\n  border-radius: 3px; }\n  .uppy-Provider-breadcrumbs button:focus {\n    outline: none; }\n  .uppy-Provider-breadcrumbs button::-moz-focus-inner {\n    border: 0; }\n  .uppy-Provider-breadcrumbs button:hover {\n    color: #1b5dab; }\n  .uppy-Provider-breadcrumbs button:focus {\n    background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-Provider-breadcrumbs button:focus {\n    background-color: #333; }\n  .uppy-Provider-breadcrumbs button:hover {\n    text-decoration: underline;\n    cursor: pointer; }\n\n.uppy-ProviderBrowser {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  font-size: 14px;\n  font-weight: 400;\n  height: 100%; }\n\n.uppy-ProviderBrowser-user {\n  margin: 0 8px 0 0;\n  font-weight: 500;\n  color: #333; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-user {\n    color: #fff; }\n\n.uppy-ProviderBrowser-user:after {\n  content: '\\B7';\n  position: relative;\n  left: 4px;\n  color: #939393;\n  font-weight: normal; }\n\n.uppy-ProviderBrowser-header {\n  z-index: 1001;\n  border-bottom: 1px solid #eaeaea;\n  position: relative; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-header {\n    border-bottom: 1px solid #333; }\n\n.uppy-ProviderBrowser-headerBar {\n  padding: 7px 15px;\n  background-color: #fafafa;\n  z-index: 1001;\n  color: #757575;\n  line-height: 1.4;\n  font-size: 12px; }\n  .uppy-size--md .uppy-ProviderBrowser-headerBar {\n    display: flex;\n    align-items: center; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-headerBar {\n    background-color: #1f1f1f; }\n\n.uppy-ProviderBrowser-headerBar--simple {\n  text-align: center;\n  display: block;\n  justify-content: center; }\n\n.uppy-ProviderBrowser-headerBar--simple .uppy-Provider-breadcrumbsWrap {\n  flex: none;\n  display: inline-block;\n  vertical-align: middle; }\n\n.uppy-ProviderBrowser-search {\n  width: 100%;\n  background-color: #fff;\n  position: relative;\n  height: 30px;\n  margin-top: 10px;\n  margin-bottom: 5px;\n  display: flex;\n  align-items: center; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-search {\n    background-color: #000; }\n\n.uppy-ProviderBrowser-searchIcon {\n  position: absolute;\n  width: 12px;\n  height: 12px;\n  left: 16px;\n  z-index: 1002;\n  color: #bbb; }\n\n.uppy-ProviderBrowser-searchInput {\n  width: 100%;\n  height: 30px;\n  background-color: transparent;\n  outline: 0;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\";\n  font-size: 12px;\n  line-height: 1.4;\n  border: 0;\n  margin: 0 8px;\n  padding-left: 27px;\n  z-index: 1001;\n  border-radius: 4px; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-searchInput {\n    background-color: #000;\n    color: #fff; }\n\n.uppy-ProviderBrowser-searchInput:focus {\n  outline: 0;\n  background-color: #f4f4f4; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-searchInput:focus {\n    background-color: #333; }\n\n.uppy-ProviderBrowser-searchClose {\n  position: absolute;\n  width: 22px;\n  height: 22px;\n  padding: 6px;\n  right: 12px;\n  top: 4px;\n  z-index: 1002;\n  color: #939393;\n  cursor: pointer; }\n  .uppy-ProviderBrowser-searchClose:hover {\n    color: #757575; }\n\n.uppy-ProviderBrowser-searchClose svg {\n  vertical-align: text-top; }\n\n.uppy-ProviderBrowser-searchInput:-ms-input-placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-searchInput::-webkit-input-placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-searchInput::-moz-placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-searchInput::-ms-input-placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-searchInput::placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-userLogout {\n  cursor: pointer;\n  line-height: inherit;\n  color: #2275d7;\n  padding: 4px;\n  border-radius: 3px; }\n  .uppy-ProviderBrowser-userLogout:focus {\n    outline: none; }\n  .uppy-ProviderBrowser-userLogout::-moz-focus-inner {\n    border: 0; }\n  .uppy-ProviderBrowser-userLogout:hover {\n    color: #1b5dab; }\n  .uppy-ProviderBrowser-userLogout:focus {\n    background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-userLogout:focus {\n    background-color: #333; }\n  .uppy-ProviderBrowser-userLogout:hover {\n    text-decoration: underline; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-userLogout {\n    color: #fff; }\n\n.uppy-ProviderBrowser-body {\n  flex: 1;\n  position: relative; }\n\n.uppy-ProviderBrowser-list {\n  flex: 1;\n  position: relative;\n  display: block;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n  border-spacing: 0;\n  overflow-x: hidden;\n  overflow-y: auto;\n  -webkit-overflow-scrolling: touch;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  list-style: none;\n  margin: 0;\n  padding: 0; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-list {\n    background-color: #000; }\n\n.uppy-ProviderBrowserItem-inner {\n  cursor: pointer;\n  font-weight: 500;\n  font-size: 13px; }\n\n.uppy-ProviderBrowser-footer {\n  display: flex;\n  align-items: center;\n  background-color: #fff;\n  height: 65px;\n  border-top: 1px solid #eaeaea;\n  padding: 0 15px; }\n  .uppy-ProviderBrowser-footer button {\n    margin-right: 8px; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-footer {\n    background-color: #1f1f1f;\n    border-top: 1px solid #333; }\n\n.uppy-DashboardItem-previewInnerWrap {\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  position: relative;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);\n  border-radius: 3px; }\n  .uppy-size--md .uppy-DashboardItem-previewInnerWrap {\n    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); }\n\n.uppy-DashboardItem-previewInnerWrap:after {\n  content: '';\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.65);\n  display: none;\n  z-index: 1001; }\n\n.uppy-DashboardItem-previewLink {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  z-index: 1002; }\n  .uppy-DashboardItem-previewLink:focus {\n    box-shadow: inset 0 0 0 3px #76abe9; }\n\n.uppy-DashboardItem-preview img.uppy-DashboardItem-previewImg {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  transform: translateZ(0);\n  border-radius: 3px; }\n\n.uppy-DashboardItem-progress {\n  display: none;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 1002;\n  color: #fff;\n  text-align: center;\n  width: 120px;\n  transition: all .35 ease; }\n\n.uppy-DashboardItem-progressIndicator {\n  display: inline-block;\n  width: 38px;\n  height: 38px;\n  opacity: 0.9;\n  cursor: pointer; }\n  .uppy-DashboardItem-progressIndicator:focus {\n    outline: none; }\n  .uppy-DashboardItem-progressIndicator::-moz-focus-inner {\n    border: 0; }\n  .uppy-DashboardItem-progressIndicator:focus svg.UppyIcon-progressCircle .bg,\n  .uppy-DashboardItem-progressIndicator:focus svg.retry {\n    fill: #76abe9; }\n\nsvg.UppyIcon-progressCircle {\n  width: 100%;\n  height: 100%; }\n  svg.UppyIcon-progressCircle .bg {\n    stroke: rgba(255, 255, 255, 0.4);\n    opacity: 0; }\n  svg.UppyIcon-progressCircle .progress {\n    stroke: #fff;\n    transition: stroke-dashoffset .5s ease-out;\n    opacity: 0; }\n  svg.UppyIcon-progressCircle .play {\n    stroke: #fff;\n    fill: #fff;\n    opacity: 0;\n    transition: all 0.2s;\n    display: none; }\n  svg.UppyIcon-progressCircle .cancel {\n    fill: #fff;\n    opacity: 0;\n    transition: all 0.2s; }\n  svg.UppyIcon-progressCircle .pause {\n    stroke: #fff;\n    fill: #fff;\n    opacity: 0;\n    transition: all 0.2s;\n    display: none; }\n  svg.UppyIcon-progressCircle .check {\n    opacity: 0;\n    fill: #fff;\n    transition: all 0.2s; }\n\nsvg.UppyIcon.retry {\n  fill: #fff; }\n\n.uppy-DashboardItem.is-complete .uppy-DashboardItem-progress {\n  transform: initial;\n  top: -9px;\n  right: -8px;\n  left: initial;\n  width: auto; }\n\n.uppy-DashboardItem.is-inprogress .uppy-DashboardItem-progress,\n.uppy-DashboardItem.is-complete .uppy-DashboardItem-progress,\n.uppy-DashboardItem.is-error .uppy-DashboardItem-progress {\n  display: block; }\n\n.uppy-DashboardItem.is-error .uppy-DashboardItem-progressIndicator {\n  width: 18px;\n  height: 18px; }\n  .uppy-size--md .uppy-DashboardItem.is-error .uppy-DashboardItem-progressIndicator {\n    width: 28px;\n    height: 28px; }\n\n.uppy-DashboardItem.is-complete .uppy-DashboardItem-progressIndicator {\n  width: 18px;\n  height: 18px;\n  opacity: 1; }\n  .uppy-size--md .uppy-DashboardItem.is-complete .uppy-DashboardItem-progressIndicator {\n    width: 22px;\n    height: 22px; }\n\n.uppy-DashboardItem.is-paused svg.UppyIcon-progressCircle .pause {\n  opacity: 0; }\n\n.uppy-DashboardItem.is-paused svg.UppyIcon-progressCircle .play {\n  opacity: 1; }\n\n.uppy-DashboardItem.is-noIndividualCancellation .uppy-DashboardItem-progressIndicator {\n  cursor: default; }\n\n.uppy-DashboardItem.is-noIndividualCancellation .cancel {\n  display: none; }\n\n.uppy-DashboardItem.is-processing .uppy-DashboardItem-progress {\n  opacity: 0; }\n\n.uppy-DashboardItem.is-complete .uppy-DashboardItem-progressIndicator {\n  cursor: default; }\n\n.uppy-DashboardItem.is-complete .progress {\n  stroke: #1bb240;\n  fill: #1bb240;\n  opacity: 1; }\n\n.uppy-DashboardItem.is-complete .check {\n  opacity: 1; }\n\n.uppy-size--md .uppy-DashboardItem-progressIndicator {\n  width: 55px;\n  height: 55px; }\n\n.uppy-DashboardItem.is-resumable .pause, .uppy-DashboardItem.is-resumable .play {\n  display: block; }\n\n.uppy-DashboardItem.is-resumable .cancel {\n  display: none; }\n\n.uppy-DashboardItem.is-inprogress .bg, .uppy-DashboardItem.is-inprogress .progress, .uppy-DashboardItem.is-inprogress .pause, .uppy-DashboardItem.is-inprogress .cancel {\n  opacity: 1; }\n\n.uppy-DashboardItem-fileInfo {\n  padding-right: 5px; }\n\n.uppy-DashboardItem-name {\n  font-size: 12px;\n  line-height: 1.3;\n  font-weight: 500;\n  margin-bottom: 4px;\n  word-break: break-all;\n  word-wrap: anywhere; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-name {\n    color: #fff; }\n\n.uppy-DashboardItem-status {\n  font-size: 11px;\n  line-height: 1.3;\n  font-weight: normal;\n  color: #757575; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-status {\n    color: #cfcfcf; }\n\n.uppy-DashboardItem-statusSize {\n  display: inline-block;\n  vertical-align: bottom;\n  text-transform: uppercase; }\n\n.uppy-DashboardItem-sourceIcon {\n  display: none;\n  vertical-align: bottom;\n  color: #bbb; }\n  .uppy-DashboardItem-sourceIcon:not(:first-child) {\n    position: relative;\n    margin-left: 14px; }\n  .uppy-DashboardItem-sourceIcon svg,\n  .uppy-DashboardItem-sourceIcon svg * {\n    max-width: 100%;\n    max-height: 100%;\n    display: inline-block;\n    vertical-align: text-bottom;\n    overflow: hidden;\n    fill: currentColor;\n    width: 11px;\n    height: 12px; }\n\n.uppy-DashboardItem-action {\n  cursor: pointer;\n  color: #939393; }\n  .uppy-DashboardItem-action:focus {\n    outline: none; }\n  .uppy-DashboardItem-action::-moz-focus-inner {\n    border: 0; }\n  .uppy-DashboardItem-action:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.5); }\n  .uppy-DashboardItem-action:hover {\n    opacity: 1;\n    color: #1f1f1f; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-action {\n    color: #cfcfcf; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-action:hover {\n    color: #fff; }\n\n.uppy-DashboardItem-action--remove {\n  color: #1f1f1f;\n  opacity: 0.95; }\n  .uppy-DashboardItem-action--remove:hover {\n    opacity: 1;\n    color: #000; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-action--remove {\n    color: #525252; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-action--remove:hover {\n    color: #333; }\n\n.uppy-Dashboard:not(.uppy-size--md) .uppy-DashboardItem-actionWrapper {\n  display: flex;\n  align-items: center; }\n\n.uppy-Dashboard:not(.uppy-size--md) .uppy-DashboardItem-action {\n  width: 22px;\n  height: 22px;\n  padding: 3px;\n  margin-left: 3px; }\n  .uppy-Dashboard:not(.uppy-size--md) .uppy-DashboardItem-action:focus {\n    border-radius: 3px; }\n\n.uppy-size--md .uppy-DashboardItem-action--copyLink,\n.uppy-size--md .uppy-DashboardItem-action--edit {\n  width: 16px;\n  height: 16px;\n  padding: 0; }\n  .uppy-size--md .uppy-DashboardItem-action--copyLink:focus,\n  .uppy-size--md .uppy-DashboardItem-action--edit:focus {\n    border-radius: 3px; }\n\n.uppy-size--md .uppy-DashboardItem-action--remove {\n  z-index: 1002;\n  position: absolute;\n  top: -8px;\n  right: -8px;\n  width: 18px;\n  height: 18px;\n  padding: 0; }\n  .uppy-size--md .uppy-DashboardItem-action--remove:focus {\n    border-radius: 50%; }\n\n.uppy-DashboardItem {\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid #eaeaea;\n  padding: 10px;\n  padding-right: 0; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem {\n    border-bottom: 1px solid #333; }\n  .uppy-size--md .uppy-DashboardItem {\n    position: relative;\n    display: block;\n    float: left;\n    margin: 5px 15px;\n    padding: 0;\n    width: calc(33.333% - 15px - 15px);\n    height: 215px;\n    border-bottom: 0; }\n  .uppy-size--lg .uppy-DashboardItem {\n    margin: 5px 15px;\n    width: calc(25% - 15px - 15px);\n    height: 190px; }\n  .uppy-size--xl .uppy-DashboardItem {\n    width: calc(20% - 15px - 15px);\n    height: 210px; }\n\n.uppy-DashboardItem-preview {\n  position: relative; }\n  .uppy-Dashboard:not(.uppy-size--md) .uppy-DashboardItem-preview {\n    flex-shrink: 0;\n    flex-grow: 0;\n    width: 50px;\n    height: 50px; }\n  .uppy-size--md .uppy-DashboardItem-preview {\n    width: 100%;\n    height: 140px; }\n  .uppy-size--lg .uppy-DashboardItem-preview {\n    height: 120px; }\n  .uppy-size--xl .uppy-DashboardItem-preview {\n    height: 140px; }\n\n.uppy-DashboardItem-fileInfoAndButtons {\n  flex-grow: 1;\n  padding-right: 8px;\n  padding-left: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between; }\n  .uppy-size--md .uppy-DashboardItem-fileInfoAndButtons {\n    align-items: flex-start;\n    width: 100%;\n    padding: 0;\n    padding-top: 9px; }\n\n.uppy-DashboardItem-fileInfo {\n  flex-grow: 1;\n  flex-shrink: 1; }\n\n.uppy-DashboardItem-actionWrapper {\n  flex-grow: 0;\n  flex-shrink: 0; }\n\n.uppy-DashboardItem.is-inprogress .uppy-DashboardItem-previewInnerWrap:after {\n  display: block; }\n\n.uppy-DashboardItem.is-error .uppy-DashboardItem-previewInnerWrap:after {\n  display: block; }\n\n.uppy-DashboardItem.is-inprogress:not(.is-resumable) .uppy-DashboardItem-action--remove {\n  display: none; }\n\n.uppy-Dashboard-FileCard {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 1005;\n  box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.1);\n  background-color: #fff;\n  border-radius: 5px;\n  display: flex;\n  flex-direction: column; }\n  .uppy-Dashboard-FileCard .uppy-DashboardContent-bar {\n    border-top-left-radius: 5px;\n    border-top-right-radius: 5px; }\n  .uppy-Dashboard-FileCard .uppy-Dashboard-FileCard-actions {\n    border-bottom-left-radius: 5px;\n    border-bottom-right-radius: 5px; }\n\n.uppy-Dashboard-FileCard-inner {\n  height: 100%;\n  flex-grow: 1;\n  flex-shrink: 1;\n  min-height: 0;\n  display: flex;\n  flex-direction: column; }\n\n.uppy-Dashboard-FileCard-preview {\n  height: 60%;\n  flex-grow: 0;\n  flex-shrink: 1;\n  min-height: 0;\n  border-bottom: 1px solid #eaeaea;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-FileCard-preview {\n    background-color: #333;\n    border-bottom: 0; }\n\n.uppy-Dashboard-FileCard-preview img.uppy-DashboardItem-previewImg {\n  max-width: 90%;\n  max-height: 90%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  flex: 0 0 auto;\n  border-radius: 3px;\n  box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.15); }\n\n.uppy-Dashboard-FileCard-info {\n  height: 40%;\n  flex-grow: 0;\n  flex-shrink: 0;\n  padding: 30px 20px 20px 20px;\n  overflow-y: auto;\n  -webkit-overflow-scrolling: touch; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-FileCard-info {\n    background-color: #000; }\n\n.uppy-Dashboard-FileCard-fieldset {\n  font-size: 0;\n  border: 0;\n  padding: 0;\n  max-width: 640px;\n  margin: auto;\n  margin-bottom: 12px; }\n\n.uppy-Dashboard-FileCard-label {\n  display: inline-block;\n  vertical-align: middle;\n  width: 22%;\n  font-size: 12px;\n  color: #525252; }\n  .uppy-size--md .uppy-Dashboard-FileCard-label {\n    font-size: 14px; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-FileCard-label {\n    color: #fff; }\n\n.uppy-Dashboard-FileCard-input {\n  display: inline-block;\n  vertical-align: middle;\n  width: 78%; }\n\n.uppy-Dashboard-FileCard-actions {\n  height: 55px;\n  flex-shrink: 0;\n  flex-grow: 0;\n  border-top: 1px solid #eaeaea;\n  padding: 0 15px;\n  background-color: #fafafa;\n  display: flex;\n  align-items: center; }\n  .uppy-size--md .uppy-Dashboard-FileCard-actions {\n    height: 65px; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-FileCard-actions {\n    border-top: 1px solid #333;\n    background-color: #1f1f1f; }\n\n.uppy-Dashboard-FileCard-actionsBtn {\n  margin-right: 10px; }\n\n.uppy-transition-slideDownUp-enter {\n  opacity: 0.01;\n  transform: translate3d(0, -105%, 0);\n  transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out; }\n\n.uppy-transition-slideDownUp-enter.uppy-transition-slideDownUp-enter-active {\n  opacity: 1;\n  transform: translate3d(0, 0, 0); }\n\n.uppy-transition-slideDownUp-leave {\n  opacity: 1;\n  transform: translate3d(0, 0, 0);\n  transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out; }\n\n.uppy-transition-slideDownUp-leave.uppy-transition-slideDownUp-leave-active {\n  opacity: 0.01;\n  transform: translate3d(0, -105%, 0); }\n\n@-webkit-keyframes uppy-Dashboard-fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes uppy-Dashboard-fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-webkit-keyframes uppy-Dashboard-fadeOut {\n  from {\n    opacity: 1; }\n  to {\n    opacity: 0; } }\n\n@keyframes uppy-Dashboard-fadeOut {\n  from {\n    opacity: 1; }\n  to {\n    opacity: 0; } }\n\n@-webkit-keyframes uppy-Dashboard-slideDownAndFadeIn {\n  from {\n    transform: translate3d(-50%, -70%, 0);\n    opacity: 0; }\n  to {\n    transform: translate3d(-50%, -50%, 0);\n    opacity: 1; } }\n\n@keyframes uppy-Dashboard-slideDownAndFadeIn {\n  from {\n    transform: translate3d(-50%, -70%, 0);\n    opacity: 0; }\n  to {\n    transform: translate3d(-50%, -50%, 0);\n    opacity: 1; } }\n\n@-webkit-keyframes uppy-Dashboard-slideDownAndFadeIn--small {\n  from {\n    transform: translate3d(0, -20%, 0);\n    opacity: 0; }\n  to {\n    transform: translate3d(0, 0, 0);\n    opacity: 1; } }\n\n@keyframes uppy-Dashboard-slideDownAndFadeIn--small {\n  from {\n    transform: translate3d(0, -20%, 0);\n    opacity: 0; }\n  to {\n    transform: translate3d(0, 0, 0);\n    opacity: 1; } }\n\n@-webkit-keyframes uppy-Dashboard-slideUpFadeOut {\n  from {\n    transform: translate3d(-50%, -50%, 0);\n    opacity: 1; }\n  to {\n    transform: translate3d(-50%, -70%, 0);\n    opacity: 0; } }\n\n@keyframes uppy-Dashboard-slideUpFadeOut {\n  from {\n    transform: translate3d(-50%, -50%, 0);\n    opacity: 1; }\n  to {\n    transform: translate3d(-50%, -70%, 0);\n    opacity: 0; } }\n\n@-webkit-keyframes uppy-Dashboard-slideUpFadeOut--small {\n  from {\n    transform: translate3d(0, 0, 0);\n    opacity: 1; }\n  to {\n    transform: translate3d(0, -20%, 0);\n    opacity: 0; } }\n\n@keyframes uppy-Dashboard-slideUpFadeOut--small {\n  from {\n    transform: translate3d(0, 0, 0);\n    opacity: 1; }\n  to {\n    transform: translate3d(0, -20%, 0);\n    opacity: 0; } }\n\n.uppy-Dashboard--modal {\n  z-index: 1001; }\n\n.uppy-Dashboard--modal[aria-hidden=true] {\n  display: none; }\n\n.uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose > .uppy-Dashboard-inner {\n  -webkit-animation: uppy-Dashboard-slideDownAndFadeIn--small 0.3s cubic-bezier(0, 0, 0.2, 1);\n          animation: uppy-Dashboard-slideDownAndFadeIn--small 0.3s cubic-bezier(0, 0, 0.2, 1); }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose > .uppy-Dashboard-inner {\n      -webkit-animation: uppy-Dashboard-slideDownAndFadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);\n              animation: uppy-Dashboard-slideDownAndFadeIn 0.3s cubic-bezier(0, 0, 0.2, 1); } }\n\n.uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose > .uppy-Dashboard-overlay {\n  -webkit-animation: uppy-Dashboard-fadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);\n          animation: uppy-Dashboard-fadeIn 0.3s cubic-bezier(0, 0, 0.2, 1); }\n\n.uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose.uppy-Dashboard--isClosing > .uppy-Dashboard-inner {\n  -webkit-animation: uppy-Dashboard-slideUpFadeOut--small 0.3s cubic-bezier(0, 0, 0.2, 1);\n          animation: uppy-Dashboard-slideUpFadeOut--small 0.3s cubic-bezier(0, 0, 0.2, 1); }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose.uppy-Dashboard--isClosing > .uppy-Dashboard-inner {\n      -webkit-animation: uppy-Dashboard-slideUpFadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);\n              animation: uppy-Dashboard-slideUpFadeOut 0.3s cubic-bezier(0, 0, 0.2, 1); } }\n\n.uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose.uppy-Dashboard--isClosing > .uppy-Dashboard-overlay {\n  -webkit-animation: uppy-Dashboard-fadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);\n          animation: uppy-Dashboard-fadeOut 0.3s cubic-bezier(0, 0, 0.2, 1); }\n\n.uppy-Dashboard-isFixed {\n  overflow: hidden;\n  height: 100vh; }\n\n.uppy-Dashboard--modal .uppy-Dashboard-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 1001; }\n\n.uppy-Dashboard-inner {\n  position: relative;\n  background-color: #fafafa;\n  max-width: 100%;\n  max-height: 100%;\n  outline: none;\n  border: 1px solid #eaeaea;\n  border-radius: 5px; }\n  .uppy-size--md .uppy-Dashboard-inner {\n    min-height: auto; }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard-inner {\n      width: 750px;\n      height: 550px; } }\n  .uppy-Dashboard--modal .uppy-Dashboard-inner {\n    z-index: 1002; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-inner {\n    background-color: #000; }\n\n.uppy-Dashboard-innerWrap {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  position: relative;\n  border-radius: 5px;\n  opacity: 0; }\n\n.uppy-Dashboard--isInnerWrapVisible .uppy-Dashboard-innerWrap {\n  opacity: 1; }\n\n.uppy-Dashboard--modal .uppy-Dashboard-inner {\n  position: fixed;\n  top: 35px;\n  left: 15px;\n  right: 15px;\n  bottom: 15px;\n  border: none; }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard--modal .uppy-Dashboard-inner {\n      top: 50%;\n      left: 50%;\n      transform: translate(-50%, -50%);\n      box-shadow: 0 5px 15px 4px rgba(0, 0, 0, 0.15); } }\n\n.uppy-Dashboard-close {\n  display: block;\n  position: absolute;\n  top: -33px;\n  right: -2px;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 27px;\n  z-index: 1005; }\n  .uppy-Dashboard-close:focus {\n    outline: none; }\n  .uppy-Dashboard-close::-moz-focus-inner {\n    border: 0; }\n  .uppy-Dashboard-close:focus {\n    color: #8cb8ed; }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard-close {\n      font-size: 35px;\n      top: -10px;\n      right: -35px; } }\n\n.uppy-DashboardAddFiles {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  height: 100%;\n  position: relative;\n  text-align: center; }\n  [data-uppy-drag-drop-supported=\"true\"] .uppy-DashboardAddFiles {\n    margin: 7px;\n    height: calc(100% - 14px);\n    border-radius: 3px;\n    border: 1px dashed #dfdfdf; }\n  .uppy-Dashboard-AddFilesPanel .uppy-DashboardAddFiles {\n    border: none;\n    height: calc(100% - 14px - 40px); }\n  .uppy-Dashboard--modal .uppy-DashboardAddFiles {\n    border-color: #cfcfcf; }\n\n.uppy-DashboardTabs {\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 100%; }\n  .uppy-size--md .uppy-DashboardTabs {\n    align-items: center;\n    height: auto; }\n  [data-uppy-num-acquirers=\"0\"] .uppy-DashboardTabs {\n    height: auto; }\n\n.uppy-DashboardAddFiles-info {\n  padding-top: 15px;\n  padding-bottom: 15px;\n  display: none; }\n  .uppy-size--height-md .uppy-DashboardAddFiles-info {\n    display: block; }\n  .uppy-size--md .uppy-DashboardAddFiles-info {\n    position: absolute;\n    bottom: 25px;\n    left: 0;\n    right: 0;\n    padding-top: 30px;\n    padding-bottom: 0; }\n\n.uppy-Dashboard-browse {\n  cursor: pointer;\n  color: rgba(34, 117, 215, 0.9); }\n  .uppy-Dashboard-browse:focus {\n    outline: none; }\n  .uppy-Dashboard-browse::-moz-focus-inner {\n    border: 0; }\n  .uppy-Dashboard-browse:hover, .uppy-Dashboard-browse:focus {\n    border-bottom: 1px solid #2275d7; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-browse {\n    color: rgba(13, 180, 206, 0.9); }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-browse:hover,\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-browse:focus {\n    border-bottom: 1px solid #0DB4CE; }\n\n.uppy-Dashboard-browseBtn {\n  display: block;\n  font-size: 14px;\n  font-weight: 500;\n  margin-top: 8px;\n  margin-bottom: 5px;\n  width: 100%; }\n  .uppy-size--md .uppy-Dashboard-browseBtn {\n    font-size: 15px;\n    width: auto;\n    margin: auto;\n    margin-top: 15px;\n    margin-bottom: 15px;\n    padding: 13px 44px; }\n\n.uppy-DashboardTabs-list {\n  flex: 2;\n  overflow-y: auto;\n  -webkit-overflow-scrolling: touch;\n  margin-top: 2px;\n  padding: 2px 0; }\n  .uppy-size--md .uppy-DashboardTabs-list {\n    flex-direction: row;\n    flex-wrap: wrap;\n    justify-content: center;\n    max-width: 600px;\n    overflow-y: initial;\n    margin-top: 15px;\n    padding-top: 0; }\n\n.uppy-DashboardTab {\n  width: 100%;\n  text-align: center;\n  border-bottom: 1px solid #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardTab {\n    border-bottom: 1px solid #333; }\n  .uppy-size--md .uppy-DashboardTab {\n    display: inline-block;\n    width: initial;\n    margin-bottom: 10px;\n    border-bottom: none; }\n\n.uppy-DashboardTab-btn {\n  width: 100%;\n  height: 100%;\n  cursor: pointer;\n  border: 0;\n  background-color: transparent;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  color: #525252;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  padding: 12px 15px;\n  line-height: 1;\n  text-align: center; }\n  .uppy-DashboardTab-btn:focus {\n    outline: none; }\n  .uppy-DashboardTab-btn::-moz-focus-inner {\n    border: 0; }\n  .uppy-size--md .uppy-DashboardTab-btn {\n    width: 86px;\n    margin-right: 1px;\n    flex-direction: column;\n    padding: 10px 3px;\n    border-radius: 5px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardTab-btn {\n    color: #fff; }\n\n.uppy-DashboardTab-btn::-moz-focus-inner {\n  border: 0; }\n\n.uppy-DashboardTab-btn:hover {\n  background-color: #f1f3f6; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardTab-btn:hover {\n    background-color: #525252; }\n\n.uppy-DashboardTab-btn:active,\n.uppy-DashboardTab-btn:focus {\n  background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardTab-btn:active, [data-uppy-theme=\"dark\"]\n  .uppy-DashboardTab-btn:focus {\n    background-color: #333; }\n\n.uppy-DashboardTab-btn svg {\n  max-width: 100%;\n  max-height: 100%;\n  display: inline-block;\n  vertical-align: text-top;\n  overflow: hidden;\n  transition: transform ease-in-out .15s;\n  margin-right: 10px; }\n  .uppy-size--md .uppy-DashboardTab-btn svg {\n    margin-right: 0; }\n\n.uppy-DashboardTab-name {\n  font-size: 14px;\n  font-weight: 500; }\n  .uppy-size--md .uppy-DashboardTab-name {\n    font-size: 11px;\n    line-height: 15px;\n    margin-top: 8px;\n    margin-bottom: 0; }\n\n.uppy-DashboardTab svg {\n  width: 23px;\n  height: 23px;\n  vertical-align: middle; }\n  .uppy-size--md .uppy-DashboardTab svg {\n    width: 30px;\n    height: 30px; }\n\n.uppy-Dashboard-input {\n  width: 0.1px;\n  height: 0.1px;\n  opacity: 0;\n  overflow: hidden;\n  position: absolute;\n  z-index: -1; }\n\n.uppy-DashboardContent-bar {\n  flex-shrink: 0;\n  height: 40px;\n  width: 100%;\n  padding: 0 10px;\n  z-index: 1004;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative;\n  border-bottom: 1px solid #eaeaea;\n  background-color: #fafafa; }\n  .uppy-size--md .uppy-DashboardContent-bar {\n    height: 50px;\n    padding: 0 15px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-bar {\n    background-color: #1f1f1f;\n    border-bottom: 1px solid #333; }\n\n.uppy-DashboardContent-title {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  text-align: center;\n  font-size: 12px;\n  line-height: 40px;\n  font-weight: 500;\n  width: 100%;\n  max-width: 170px;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow-x: hidden;\n  margin: auto; }\n  .uppy-size--md .uppy-DashboardContent-title {\n    font-size: 14px;\n    line-height: 50px;\n    max-width: 300px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-title {\n    color: #eaeaea; }\n\n.uppy-DashboardContent-back {\n  background: none;\n  -webkit-appearance: none;\n  font-family: inherit;\n  font-size: inherit;\n  line-height: 1;\n  padding: 0;\n  margin: 0;\n  border: 0;\n  color: inherit;\n  border-radius: 3px;\n  font-size: 12px;\n  font-weight: 400;\n  cursor: pointer;\n  color: #2275d7;\n  padding: 7px 6px;\n  margin-left: -6px; }\n  .uppy-DashboardContent-back:focus {\n    outline: none; }\n  .uppy-DashboardContent-back::-moz-focus-inner {\n    border: 0; }\n  .uppy-DashboardContent-back:hover {\n    color: #1b5dab; }\n  .uppy-DashboardContent-back:focus {\n    background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-back:focus {\n    background-color: #333; }\n  .uppy-size--md .uppy-DashboardContent-back {\n    font-size: 14px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-back {\n    color: #0DB4CE; }\n\n.uppy-DashboardContent-addMore {\n  background: none;\n  -webkit-appearance: none;\n  font-family: inherit;\n  font-size: inherit;\n  line-height: 1;\n  padding: 0;\n  margin: 0;\n  border: 0;\n  color: inherit;\n  border-radius: 3px;\n  font-weight: 500;\n  cursor: pointer;\n  color: #2275d7;\n  width: 29px;\n  height: 29px;\n  padding: 7px 8px;\n  margin-right: -5px; }\n  .uppy-DashboardContent-addMore:focus {\n    outline: none; }\n  .uppy-DashboardContent-addMore::-moz-focus-inner {\n    border: 0; }\n  .uppy-DashboardContent-addMore:hover {\n    color: #1b5dab; }\n  .uppy-DashboardContent-addMore:focus {\n    background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-addMore:focus {\n    background-color: #333; }\n  .uppy-size--md .uppy-DashboardContent-addMore {\n    font-size: 14px;\n    width: auto;\n    height: auto;\n    margin-right: -8px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-addMore {\n    color: #0DB4CE; }\n\n.uppy-DashboardContent-addMore svg {\n  vertical-align: baseline;\n  margin-right: 4px; }\n  .uppy-size--md .uppy-DashboardContent-addMore svg {\n    width: 11px;\n    height: 11px; }\n\n.uppy-DashboardContent-addMoreCaption {\n  display: none; }\n  .uppy-size--md .uppy-DashboardContent-addMoreCaption {\n    display: inline; }\n\n.uppy-DashboardContent-panel {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: whitesmoke;\n  overflow: hidden;\n  z-index: 1005;\n  border-radius: 5px;\n  display: flex;\n  flex-direction: column;\n  flex: 1; }\n\n.uppy-Dashboard-AddFilesPanel {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: #fafafa;\n  background: linear-gradient(0deg, #fafafa 35%, rgba(250, 250, 250, 0.85) 100%);\n  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.15);\n  overflow: hidden;\n  z-index: 1005;\n  border-radius: 5px;\n  display: flex;\n  flex-direction: column; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-AddFilesPanel {\n    background-color: #333;\n    background: linear-gradient(0deg, #1f1f1f 35%, rgba(31, 31, 31, 0.85) 100%); }\n\n.uppy-Dashboard--isAddFilesPanelVisible .uppy-Dashboard-files {\n  -webkit-filter: blur(2px);\n          filter: blur(2px); }\n\n.uppy-Dashboard-progress {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 12%; }\n\n.uppy-Dashboard-progressBarContainer.is-active {\n  z-index: 1004;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%; }\n\n.uppy-Dashboard-filesContainer {\n  position: relative;\n  overflow-y: hidden;\n  margin: 0;\n  flex: 1; }\n  .uppy-Dashboard-filesContainer:after {\n    content: '';\n    display: table;\n    clear: both; }\n\n.uppy-Dashboard-files {\n  margin: 0;\n  padding: 0 0 10px 0;\n  overflow-y: auto;\n  -webkit-overflow-scrolling: touch;\n  flex: 1; }\n  .uppy-size--md .uppy-Dashboard-files {\n    padding-top: 10px; }\n\n.uppy-Dashboard-dropFilesHereHint {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  visibility: hidden;\n  position: absolute;\n  top: 7px;\n  right: 7px;\n  bottom: 7px;\n  left: 7px;\n  padding-top: 90px;\n  border: 1px dashed #2275d7;\n  border-radius: 3px;\n  z-index: 2000;\n  text-align: center;\n  background-image: url(\"data:image/svg+xml,%3Csvg width='48' height='48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M24 1v1C11.85 2 2 11.85 2 24s9.85 22 22 22 22-9.85 22-22S36.15 2 24 2V1zm0 0V0c13.254 0 24 10.746 24 24S37.254 48 24 48 0 37.254 0 24 10.746 0 24 0v1zm7.707 19.293a.999.999 0 1 1-1.414 1.414L25 16.414V34a1 1 0 1 1-2 0V16.414l-5.293 5.293a.999.999 0 1 1-1.414-1.414l7-7a.999.999 0 0 1 1.414 0l7 7z' fill='%232275D7' fill-rule='nonzero'/%3E%3C/svg%3E\");\n  background-position: 50% 50%;\n  background-repeat: no-repeat;\n  color: #707070;\n  font-size: 16px; }\n\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-Dashboard-dropFilesHereHint {\n  visibility: visible; }\n\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-DashboardContent-bar,\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-Dashboard-files,\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-Dashboard-progressindicators {\n  opacity: 0.15; }\n\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-DashboardAddFiles {\n  opacity: 0.03; }\n\n.uppy-Dashboard-dropFilesIcon {\n  display: none;\n  margin-bottom: 15px; }\n  .uppy-size--md.uppy-size--height-md .uppy-Dashboard-dropFilesIcon {\n    display: block; }\n\n.uppy-Dashboard-dropFilesTitleGroup {\n  padding: 0 15px;\n  flex: 0; }\n  .uppy-size--md .uppy-Dashboard-dropFilesTitleGroup {\n    display: flex;\n    align-items: center;\n    flex-direction: column;\n    flex-grow: 1;\n    flex-shrink: 1;\n    flex-basis: 0%;\n    max-width: 450px;\n    font-size: 27px;\n    text-align: center;\n    margin: auto; }\n\n.uppy-Dashboard-dropFilesTitle {\n  font-size: 17px;\n  line-height: 1.35;\n  font-weight: 500;\n  color: #000;\n  margin-top: 15px;\n  margin-bottom: 5px;\n  text-align: left; }\n  .uppy-size--md .uppy-Dashboard-dropFilesTitle {\n    display: block;\n    font-size: 25px;\n    margin-top: 5px;\n    font-weight: 400;\n    text-align: center; }\n  [data-uppy-num-acquirers=\"0\"] .uppy-Dashboard-dropFilesTitle {\n    text-align: center; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-dropFilesTitle {\n    color: #eaeaea; }\n  .uppy-Dashboard-dropFilesTitle button {\n    font-weight: 500; }\n  .uppy-size--md .uppy-Dashboard-dropFilesTitle button {\n    font-weight: 400; }\n\n.uppy-Dashboard-dropFilesMobileTitle {\n  font-size: 11px;\n  text-transform: uppercase;\n  font-weight: 500;\n  color: #757575;\n  text-align: left;\n  padding: 0 15px;\n  margin-top: 10px; }\n  .uppy-size--md .uppy-Dashboard-dropFilesMobileTitle {\n    display: none; }\n\n.uppy-Dashboard-note {\n  font-size: 14px;\n  line-height: 1.25;\n  text-align: center;\n  color: #757575;\n  max-width: 350px;\n  margin: auto;\n  padding: 0 15px; }\n  .uppy-size--md .uppy-Dashboard-note {\n    font-size: 15px;\n    line-height: 1.35;\n    max-width: 600px; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-note {\n    color: #cfcfcf; }\n\na.uppy-Dashboard-poweredBy {\n  display: inline-block;\n  text-align: center;\n  font-size: 11px;\n  color: #939393;\n  text-decoration: none;\n  margin-top: 8px; }\n\n.uppy-Dashboard-poweredByIcon {\n  stroke: #939393;\n  fill: none;\n  margin-left: 1px;\n  margin-right: 1px;\n  position: relative;\n  top: 1px;\n  opacity: 0.9;\n  vertical-align: text-top; }\n\n.uppy-DashboardItem-previewIcon {\n  width: 25px;\n  height: 25px;\n  z-index: 100;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%); }\n  .uppy-size--md .uppy-DashboardItem-previewIcon {\n    width: 38px;\n    height: 38px; }\n  .uppy-DashboardItem-previewIcon svg {\n    width: 100%;\n    height: 100%; }\n\n.uppy-DashboardItem-previewIconWrap {\n  height: 76px;\n  max-height: 75%;\n  position: relative; }\n\n.uppy-DashboardItem-previewIconBg {\n  width: 100%;\n  height: 100%;\n  -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.1) 0px 1px 1px);\n          filter: drop-shadow(rgba(0, 0, 0, 0.1) 0px 1px 1px); }\n\n.uppy-Dashboard-upload {\n  position: relative;\n  width: 50px;\n  height: 50px; }\n  .uppy-size--md .uppy-Dashboard-upload {\n    width: 60px;\n    height: 60px; }\n\n.uppy-Dashboard-upload .UppyIcon {\n  position: relative;\n  top: 1px;\n  width: 50%; }\n\n.uppy-Dashboard-uploadCount {\n  position: absolute;\n  top: -12px;\n  right: -12px;\n  background-color: #1bb240;\n  color: #fff;\n  border-radius: 50%;\n  width: 16px;\n  height: 16px;\n  line-height: 16px;\n  font-size: 8px; }\n  .uppy-size--md .uppy-Dashboard-uploadCount {\n    width: 18px;\n    height: 18px;\n    line-height: 18px;\n    font-size: 9px; }\n", ""]);
+exports.push([module.i, ".uppy-Informer {\n  position: absolute;\n  bottom: 60px;\n  left: 0;\n  right: 0;\n  text-align: center;\n  opacity: 1;\n  transform: none;\n  transition: all 250ms ease-in;\n  z-index: 1005; }\n\n.uppy-Informer[aria-hidden=true] {\n  opacity: 0;\n  transform: translateY(350%);\n  transition: all 300ms ease-in;\n  z-index: -1000; }\n\n.uppy-Informer p {\n  display: inline-block;\n  margin: 0;\n  padding: 0;\n  font-size: 12px;\n  line-height: 1.4;\n  font-weight: 400;\n  padding: 6px 15px;\n  background-color: #757575;\n  color: #fff;\n  border-radius: 18px;\n  max-width: 90%; }\n  .uppy-size--md .uppy-Informer p {\n    font-size: 14px;\n    line-height: 1.3;\n    max-width: 500px;\n    padding: 10px 20px; }\n  [data-uppy-theme=\"dark\"] .uppy-Informer p {\n    background-color: #333; }\n\n.uppy-Informer span {\n  line-height: 12px;\n  width: 13px;\n  height: 13px;\n  display: inline-block;\n  vertical-align: middle;\n  color: #525252;\n  background-color: #fff;\n  border-radius: 50%;\n  position: relative;\n  top: -1px;\n  left: 3px;\n  font-size: 10px;\n  margin-left: -1px; }\n\n.uppy-Informer span:hover {\n  cursor: help; }\n\n.uppy-Informer span:after {\n  line-height: 1.3;\n  word-wrap: break-word; }\n\n/* -------------------------------------------------------------------\n  Microtip\n\n  Modern, lightweight css-only tooltips\n  Just 1kb minified and gzipped\n\n  @author Ghosh\n  @package Microtip\n\n----------------------------------------------------------------------\n  1. Base Styles\n  2. Direction Modifiers\n  3. Position Modifiers\n--------------------------------------------------------------------*/\n/* ------------------------------------------------\n  [1] Base Styles\n-------------------------------------------------*/\n.uppy-Root [aria-label][role~=\"tooltip\"] {\n  /* no important */\n  position: relative; }\n\n.uppy-Root [aria-label][role~=\"tooltip\"]::before,\n.uppy-Root [aria-label][role~=\"tooltip\"]::after {\n  /* no important */\n  transform: translate3d(0, 0, 0);\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  will-change: transform;\n  opacity: 0;\n  pointer-events: none;\n  transition: all var(--microtip-transition-duration, 0.18s) var(--microtip-transition-easing, ease-in-out) var(--microtip-transition-delay, 0s);\n  position: absolute;\n  box-sizing: border-box;\n  z-index: 10;\n  transform-origin: top; }\n\n.uppy-Root [aria-label][role~=\"tooltip\"]::before {\n  /* no important */\n  background-size: 100% auto !important;\n  content: \"\"; }\n\n.uppy-Root [aria-label][role~=\"tooltip\"]::after {\n  /* no important */\n  background: rgba(17, 17, 17, 0.9);\n  border-radius: 4px;\n  color: #ffffff;\n  content: attr(aria-label);\n  font-size: var(--microtip-font-size, 13px);\n  font-weight: var(--microtip-font-weight, normal);\n  text-transform: var(--microtip-text-transform, none);\n  padding: .5em 1em;\n  white-space: nowrap;\n  box-sizing: content-box; }\n\n.uppy-Root [aria-label][role~=\"tooltip\"]:hover::before,\n.uppy-Root [aria-label][role~=\"tooltip\"]:hover::after,\n.uppy-Root [aria-label][role~=\"tooltip\"]:focus::before,\n.uppy-Root [aria-label][role~=\"tooltip\"]:focus::after {\n  /* no important */\n  opacity: 1;\n  pointer-events: auto; }\n\n/* ------------------------------------------------\n  [2] Position Modifiers\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]::before {\n  /* no important */\n  background: url(\"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%280%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E\") no-repeat;\n  height: 6px;\n  width: 18px;\n  margin-bottom: 5px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]::after {\n  /* no important */\n  margin-bottom: 11px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]::before {\n  /* no important */\n  transform: translate3d(-50%, 0, 0);\n  bottom: 100%;\n  left: 50%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]:hover::before {\n  /* no important */\n  transform: translate3d(-50%, -5px, 0); }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"top\"]::after {\n  /* no important */\n  transform: translate3d(-50%, 0, 0);\n  bottom: 100%;\n  left: 50%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top\"]:hover::after {\n  /* no important */\n  transform: translate3d(-50%, -5px, 0); }\n\n/* ------------------------------------------------\n  [2.1] Top Left\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top-left\"]::after {\n  /* no important */\n  transform: translate3d(calc(-100% + 16px), 0, 0);\n  bottom: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top-left\"]:hover::after {\n  /* no important */\n  transform: translate3d(calc(-100% + 16px), -5px, 0); }\n\n/* ------------------------------------------------\n  [2.2] Top Right\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top-right\"]::after {\n  /* no important */\n  transform: translate3d(calc(0% + -16px), 0, 0);\n  bottom: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"top-right\"]:hover::after {\n  /* no important */\n  transform: translate3d(calc(0% + -16px), -5px, 0); }\n\n/* ------------------------------------------------\n  [2.3] Bottom\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]::before {\n  /* no important */\n  background: url(\"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2236px%22%20height%3D%2212px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28180%2018%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E\") no-repeat;\n  height: 6px;\n  width: 18px;\n  margin-top: 5px;\n  margin-bottom: 0; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]::after {\n  /* no important */\n  margin-top: 11px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]::before {\n  /* no important */\n  transform: translate3d(-50%, -10px, 0);\n  bottom: auto;\n  left: 50%;\n  top: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]:hover::before {\n  /* no important */\n  transform: translate3d(-50%, 0, 0); }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position|=\"bottom\"]::after {\n  /* no important */\n  transform: translate3d(-50%, -10px, 0);\n  top: 100%;\n  left: 50%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom\"]:hover::after {\n  /* no important */\n  transform: translate3d(-50%, 0, 0); }\n\n/* ------------------------------------------------\n  [2.4] Bottom Left\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom-left\"]::after {\n  /* no important */\n  transform: translate3d(calc(-100% + 16px), -10px, 0);\n  top: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom-left\"]:hover::after {\n  /* no important */\n  transform: translate3d(calc(-100% + 16px), 0, 0); }\n\n/* ------------------------------------------------\n  [2.5] Bottom Right\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom-right\"]::after {\n  /* no important */\n  transform: translate3d(calc(0% + -16px), -10px, 0);\n  top: 100%; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"bottom-right\"]:hover::after {\n  /* no important */\n  transform: translate3d(calc(0% + -16px), 0, 0); }\n\n/* ------------------------------------------------\n  [2.6] Left\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]::before,\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]::after {\n  /* no important */\n  bottom: auto;\n  left: auto;\n  right: 100%;\n  top: 50%;\n  transform: translate3d(10px, -50%, 0); }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]::before {\n  /* no important */\n  background: url(\"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%28-90%2018%2018%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E\") no-repeat;\n  height: 18px;\n  width: 6px;\n  margin-right: 5px;\n  margin-bottom: 0; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]::after {\n  /* no important */\n  margin-right: 11px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]:hover::before,\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"left\"]:hover::after {\n  /* no important */\n  transform: translate3d(0, -50%, 0); }\n\n/* ------------------------------------------------\n  [2.7] Right\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]::before,\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]::after {\n  /* no important */\n  bottom: auto;\n  left: 100%;\n  top: 50%;\n  transform: translate3d(-10px, -50%, 0); }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]::before {\n  /* no important */\n  background: url(\"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2212px%22%20height%3D%2236px%22%3E%3Cpath%20fill%3D%22rgba%2817,%2017,%2017,%200.9%29%22%20transform%3D%22rotate%2890%206%206%29%22%20d%3D%22M2.658,0.000%20C-13.615,0.000%2050.938,0.000%2034.662,0.000%20C28.662,0.000%2023.035,12.002%2018.660,12.002%20C14.285,12.002%208.594,0.000%202.658,0.000%20Z%22/%3E%3C/svg%3E\") no-repeat;\n  height: 18px;\n  width: 6px;\n  margin-bottom: 0;\n  margin-left: 5px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]::after {\n  /* no important */\n  margin-left: 11px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]:hover::before,\n.uppy-Root [role~=\"tooltip\"][data-microtip-position=\"right\"]:hover::after {\n  /* no important */\n  transform: translate3d(0, -50%, 0); }\n\n/* ------------------------------------------------\n  [3] Size\n-------------------------------------------------*/\n.uppy-Root [role~=\"tooltip\"][data-microtip-size=\"small\"]::after {\n  /* no important */\n  white-space: initial;\n  width: 80px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-size=\"medium\"]::after {\n  /* no important */\n  white-space: initial;\n  width: 150px; }\n\n.uppy-Root [role~=\"tooltip\"][data-microtip-size=\"large\"]::after {\n  /* no important */\n  white-space: initial;\n  width: 260px; }\n\n.uppy-StatusBar {\n  display: flex;\n  position: relative;\n  height: 40px;\n  line-height: 40px;\n  font-size: 12px;\n  font-weight: 400;\n  color: #fff;\n  background-color: #fff;\n  z-index: 1001;\n  transition: height .2s; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar {\n    background-color: #1f1f1f; }\n\n.uppy-size--md .uppy-StatusBar {\n  height: 46px; }\n\n.uppy-StatusBar:before {\n  content: '';\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  width: 100%;\n  height: 2px;\n  background-color: #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar:before {\n    background-color: #757575; }\n\n.uppy-StatusBar[aria-hidden=true] {\n  overflow-y: hidden;\n  height: 0; }\n\n.uppy-StatusBar.is-complete .uppy-StatusBar-progress {\n  background-color: #1bb240; }\n\n.uppy-StatusBar.is-error .uppy-StatusBar-progress {\n  background-color: #e32437; }\n\n.uppy-StatusBar.is-complete .uppy-StatusBar-statusIndicator {\n  color: #1bb240; }\n\n.uppy-StatusBar.is-error .uppy-StatusBar-statusIndicator {\n  color: #e32437; }\n\n.uppy-StatusBar:not([aria-hidden=true]).is-waiting {\n  background-color: #fff;\n  height: 65px;\n  border-top: 1px solid #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar:not([aria-hidden=true]).is-waiting {\n    background-color: #1f1f1f;\n    border-top: 1px solid #333; }\n\n.uppy-StatusBar-progress {\n  background-color: #2275d7;\n  height: 2px;\n  position: absolute;\n  z-index: 1001;\n  transition: background-color, width .3s ease-out; }\n  .uppy-StatusBar-progress.is-indeterminate {\n    background-size: 64px 64px;\n    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.3) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3) 75%, transparent 75%, transparent);\n    -webkit-animation: uppy-StatusBar-ProgressStripes 1s linear infinite;\n            animation: uppy-StatusBar-ProgressStripes 1s linear infinite; }\n\n@-webkit-keyframes uppy-StatusBar-ProgressStripes {\n  from {\n    background-position: 0 0; }\n  to {\n    background-position: 64px 0; } }\n\n@keyframes uppy-StatusBar-ProgressStripes {\n  from {\n    background-position: 0 0; }\n  to {\n    background-position: 64px 0; } }\n\n.uppy-StatusBar.is-preprocessing .uppy-StatusBar-progress,\n.uppy-StatusBar.is-postprocessing .uppy-StatusBar-progress {\n  background-color: #f6a623; }\n\n.uppy-StatusBar.is-waiting .uppy-StatusBar-progress {\n  display: none; }\n\n.uppy-StatusBar-content {\n  display: flex;\n  align-items: center;\n  position: relative;\n  z-index: 1002;\n  padding-left: 10px;\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  color: #333;\n  height: 100%; }\n  .uppy-size--md .uppy-StatusBar-content {\n    padding-left: 15px; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar-content {\n    color: #fff; }\n\n.uppy-StatusBar-status {\n  line-height: 1.4;\n  font-weight: normal;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  padding-right: 0.3em; }\n\n.uppy-Root:not(.uppy-size--md) .uppy-StatusBar-additionalInfo {\n  display: none; }\n\n.uppy-StatusBar-statusPrimary {\n  font-weight: 500;\n  line-height: 1; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar-statusPrimary {\n    color: #fff; }\n\n.uppy-StatusBar-statusSecondary {\n  margin-top: 1px;\n  font-size: 11px;\n  line-height: 1.2;\n  display: inline-block;\n  color: #757575;\n  white-space: nowrap; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar-statusSecondary {\n    color: #cfcfcf; }\n\n.uppy-StatusBar-statusSecondaryHint {\n  display: inline-block;\n  vertical-align: middle;\n  margin-right: 5px;\n  line-height: 1; }\n  .uppy-size--md .uppy-StatusBar-statusSecondaryHint {\n    margin-right: 8px; }\n\n.uppy-StatusBar-statusIndicator {\n  position: relative;\n  top: 1px;\n  color: #525252;\n  margin-right: 7px; }\n  .uppy-StatusBar-statusIndicator svg {\n    vertical-align: text-bottom; }\n\n.uppy-StatusBar-actions {\n  display: flex;\n  align-items: center;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  right: 10px;\n  z-index: 1004; }\n\n.uppy-StatusBar.is-waiting .uppy-StatusBar-actions {\n  width: 100%;\n  position: static;\n  padding: 0 15px;\n  background-color: #fafafa; }\n  [data-uppy-theme=\"dark\"] .uppy-StatusBar.is-waiting .uppy-StatusBar-actions {\n    background-color: #1f1f1f; }\n\n.uppy-StatusBar-actionCircleBtn {\n  line-height: 1;\n  cursor: pointer;\n  margin: 3px;\n  opacity: 0.9; }\n  .uppy-StatusBar-actionCircleBtn:focus {\n    outline: none; }\n  .uppy-StatusBar-actionCircleBtn::-moz-focus-inner {\n    border: 0; }\n  .uppy-StatusBar-actionCircleBtn:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.5); }\n  .uppy-StatusBar-actionCircleBtn:hover {\n    opacity: 1; }\n  .uppy-StatusBar-actionCircleBtn:focus {\n    border-radius: 50%; }\n\n.uppy-StatusBar-actionCircleBtn svg {\n  vertical-align: bottom; }\n\n.uppy-StatusBar-actionBtn {\n  display: inline-block;\n  vertical-align: middle;\n  font-size: 10px;\n  line-height: inherit;\n  color: #2275d7; }\n  .uppy-size--md .uppy-StatusBar-actionBtn {\n    font-size: 11px; }\n\n.uppy-StatusBar-actionBtn--retry {\n  height: 16px;\n  border-radius: 8px;\n  margin-right: 6px;\n  background-color: #ff4b23;\n  line-height: 1;\n  color: #fff;\n  padding: 1px 6px 3px 18px;\n  position: relative; }\n  .uppy-StatusBar-actionBtn--retry:focus {\n    outline: none; }\n  .uppy-StatusBar-actionBtn--retry::-moz-focus-inner {\n    border: 0; }\n  .uppy-StatusBar-actionBtn--retry:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.5); }\n  .uppy-StatusBar-actionBtn--retry:hover {\n    background-color: #f92d00; }\n  .uppy-StatusBar-actionBtn--retry svg {\n    position: absolute;\n    top: 3px;\n    left: 6px; }\n\n.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload {\n  font-size: 14px;\n  width: 100%;\n  padding: 15px 10px;\n  color: #fff;\n  background-color: #1bb240;\n  line-height: 1; }\n\n.uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload:hover {\n  background-color: #148630; }\n\n.uppy-size--md .uppy-StatusBar.is-waiting .uppy-StatusBar-actionBtn--upload {\n  padding: 13px 22px;\n  width: auto; }\n\n.uppy-StatusBar:not(.is-waiting) .uppy-StatusBar-actionBtn--upload {\n  background-color: transparent;\n  color: #2275d7; }\n\n.uppy-StatusBar-actionBtn--uploadNewlyAdded {\n  padding-right: 3px;\n  padding-left: 3px;\n  padding-bottom: 1px;\n  border-radius: 3px; }\n  .uppy-StatusBar-actionBtn--uploadNewlyAdded:focus {\n    outline: none; }\n  .uppy-StatusBar-actionBtn--uploadNewlyAdded::-moz-focus-inner {\n    border: 0; }\n  .uppy-StatusBar-actionBtn--uploadNewlyAdded:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.5); }\n\n.uppy-StatusBar-details {\n  line-height: 12px;\n  width: 13px;\n  height: 13px;\n  display: inline-block;\n  vertical-align: middle;\n  color: #fff;\n  background-color: #939393;\n  border-radius: 50%;\n  position: relative;\n  top: 0;\n  left: 2px;\n  font-size: 10px;\n  font-weight: 600;\n  text-align: center;\n  cursor: help; }\n\n.uppy-StatusBar-details:after {\n  line-height: 1.3;\n  word-wrap: break-word; }\n\n.uppy-StatusBar-spinner {\n  -webkit-animation-name: uppy-StatusBar-spinnerAnimation;\n          animation-name: uppy-StatusBar-spinnerAnimation;\n  -webkit-animation-duration: 1s;\n          animation-duration: 1s;\n  -webkit-animation-iteration-count: infinite;\n          animation-iteration-count: infinite;\n  -webkit-animation-timing-function: linear;\n          animation-timing-function: linear;\n  margin-right: 10px;\n  fill: #2275d7; }\n\n.uppy-StatusBar.is-preprocessing .uppy-StatusBar-spinner,\n.uppy-StatusBar.is-postprocessing .uppy-StatusBar-spinner {\n  fill: #f6a623; }\n\n@-webkit-keyframes uppy-StatusBar-spinnerAnimation {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(360deg); } }\n\n@keyframes uppy-StatusBar-spinnerAnimation {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(360deg); } }\n\n.uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-between;\n  align-items: flex-start;\n  padding: 6px; }\n  .uppy-ProviderBrowser-viewType--grid ul.uppy-ProviderBrowser-list::after {\n    content: '';\n    flex: auto; }\n\n.uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem {\n  width: 50%;\n  position: relative;\n  margin: 0; }\n  .uppy-size--md .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem {\n    width: 33.3333%; }\n  .uppy-size--lg .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem {\n    width: 25%; }\n  .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem::before {\n    content: '';\n    padding-top: 100%;\n    display: block; }\n\n.uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--selected img, .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--selected svg {\n  opacity: 0.85; }\n\n.uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview .uppy-ProviderBrowserItem-inner {\n  background-color: rgba(147, 147, 147, 0.2); }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview .uppy-ProviderBrowserItem-inner {\n    background-color: rgba(234, 234, 234, 0.2); }\n\n.uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview svg {\n  fill: rgba(0, 0, 0, 0.7);\n  width: 30%;\n  height: 30%; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-viewType--grid li.uppy-ProviderBrowserItem--noPreview svg {\n    fill: rgba(255, 255, 255, 0.8); }\n\n.uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner {\n  border-radius: 4px;\n  overflow: hidden;\n  position: absolute;\n  top: 7px;\n  left: 7px;\n  right: 7px;\n  bottom: 7px;\n  text-align: center;\n  width: calc(100% - 14px);\n  height: calc(100% - 14px); }\n  .uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner:focus {\n    outline: none;\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.9); }\n  .uppy-ProviderBrowser-viewType--grid button.uppy-ProviderBrowserItem-inner img {\n    width: 100%;\n    height: 100%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 4px; }\n\n.uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-fakeCheckbox {\n  position: absolute;\n  top: 16px;\n  right: 16px;\n  width: 26px;\n  height: 26px;\n  background-color: #2275d7;\n  border-radius: 50%;\n  z-index: 1002;\n  opacity: 0; }\n  .uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-fakeCheckbox:after {\n    width: 12px;\n    height: 7px;\n    left: 7px;\n    top: 8px; }\n\n.uppy-ProviderBrowser-viewType--grid .uppy-ProviderBrowserItem-fakeCheckbox--is-checked {\n  opacity: 1; }\n\n.uppy-ProviderBrowser-viewType--list {\n  background-color: #fff; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-viewType--list {\n    background-color: #000; }\n  .uppy-ProviderBrowser-viewType--list li.uppy-ProviderBrowserItem {\n    display: flex;\n    align-items: center;\n    padding: 7px 15px;\n    margin: 0; }\n    [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-viewType--list li.uppy-ProviderBrowserItem {\n      color: #fff; }\n  .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox {\n    margin-right: 15px;\n    height: 17px;\n    width: 17px;\n    border-radius: 3px;\n    background-color: #fff;\n    border: 1px solid #cfcfcf; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox:focus {\n      border: 1px solid #2275d7;\n      box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.25);\n      outline: none; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox::after {\n      opacity: 0;\n      height: 5px;\n      width: 9px;\n      left: 3px;\n      top: 4px; }\n  .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox--is-checked {\n    background-color: #2275d7;\n    border-color: #2275d7; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-fakeCheckbox--is-checked::after {\n      opacity: 1; }\n  .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-inner {\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n    display: flex;\n    align-items: center;\n    padding: 2px; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-inner:focus {\n      outline: none;\n      text-decoration: underline; }\n    .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-inner img, .uppy-ProviderBrowser-viewType--list .uppy-ProviderBrowserItem-inner svg {\n      margin-right: 8px;\n      max-width: 20px;\n      max-height: 20px; }\n\n.uppy-ProviderBrowserItem-fakeCheckbox {\n  position: relative;\n  cursor: pointer;\n  flex-shrink: 0; }\n  .uppy-ProviderBrowserItem-fakeCheckbox::after {\n    content: '';\n    position: absolute;\n    cursor: pointer;\n    border-left: 2px solid #fff;\n    border-bottom: 2px solid #fff;\n    transform: rotate(-45deg); }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowserItem-fakeCheckbox {\n    background-color: #525252; }\n\n.uppy-DashboardContent-panelBody {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex: 1; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-panelBody {\n    background-color: #000; }\n\n.uppy-Provider-auth,\n.uppy-Provider-error,\n.uppy-Provider-loading,\n.uppy-Provider-empty {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-flow: column wrap;\n  flex: 1;\n  color: #939393; }\n\n.uppy-Provider-empty {\n  color: #939393; }\n\n.uppy-Provider-authIcon svg {\n  width: 100px;\n  height: 75px;\n  margin-bottom: 15px; }\n\n.uppy-Provider-authTitle {\n  font-size: 17px;\n  line-height: 1.4;\n  font-weight: 400;\n  margin-bottom: 30px;\n  padding: 0 15px;\n  max-width: 500px;\n  text-align: center;\n  color: #757575; }\n  .uppy-size--md .uppy-Provider-authTitle {\n    font-size: 20px; }\n  [data-uppy-theme=\"dark\"] .uppy-Provider-authTitle {\n    color: #cfcfcf; }\n\n.uppy-Provider-breadcrumbs {\n  flex: 1;\n  color: #525252;\n  font-size: 12px;\n  margin-bottom: 10px;\n  text-align: left; }\n  .uppy-size--md .uppy-Provider-breadcrumbs {\n    margin-bottom: 0; }\n  [data-uppy-theme=\"dark\"] .uppy-Provider-breadcrumbs {\n    color: #fff; }\n\n.uppy-Provider-breadcrumbsIcon {\n  display: inline-block;\n  color: #525252;\n  vertical-align: middle;\n  margin-right: 4px;\n  line-height: 1; }\n\n.uppy-Provider-breadcrumbsIcon svg {\n  width: 13px;\n  height: 13px;\n  fill: #525252; }\n\n.uppy-Provider-breadcrumbs button {\n  display: inline-block;\n  line-height: inherit;\n  padding: 4px;\n  border-radius: 3px; }\n  .uppy-Provider-breadcrumbs button:focus {\n    outline: none; }\n  .uppy-Provider-breadcrumbs button::-moz-focus-inner {\n    border: 0; }\n  .uppy-Provider-breadcrumbs button:hover {\n    color: #1b5dab; }\n  .uppy-Provider-breadcrumbs button:focus {\n    background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-Provider-breadcrumbs button:focus {\n    background-color: #333; }\n  .uppy-Provider-breadcrumbs button:hover {\n    text-decoration: underline;\n    cursor: pointer; }\n\n.uppy-ProviderBrowser {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  font-size: 14px;\n  font-weight: 400;\n  height: 100%; }\n\n.uppy-ProviderBrowser-user {\n  margin: 0 8px 0 0;\n  font-weight: 500;\n  color: #333; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-user {\n    color: #fff; }\n\n.uppy-ProviderBrowser-user:after {\n  content: '\\B7';\n  position: relative;\n  left: 4px;\n  color: #939393;\n  font-weight: normal; }\n\n.uppy-ProviderBrowser-header {\n  z-index: 1001;\n  border-bottom: 1px solid #eaeaea;\n  position: relative; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-header {\n    border-bottom: 1px solid #333; }\n\n.uppy-ProviderBrowser-headerBar {\n  padding: 7px 15px;\n  background-color: #fafafa;\n  z-index: 1001;\n  color: #757575;\n  line-height: 1.4;\n  font-size: 12px; }\n  .uppy-size--md .uppy-ProviderBrowser-headerBar {\n    display: flex;\n    align-items: center; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-headerBar {\n    background-color: #1f1f1f; }\n\n.uppy-ProviderBrowser-headerBar--simple {\n  text-align: center;\n  display: block;\n  justify-content: center; }\n\n.uppy-ProviderBrowser-headerBar--simple .uppy-Provider-breadcrumbsWrap {\n  flex: none;\n  display: inline-block;\n  vertical-align: middle; }\n\n.uppy-ProviderBrowser-search {\n  width: 100%;\n  background-color: #fff;\n  position: relative;\n  height: 30px;\n  margin-top: 10px;\n  margin-bottom: 5px;\n  display: flex;\n  align-items: center; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-search {\n    background-color: #000; }\n\n.uppy-ProviderBrowser-searchIcon {\n  position: absolute;\n  width: 12px;\n  height: 12px;\n  left: 16px;\n  z-index: 1002;\n  color: #bbb; }\n\n.uppy-ProviderBrowser-searchInput {\n  width: 100%;\n  height: 30px;\n  background-color: transparent;\n  outline: 0;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\";\n  font-size: 12px;\n  line-height: 1.4;\n  border: 0;\n  margin: 0 8px;\n  padding-left: 27px;\n  z-index: 1001;\n  border-radius: 4px; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-searchInput {\n    background-color: #000;\n    color: #fff; }\n\n.uppy-ProviderBrowser-searchInput:focus {\n  outline: 0;\n  background-color: #f4f4f4; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-searchInput:focus {\n    background-color: #333; }\n\n.uppy-ProviderBrowser-searchClose {\n  position: absolute;\n  width: 22px;\n  height: 22px;\n  padding: 6px;\n  right: 12px;\n  top: 4px;\n  z-index: 1002;\n  color: #939393;\n  cursor: pointer; }\n  .uppy-ProviderBrowser-searchClose:hover {\n    color: #757575; }\n\n.uppy-ProviderBrowser-searchClose svg {\n  vertical-align: text-top; }\n\n.uppy-ProviderBrowser-searchInput:-ms-input-placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-searchInput::-webkit-input-placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-searchInput::-moz-placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-searchInput::-ms-input-placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-searchInput::placeholder {\n  color: #939393;\n  opacity: 1; }\n\n.uppy-ProviderBrowser-userLogout {\n  cursor: pointer;\n  line-height: inherit;\n  color: #2275d7;\n  padding: 4px;\n  border-radius: 3px; }\n  .uppy-ProviderBrowser-userLogout:focus {\n    outline: none; }\n  .uppy-ProviderBrowser-userLogout::-moz-focus-inner {\n    border: 0; }\n  .uppy-ProviderBrowser-userLogout:hover {\n    color: #1b5dab; }\n  .uppy-ProviderBrowser-userLogout:focus {\n    background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-userLogout:focus {\n    background-color: #333; }\n  .uppy-ProviderBrowser-userLogout:hover {\n    text-decoration: underline; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-userLogout {\n    color: #fff; }\n\n.uppy-ProviderBrowser-body {\n  flex: 1;\n  position: relative; }\n\n.uppy-ProviderBrowser-list {\n  flex: 1;\n  position: relative;\n  display: block;\n  width: 100%;\n  height: 100%;\n  background-color: #fff;\n  border-spacing: 0;\n  overflow-x: hidden;\n  overflow-y: auto;\n  -webkit-overflow-scrolling: touch;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  list-style: none;\n  margin: 0;\n  padding: 0; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-list {\n    background-color: #000; }\n\n.uppy-ProviderBrowserItem-inner {\n  cursor: pointer;\n  font-weight: 500;\n  font-size: 13px; }\n\n.uppy-ProviderBrowser-footer {\n  display: flex;\n  align-items: center;\n  background-color: #fff;\n  height: 65px;\n  border-top: 1px solid #eaeaea;\n  padding: 0 15px; }\n  .uppy-ProviderBrowser-footer button {\n    margin-right: 8px; }\n  [data-uppy-theme=\"dark\"] .uppy-ProviderBrowser-footer {\n    background-color: #1f1f1f;\n    border-top: 1px solid #333; }\n\n.uppy-DashboardItem-previewInnerWrap {\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  position: relative;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.4);\n  border-radius: 3px; }\n  .uppy-size--md .uppy-DashboardItem-previewInnerWrap {\n    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); }\n\n.uppy-DashboardItem-previewInnerWrap:after {\n  content: '';\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.65);\n  display: none;\n  z-index: 1001; }\n\n.uppy-DashboardItem-previewLink {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  z-index: 1002; }\n  .uppy-DashboardItem-previewLink:focus {\n    box-shadow: inset 0 0 0 3px #76abe9; }\n\n.uppy-DashboardItem-preview img.uppy-DashboardItem-previewImg {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  transform: translateZ(0);\n  border-radius: 3px; }\n\n.uppy-DashboardItem-progress {\n  display: none;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 1002;\n  color: #fff;\n  text-align: center;\n  width: 120px;\n  transition: all .35 ease; }\n\n.uppy-DashboardItem-progressIndicator {\n  display: inline-block;\n  width: 38px;\n  height: 38px;\n  opacity: 0.9;\n  cursor: pointer; }\n  .uppy-DashboardItem-progressIndicator:focus {\n    outline: none; }\n  .uppy-DashboardItem-progressIndicator::-moz-focus-inner {\n    border: 0; }\n  .uppy-DashboardItem-progressIndicator:focus svg.UppyIcon-progressCircle .bg,\n  .uppy-DashboardItem-progressIndicator:focus svg.retry {\n    fill: #76abe9; }\n\nsvg.UppyIcon-progressCircle {\n  width: 100%;\n  height: 100%; }\n  svg.UppyIcon-progressCircle .bg {\n    stroke: rgba(255, 255, 255, 0.4);\n    opacity: 0; }\n  svg.UppyIcon-progressCircle .progress {\n    stroke: #fff;\n    transition: stroke-dashoffset .5s ease-out;\n    opacity: 0; }\n  svg.UppyIcon-progressCircle .play {\n    stroke: #fff;\n    fill: #fff;\n    opacity: 0;\n    transition: all 0.2s;\n    display: none; }\n  svg.UppyIcon-progressCircle .cancel {\n    fill: #fff;\n    opacity: 0;\n    transition: all 0.2s; }\n  svg.UppyIcon-progressCircle .pause {\n    stroke: #fff;\n    fill: #fff;\n    opacity: 0;\n    transition: all 0.2s;\n    display: none; }\n  svg.UppyIcon-progressCircle .check {\n    opacity: 0;\n    fill: #fff;\n    transition: all 0.2s; }\n\nsvg.UppyIcon.retry {\n  fill: #fff; }\n\n.uppy-DashboardItem.is-complete .uppy-DashboardItem-progress {\n  transform: initial;\n  top: -9px;\n  right: -8px;\n  left: initial;\n  width: auto; }\n\n.uppy-DashboardItem.is-inprogress .uppy-DashboardItem-progress,\n.uppy-DashboardItem.is-complete .uppy-DashboardItem-progress,\n.uppy-DashboardItem.is-error .uppy-DashboardItem-progress {\n  display: block; }\n\n.uppy-DashboardItem.is-error .uppy-DashboardItem-progressIndicator {\n  width: 18px;\n  height: 18px; }\n  .uppy-size--md .uppy-DashboardItem.is-error .uppy-DashboardItem-progressIndicator {\n    width: 28px;\n    height: 28px; }\n\n.uppy-DashboardItem.is-complete .uppy-DashboardItem-progressIndicator {\n  width: 18px;\n  height: 18px;\n  opacity: 1; }\n  .uppy-size--md .uppy-DashboardItem.is-complete .uppy-DashboardItem-progressIndicator {\n    width: 22px;\n    height: 22px; }\n\n.uppy-DashboardItem.is-paused svg.UppyIcon-progressCircle .pause {\n  opacity: 0; }\n\n.uppy-DashboardItem.is-paused svg.UppyIcon-progressCircle .play {\n  opacity: 1; }\n\n.uppy-DashboardItem.is-noIndividualCancellation .uppy-DashboardItem-progressIndicator {\n  cursor: default; }\n\n.uppy-DashboardItem.is-noIndividualCancellation .cancel {\n  display: none; }\n\n.uppy-DashboardItem.is-processing .uppy-DashboardItem-progress {\n  opacity: 0; }\n\n.uppy-DashboardItem.is-complete .uppy-DashboardItem-progressIndicator {\n  cursor: default; }\n\n.uppy-DashboardItem.is-complete .progress {\n  stroke: #1bb240;\n  fill: #1bb240;\n  opacity: 1; }\n\n.uppy-DashboardItem.is-complete .check {\n  opacity: 1; }\n\n.uppy-size--md .uppy-DashboardItem-progressIndicator {\n  width: 55px;\n  height: 55px; }\n\n.uppy-DashboardItem.is-resumable .pause, .uppy-DashboardItem.is-resumable .play {\n  display: block; }\n\n.uppy-DashboardItem.is-resumable .cancel {\n  display: none; }\n\n.uppy-DashboardItem.is-inprogress .bg, .uppy-DashboardItem.is-inprogress .progress, .uppy-DashboardItem.is-inprogress .pause, .uppy-DashboardItem.is-inprogress .cancel {\n  opacity: 1; }\n\n.uppy-DashboardItem-fileInfo {\n  padding-right: 5px; }\n\n.uppy-DashboardItem-name {\n  font-size: 12px;\n  line-height: 1.3;\n  font-weight: 500;\n  margin-bottom: 4px;\n  word-break: break-all;\n  word-wrap: anywhere; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-name {\n    color: #fff; }\n\n.uppy-DashboardItem-status {\n  font-size: 11px;\n  line-height: 1.3;\n  font-weight: normal;\n  color: #757575; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-status {\n    color: #cfcfcf; }\n\n.uppy-DashboardItem-statusSize {\n  display: inline-block;\n  vertical-align: bottom;\n  text-transform: uppercase; }\n\n.uppy-DashboardItem-sourceIcon {\n  display: none;\n  vertical-align: bottom;\n  color: #bbb; }\n  .uppy-DashboardItem-sourceIcon:not(:first-child) {\n    position: relative;\n    margin-left: 14px; }\n  .uppy-DashboardItem-sourceIcon svg,\n  .uppy-DashboardItem-sourceIcon svg * {\n    max-width: 100%;\n    max-height: 100%;\n    display: inline-block;\n    vertical-align: text-bottom;\n    overflow: hidden;\n    fill: currentColor;\n    width: 11px;\n    height: 12px; }\n\n.uppy-DashboardItem-action {\n  cursor: pointer;\n  color: #939393; }\n  .uppy-DashboardItem-action:focus {\n    outline: none; }\n  .uppy-DashboardItem-action::-moz-focus-inner {\n    border: 0; }\n  .uppy-DashboardItem-action:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.5); }\n  .uppy-DashboardItem-action:hover {\n    opacity: 1;\n    color: #1f1f1f; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-action {\n    color: #cfcfcf; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-action:hover {\n    color: #fff; }\n\n.uppy-DashboardItem-action--remove {\n  color: #1f1f1f;\n  opacity: 0.95; }\n  .uppy-DashboardItem-action--remove:hover {\n    opacity: 1;\n    color: #000; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-action--remove {\n    color: #525252; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem-action--remove:hover {\n    color: #333; }\n\n.uppy-Dashboard:not(.uppy-size--md) .uppy-DashboardItem-actionWrapper {\n  display: flex;\n  align-items: center; }\n\n.uppy-Dashboard:not(.uppy-size--md) .uppy-DashboardItem-action {\n  width: 22px;\n  height: 22px;\n  padding: 3px;\n  margin-left: 3px; }\n  .uppy-Dashboard:not(.uppy-size--md) .uppy-DashboardItem-action:focus {\n    border-radius: 3px; }\n\n.uppy-size--md .uppy-DashboardItem-action--copyLink,\n.uppy-size--md .uppy-DashboardItem-action--edit {\n  width: 16px;\n  height: 16px;\n  padding: 0; }\n  .uppy-size--md .uppy-DashboardItem-action--copyLink:focus,\n  .uppy-size--md .uppy-DashboardItem-action--edit:focus {\n    border-radius: 3px; }\n\n.uppy-size--md .uppy-DashboardItem-action--remove {\n  z-index: 1002;\n  position: absolute;\n  top: -8px;\n  right: -8px;\n  width: 18px;\n  height: 18px;\n  padding: 0; }\n  .uppy-size--md .uppy-DashboardItem-action--remove:focus {\n    border-radius: 50%; }\n\n.uppy-DashboardItem {\n  display: flex;\n  align-items: center;\n  border-bottom: 1px solid #eaeaea;\n  padding: 10px;\n  padding-right: 0; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardItem {\n    border-bottom: 1px solid #333; }\n  .uppy-size--md .uppy-DashboardItem {\n    position: relative;\n    display: block;\n    float: left;\n    margin: 5px 15px;\n    padding: 0;\n    width: calc(33.333% - 15px - 15px);\n    height: 215px;\n    border-bottom: 0; }\n  .uppy-size--lg .uppy-DashboardItem {\n    margin: 5px 15px;\n    width: calc(25% - 15px - 15px);\n    height: 190px; }\n  .uppy-size--xl .uppy-DashboardItem {\n    width: calc(20% - 15px - 15px);\n    height: 210px; }\n\n.uppy-DashboardItem-preview {\n  position: relative; }\n  .uppy-Dashboard:not(.uppy-size--md) .uppy-DashboardItem-preview {\n    flex-shrink: 0;\n    flex-grow: 0;\n    width: 50px;\n    height: 50px; }\n  .uppy-size--md .uppy-DashboardItem-preview {\n    width: 100%;\n    height: 140px; }\n  .uppy-size--lg .uppy-DashboardItem-preview {\n    height: 120px; }\n  .uppy-size--xl .uppy-DashboardItem-preview {\n    height: 140px; }\n\n.uppy-DashboardItem-fileInfoAndButtons {\n  flex-grow: 1;\n  padding-right: 8px;\n  padding-left: 12px;\n  display: flex;\n  align-items: center;\n  justify-content: space-between; }\n  .uppy-size--md .uppy-DashboardItem-fileInfoAndButtons {\n    align-items: flex-start;\n    width: 100%;\n    padding: 0;\n    padding-top: 9px; }\n\n.uppy-DashboardItem-fileInfo {\n  flex-grow: 1;\n  flex-shrink: 1; }\n\n.uppy-DashboardItem-actionWrapper {\n  flex-grow: 0;\n  flex-shrink: 0; }\n\n.uppy-DashboardItem.is-inprogress .uppy-DashboardItem-previewInnerWrap:after {\n  display: block; }\n\n.uppy-DashboardItem.is-error .uppy-DashboardItem-previewInnerWrap:after {\n  display: block; }\n\n.uppy-DashboardItem.is-inprogress:not(.is-resumable) .uppy-DashboardItem-action--remove {\n  display: none; }\n\n.uppy-Dashboard-FileCard {\n  width: 100%;\n  height: 100%;\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  z-index: 1005;\n  box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.1);\n  background-color: #fff;\n  border-radius: 5px;\n  display: flex;\n  flex-direction: column; }\n  .uppy-Dashboard-FileCard .uppy-DashboardContent-bar {\n    border-top-left-radius: 5px;\n    border-top-right-radius: 5px; }\n  .uppy-Dashboard-FileCard .uppy-Dashboard-FileCard-actions {\n    border-bottom-left-radius: 5px;\n    border-bottom-right-radius: 5px; }\n\n.uppy-Dashboard-FileCard-inner {\n  height: 100%;\n  flex-grow: 1;\n  flex-shrink: 1;\n  min-height: 0;\n  display: flex;\n  flex-direction: column; }\n\n.uppy-Dashboard-FileCard-preview {\n  height: 60%;\n  flex-grow: 0;\n  flex-shrink: 1;\n  min-height: 0;\n  border-bottom: 1px solid #eaeaea;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-FileCard-preview {\n    background-color: #333;\n    border-bottom: 0; }\n\n.uppy-Dashboard-FileCard-preview img.uppy-DashboardItem-previewImg {\n  max-width: 90%;\n  max-height: 90%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  flex: 0 0 auto;\n  border-radius: 3px;\n  box-shadow: 0px 3px 20px rgba(0, 0, 0, 0.15); }\n\n.uppy-Dashboard-FileCard-info {\n  height: 40%;\n  flex-grow: 0;\n  flex-shrink: 0;\n  padding: 30px 20px 20px 20px;\n  overflow-y: auto;\n  -webkit-overflow-scrolling: touch; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-FileCard-info {\n    background-color: #000; }\n\n.uppy-Dashboard-FileCard-fieldset {\n  font-size: 0;\n  border: 0;\n  padding: 0;\n  max-width: 640px;\n  margin: auto;\n  margin-bottom: 12px; }\n\n.uppy-Dashboard-FileCard-label {\n  display: inline-block;\n  vertical-align: middle;\n  width: 22%;\n  font-size: 12px;\n  color: #525252; }\n  .uppy-size--md .uppy-Dashboard-FileCard-label {\n    font-size: 14px; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-FileCard-label {\n    color: #fff; }\n\n.uppy-Dashboard-FileCard-input {\n  display: inline-block;\n  vertical-align: middle;\n  width: 78%; }\n\n.uppy-Dashboard-FileCard-actions {\n  height: 55px;\n  flex-shrink: 0;\n  flex-grow: 0;\n  border-top: 1px solid #eaeaea;\n  padding: 0 15px;\n  background-color: #fafafa;\n  display: flex;\n  align-items: center; }\n  .uppy-size--md .uppy-Dashboard-FileCard-actions {\n    height: 65px; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-FileCard-actions {\n    border-top: 1px solid #333;\n    background-color: #1f1f1f; }\n\n.uppy-Dashboard-FileCard-actionsBtn {\n  margin-right: 10px; }\n\n.uppy-transition-slideDownUp-enter {\n  opacity: 0.01;\n  transform: translate3d(0, -105%, 0);\n  transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out; }\n\n.uppy-transition-slideDownUp-enter.uppy-transition-slideDownUp-enter-active {\n  opacity: 1;\n  transform: translate3d(0, 0, 0); }\n\n.uppy-transition-slideDownUp-leave {\n  opacity: 1;\n  transform: translate3d(0, 0, 0);\n  transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out; }\n\n.uppy-transition-slideDownUp-leave.uppy-transition-slideDownUp-leave-active {\n  opacity: 0.01;\n  transform: translate3d(0, -105%, 0); }\n\n@-webkit-keyframes uppy-Dashboard-fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes uppy-Dashboard-fadeIn {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@-webkit-keyframes uppy-Dashboard-fadeOut {\n  from {\n    opacity: 1; }\n  to {\n    opacity: 0; } }\n\n@keyframes uppy-Dashboard-fadeOut {\n  from {\n    opacity: 1; }\n  to {\n    opacity: 0; } }\n\n@-webkit-keyframes uppy-Dashboard-slideDownAndFadeIn {\n  from {\n    transform: translate3d(-50%, -70%, 0);\n    opacity: 0; }\n  to {\n    transform: translate3d(-50%, -50%, 0);\n    opacity: 1; } }\n\n@keyframes uppy-Dashboard-slideDownAndFadeIn {\n  from {\n    transform: translate3d(-50%, -70%, 0);\n    opacity: 0; }\n  to {\n    transform: translate3d(-50%, -50%, 0);\n    opacity: 1; } }\n\n@-webkit-keyframes uppy-Dashboard-slideDownAndFadeIn--small {\n  from {\n    transform: translate3d(0, -20%, 0);\n    opacity: 0; }\n  to {\n    transform: translate3d(0, 0, 0);\n    opacity: 1; } }\n\n@keyframes uppy-Dashboard-slideDownAndFadeIn--small {\n  from {\n    transform: translate3d(0, -20%, 0);\n    opacity: 0; }\n  to {\n    transform: translate3d(0, 0, 0);\n    opacity: 1; } }\n\n@-webkit-keyframes uppy-Dashboard-slideUpFadeOut {\n  from {\n    transform: translate3d(-50%, -50%, 0);\n    opacity: 1; }\n  to {\n    transform: translate3d(-50%, -70%, 0);\n    opacity: 0; } }\n\n@keyframes uppy-Dashboard-slideUpFadeOut {\n  from {\n    transform: translate3d(-50%, -50%, 0);\n    opacity: 1; }\n  to {\n    transform: translate3d(-50%, -70%, 0);\n    opacity: 0; } }\n\n@-webkit-keyframes uppy-Dashboard-slideUpFadeOut--small {\n  from {\n    transform: translate3d(0, 0, 0);\n    opacity: 1; }\n  to {\n    transform: translate3d(0, -20%, 0);\n    opacity: 0; } }\n\n@keyframes uppy-Dashboard-slideUpFadeOut--small {\n  from {\n    transform: translate3d(0, 0, 0);\n    opacity: 1; }\n  to {\n    transform: translate3d(0, -20%, 0);\n    opacity: 0; } }\n\n.uppy-Dashboard--modal {\n  z-index: 1001; }\n\n.uppy-Dashboard--modal[aria-hidden=true] {\n  display: none; }\n\n.uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose > .uppy-Dashboard-inner {\n  -webkit-animation: uppy-Dashboard-slideDownAndFadeIn--small 0.3s cubic-bezier(0, 0, 0.2, 1);\n          animation: uppy-Dashboard-slideDownAndFadeIn--small 0.3s cubic-bezier(0, 0, 0.2, 1); }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose > .uppy-Dashboard-inner {\n      -webkit-animation: uppy-Dashboard-slideDownAndFadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);\n              animation: uppy-Dashboard-slideDownAndFadeIn 0.3s cubic-bezier(0, 0, 0.2, 1); } }\n\n.uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose > .uppy-Dashboard-overlay {\n  -webkit-animation: uppy-Dashboard-fadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);\n          animation: uppy-Dashboard-fadeIn 0.3s cubic-bezier(0, 0, 0.2, 1); }\n\n.uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose.uppy-Dashboard--isClosing > .uppy-Dashboard-inner {\n  -webkit-animation: uppy-Dashboard-slideUpFadeOut--small 0.3s cubic-bezier(0, 0, 0.2, 1);\n          animation: uppy-Dashboard-slideUpFadeOut--small 0.3s cubic-bezier(0, 0, 0.2, 1); }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose.uppy-Dashboard--isClosing > .uppy-Dashboard-inner {\n      -webkit-animation: uppy-Dashboard-slideUpFadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);\n              animation: uppy-Dashboard-slideUpFadeOut 0.3s cubic-bezier(0, 0, 0.2, 1); } }\n\n.uppy-Dashboard--modal.uppy-Dashboard--animateOpenClose.uppy-Dashboard--isClosing > .uppy-Dashboard-overlay {\n  -webkit-animation: uppy-Dashboard-fadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);\n          animation: uppy-Dashboard-fadeOut 0.3s cubic-bezier(0, 0, 0.2, 1); }\n\n.uppy-Dashboard-isFixed {\n  overflow: hidden;\n  height: 100vh; }\n\n.uppy-Dashboard--modal .uppy-Dashboard-overlay {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 1001; }\n\n.uppy-Dashboard-inner {\n  position: relative;\n  background-color: #fafafa;\n  max-width: 100%;\n  max-height: 100%;\n  outline: none;\n  border: 1px solid #eaeaea;\n  border-radius: 5px; }\n  .uppy-size--md .uppy-Dashboard-inner {\n    min-height: auto; }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard-inner {\n      width: 750px;\n      height: 550px; } }\n  .uppy-Dashboard--modal .uppy-Dashboard-inner {\n    z-index: 1002; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-inner {\n    background-color: #000; }\n\n.uppy-Dashboard-innerWrap {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  overflow: hidden;\n  position: relative;\n  border-radius: 5px;\n  opacity: 0; }\n\n.uppy-Dashboard--isInnerWrapVisible .uppy-Dashboard-innerWrap {\n  opacity: 1; }\n\n.uppy-Dashboard--modal .uppy-Dashboard-inner {\n  position: fixed;\n  top: 35px;\n  left: 15px;\n  right: 15px;\n  bottom: 15px;\n  border: none; }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard--modal .uppy-Dashboard-inner {\n      top: 50%;\n      left: 50%;\n      transform: translate(-50%, -50%);\n      box-shadow: 0 5px 15px 4px rgba(0, 0, 0, 0.15); } }\n\n.uppy-Dashboard-close {\n  display: block;\n  position: absolute;\n  top: -33px;\n  right: -2px;\n  cursor: pointer;\n  color: rgba(255, 255, 255, 0.9);\n  font-size: 27px;\n  z-index: 1005; }\n  .uppy-Dashboard-close:focus {\n    outline: none; }\n  .uppy-Dashboard-close::-moz-focus-inner {\n    border: 0; }\n  .uppy-Dashboard-close:focus {\n    color: #8cb8ed; }\n  @media only screen and (min-width: 820px) {\n    .uppy-Dashboard-close {\n      font-size: 35px;\n      top: -10px;\n      right: -35px; } }\n\n.uppy-Dashboard-AddFiles {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  height: 100%;\n  position: relative;\n  text-align: center; }\n  [data-uppy-drag-drop-supported=\"true\"] .uppy-Dashboard-AddFiles {\n    margin: 7px;\n    height: calc(100% - 14px);\n    border-radius: 3px;\n    border: 1px dashed #dfdfdf; }\n  .uppy-Dashboard-AddFilesPanel .uppy-Dashboard-AddFiles {\n    border: none;\n    height: calc(100% - 14px - 40px); }\n  .uppy-Dashboard--modal .uppy-Dashboard-AddFiles {\n    border-color: #cfcfcf; }\n\n.uppy-Dashboard-AddFiles-info {\n  padding-top: 15px;\n  padding-bottom: 15px;\n  margin-top: auto;\n  display: none; }\n  .uppy-size--height-md .uppy-Dashboard-AddFiles-info {\n    display: block; }\n  .uppy-size--md .uppy-Dashboard-AddFiles-info {\n    position: absolute;\n    bottom: 25px;\n    left: 0;\n    right: 0;\n    padding-top: 30px;\n    padding-bottom: 0; }\n  [data-uppy-num-acquirers=\"0\"] .uppy-Dashboard-AddFiles-info {\n    margin-top: 0; }\n\n.uppy-Dashboard-browse {\n  cursor: pointer;\n  color: rgba(34, 117, 215, 0.9); }\n  .uppy-Dashboard-browse:focus {\n    outline: none; }\n  .uppy-Dashboard-browse::-moz-focus-inner {\n    border: 0; }\n  .uppy-Dashboard-browse:hover, .uppy-Dashboard-browse:focus {\n    border-bottom: 1px solid #2275d7; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-browse {\n    color: rgba(13, 180, 206, 0.9); }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-browse:hover,\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-browse:focus {\n    border-bottom: 1px solid #0DB4CE; }\n\n.uppy-Dashboard-browseBtn {\n  display: block;\n  font-size: 14px;\n  font-weight: 500;\n  margin-top: 8px;\n  margin-bottom: 5px;\n  width: 100%; }\n  .uppy-size--md .uppy-Dashboard-browseBtn {\n    font-size: 15px;\n    width: auto;\n    margin: auto;\n    margin-top: 15px;\n    margin-bottom: 15px;\n    padding: 13px 44px; }\n\n.uppy-Dashboard-AddFiles-list {\n  display: flex;\n  flex-direction: column;\n  flex: 1;\n  overflow-y: auto;\n  -webkit-overflow-scrolling: touch;\n  margin-top: 2px;\n  padding: 2px 0;\n  width: 100%; }\n  .uppy-size--md .uppy-Dashboard-AddFiles-list {\n    flex-direction: row;\n    flex-wrap: wrap;\n    justify-content: center;\n    max-width: 600px;\n    overflow-y: visible;\n    margin-top: 15px;\n    padding-top: 0;\n    flex: none; }\n\n.uppy-DashboardTab {\n  width: 100%;\n  text-align: center;\n  border-bottom: 1px solid #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardTab {\n    border-bottom: 1px solid #333; }\n  .uppy-size--md .uppy-DashboardTab {\n    display: inline-block;\n    width: initial;\n    margin-bottom: 10px;\n    border-bottom: none; }\n\n.uppy-DashboardTab-btn {\n  width: 100%;\n  height: 100%;\n  cursor: pointer;\n  border: 0;\n  background-color: transparent;\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  color: #525252;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  padding: 12px 15px;\n  line-height: 1;\n  text-align: center; }\n  .uppy-DashboardTab-btn:focus {\n    outline: none; }\n  .uppy-DashboardTab-btn::-moz-focus-inner {\n    border: 0; }\n  .uppy-size--md .uppy-DashboardTab-btn {\n    width: 86px;\n    margin-right: 1px;\n    flex-direction: column;\n    padding: 10px 3px;\n    border-radius: 5px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardTab-btn {\n    color: #fff; }\n\n.uppy-DashboardTab-btn::-moz-focus-inner {\n  border: 0; }\n\n.uppy-DashboardTab-btn:hover {\n  background-color: #f1f3f6; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardTab-btn:hover {\n    background-color: #525252; }\n\n.uppy-DashboardTab-btn:active,\n.uppy-DashboardTab-btn:focus {\n  background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardTab-btn:active, [data-uppy-theme=\"dark\"]\n  .uppy-DashboardTab-btn:focus {\n    background-color: #333; }\n\n.uppy-DashboardTab-btn svg {\n  max-width: 100%;\n  max-height: 100%;\n  display: inline-block;\n  vertical-align: text-top;\n  overflow: hidden;\n  transition: transform ease-in-out .15s;\n  margin-right: 10px; }\n  .uppy-size--md .uppy-DashboardTab-btn svg {\n    margin-right: 0; }\n\n.uppy-DashboardTab-name {\n  font-size: 14px;\n  font-weight: 500; }\n  .uppy-size--md .uppy-DashboardTab-name {\n    font-size: 11px;\n    line-height: 15px;\n    margin-top: 8px;\n    margin-bottom: 0; }\n\n.uppy-DashboardTab svg {\n  width: 23px;\n  height: 23px;\n  vertical-align: middle; }\n  .uppy-size--md .uppy-DashboardTab svg {\n    width: 30px;\n    height: 30px; }\n\n.uppy-Dashboard-input {\n  width: 0.1px;\n  height: 0.1px;\n  opacity: 0;\n  overflow: hidden;\n  position: absolute;\n  z-index: -1; }\n\n.uppy-DashboardContent-bar {\n  flex-shrink: 0;\n  height: 40px;\n  width: 100%;\n  padding: 0 10px;\n  z-index: 1004;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  position: relative;\n  border-bottom: 1px solid #eaeaea;\n  background-color: #fafafa; }\n  .uppy-size--md .uppy-DashboardContent-bar {\n    height: 50px;\n    padding: 0 15px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-bar {\n    background-color: #1f1f1f;\n    border-bottom: 1px solid #333; }\n\n.uppy-DashboardContent-title {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  text-align: center;\n  font-size: 12px;\n  line-height: 40px;\n  font-weight: 500;\n  width: 100%;\n  max-width: 170px;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow-x: hidden;\n  margin: auto; }\n  .uppy-size--md .uppy-DashboardContent-title {\n    font-size: 14px;\n    line-height: 50px;\n    max-width: 300px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-title {\n    color: #eaeaea; }\n\n.uppy-DashboardContent-back {\n  background: none;\n  -webkit-appearance: none;\n  font-family: inherit;\n  font-size: inherit;\n  line-height: 1;\n  padding: 0;\n  margin: 0;\n  border: 0;\n  color: inherit;\n  border-radius: 3px;\n  font-size: 12px;\n  font-weight: 400;\n  cursor: pointer;\n  color: #2275d7;\n  padding: 7px 6px;\n  margin-left: -6px; }\n  .uppy-DashboardContent-back:focus {\n    outline: none; }\n  .uppy-DashboardContent-back::-moz-focus-inner {\n    border: 0; }\n  .uppy-DashboardContent-back:hover {\n    color: #1b5dab; }\n  .uppy-DashboardContent-back:focus {\n    background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-back:focus {\n    background-color: #333; }\n  .uppy-size--md .uppy-DashboardContent-back {\n    font-size: 14px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-back {\n    color: #0DB4CE; }\n\n.uppy-DashboardContent-addMore {\n  background: none;\n  -webkit-appearance: none;\n  font-family: inherit;\n  font-size: inherit;\n  line-height: 1;\n  padding: 0;\n  margin: 0;\n  border: 0;\n  color: inherit;\n  border-radius: 3px;\n  font-weight: 500;\n  cursor: pointer;\n  color: #2275d7;\n  width: 29px;\n  height: 29px;\n  padding: 7px 8px;\n  margin-right: -5px; }\n  .uppy-DashboardContent-addMore:focus {\n    outline: none; }\n  .uppy-DashboardContent-addMore::-moz-focus-inner {\n    border: 0; }\n  .uppy-DashboardContent-addMore:hover {\n    color: #1b5dab; }\n  .uppy-DashboardContent-addMore:focus {\n    background-color: #eceef2; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-addMore:focus {\n    background-color: #333; }\n  .uppy-size--md .uppy-DashboardContent-addMore {\n    font-size: 14px;\n    width: auto;\n    height: auto;\n    margin-right: -8px; }\n  [data-uppy-theme=\"dark\"] .uppy-DashboardContent-addMore {\n    color: #0DB4CE; }\n\n.uppy-DashboardContent-addMore svg {\n  vertical-align: baseline;\n  margin-right: 4px; }\n  .uppy-size--md .uppy-DashboardContent-addMore svg {\n    width: 11px;\n    height: 11px; }\n\n.uppy-DashboardContent-addMoreCaption {\n  display: none; }\n  .uppy-size--md .uppy-DashboardContent-addMoreCaption {\n    display: inline; }\n\n.uppy-DashboardContent-panel {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: whitesmoke;\n  overflow: hidden;\n  z-index: 1005;\n  border-radius: 5px;\n  display: flex;\n  flex-direction: column;\n  flex: 1; }\n\n.uppy-Dashboard-AddFilesPanel {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background: #fafafa;\n  background: linear-gradient(0deg, #fafafa 35%, rgba(250, 250, 250, 0.85) 100%);\n  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.15);\n  overflow: hidden;\n  z-index: 1005;\n  border-radius: 5px;\n  display: flex;\n  flex-direction: column; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-AddFilesPanel {\n    background-color: #333;\n    background: linear-gradient(0deg, #1f1f1f 35%, rgba(31, 31, 31, 0.85) 100%); }\n\n.uppy-Dashboard--isAddFilesPanelVisible .uppy-Dashboard-files {\n  -webkit-filter: blur(2px);\n          filter: blur(2px); }\n\n.uppy-Dashboard-progress {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  height: 12%; }\n\n.uppy-Dashboard-progressBarContainer.is-active {\n  z-index: 1004;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%; }\n\n.uppy-Dashboard-filesContainer {\n  position: relative;\n  overflow-y: hidden;\n  margin: 0;\n  flex: 1; }\n  .uppy-Dashboard-filesContainer:after {\n    content: '';\n    display: table;\n    clear: both; }\n\n.uppy-Dashboard-files {\n  margin: 0;\n  padding: 0 0 10px 0;\n  overflow-y: auto;\n  -webkit-overflow-scrolling: touch;\n  flex: 1; }\n  .uppy-size--md .uppy-Dashboard-files {\n    padding-top: 10px; }\n\n.uppy-Dashboard-dropFilesHereHint {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  visibility: hidden;\n  position: absolute;\n  top: 7px;\n  right: 7px;\n  bottom: 7px;\n  left: 7px;\n  padding-top: 90px;\n  border: 1px dashed #2275d7;\n  border-radius: 3px;\n  z-index: 2000;\n  text-align: center;\n  background-image: url(\"data:image/svg+xml,%3Csvg width='48' height='48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M24 1v1C11.85 2 2 11.85 2 24s9.85 22 22 22 22-9.85 22-22S36.15 2 24 2V1zm0 0V0c13.254 0 24 10.746 24 24S37.254 48 24 48 0 37.254 0 24 10.746 0 24 0v1zm7.707 19.293a.999.999 0 1 1-1.414 1.414L25 16.414V34a1 1 0 1 1-2 0V16.414l-5.293 5.293a.999.999 0 1 1-1.414-1.414l7-7a.999.999 0 0 1 1.414 0l7 7z' fill='%232275D7' fill-rule='nonzero'/%3E%3C/svg%3E\");\n  background-position: 50% 50%;\n  background-repeat: no-repeat;\n  color: #707070;\n  font-size: 16px; }\n\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-Dashboard-dropFilesHereHint {\n  visibility: visible; }\n\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-DashboardContent-bar,\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-Dashboard-files,\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-Dashboard-progressindicators {\n  opacity: 0.15; }\n\n.uppy-Dashboard.uppy-Dashboard--isDraggingOver .uppy-Dashboard-AddFiles {\n  opacity: 0.03; }\n\n.uppy-Dashboard-dropFilesIcon {\n  display: none;\n  margin-bottom: 15px; }\n  .uppy-size--md.uppy-size--height-md .uppy-Dashboard-dropFilesIcon {\n    display: block; }\n\n.uppy-Dashboard-AddFiles-title {\n  font-size: 17px;\n  line-height: 1.35;\n  font-weight: 500;\n  color: #000;\n  margin-top: 15px;\n  margin-bottom: 5px;\n  text-align: left;\n  padding: 0 15px;\n  width: 100%; }\n  .uppy-size--md .uppy-Dashboard-AddFiles-title {\n    font-size: 25px;\n    margin-top: 5px;\n    font-weight: 400;\n    text-align: center;\n    max-width: 480px; }\n  [data-uppy-num-acquirers=\"0\"] .uppy-Dashboard-AddFiles-title {\n    text-align: center; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-AddFiles-title {\n    color: #eaeaea; }\n  .uppy-Dashboard-AddFiles-title button {\n    font-weight: 500; }\n  .uppy-size--md .uppy-Dashboard-AddFiles-title button {\n    font-weight: 400; }\n\n.uppy-Dashboard-note {\n  font-size: 14px;\n  line-height: 1.25;\n  text-align: center;\n  color: #757575;\n  max-width: 350px;\n  margin: auto;\n  padding: 0 15px; }\n  .uppy-size--md .uppy-Dashboard-note {\n    font-size: 15px;\n    line-height: 1.35;\n    max-width: 600px; }\n  [data-uppy-theme=\"dark\"] .uppy-Dashboard-note {\n    color: #cfcfcf; }\n\na.uppy-Dashboard-poweredBy {\n  display: inline-block;\n  text-align: center;\n  font-size: 11px;\n  color: #939393;\n  text-decoration: none;\n  margin-top: 8px; }\n\n.uppy-Dashboard-poweredByIcon {\n  stroke: #939393;\n  fill: none;\n  margin-left: 1px;\n  margin-right: 1px;\n  position: relative;\n  top: 1px;\n  opacity: 0.9;\n  vertical-align: text-top; }\n\n.uppy-DashboardItem-previewIcon {\n  width: 25px;\n  height: 25px;\n  z-index: 100;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%); }\n  .uppy-size--md .uppy-DashboardItem-previewIcon {\n    width: 38px;\n    height: 38px; }\n  .uppy-DashboardItem-previewIcon svg {\n    width: 100%;\n    height: 100%; }\n\n.uppy-DashboardItem-previewIconWrap {\n  height: 76px;\n  max-height: 75%;\n  position: relative; }\n\n.uppy-DashboardItem-previewIconBg {\n  width: 100%;\n  height: 100%;\n  -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.1) 0px 1px 1px);\n          filter: drop-shadow(rgba(0, 0, 0, 0.1) 0px 1px 1px); }\n\n.uppy-Dashboard-upload {\n  position: relative;\n  width: 50px;\n  height: 50px; }\n  .uppy-size--md .uppy-Dashboard-upload {\n    width: 60px;\n    height: 60px; }\n\n.uppy-Dashboard-upload .UppyIcon {\n  position: relative;\n  top: 1px;\n  width: 50%; }\n\n.uppy-Dashboard-uploadCount {\n  position: absolute;\n  top: -12px;\n  right: -12px;\n  background-color: #1bb240;\n  color: #fff;\n  border-radius: 50%;\n  width: 16px;\n  height: 16px;\n  line-height: 16px;\n  font-size: 8px; }\n  .uppy-size--md .uppy-Dashboard-uploadCount {\n    width: 18px;\n    height: 18px;\n    line-height: 18px;\n    font-size: 9px; }\n", ""]);
 
 // exports
 
@@ -18048,7 +17937,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.image-container[data-v-2325ab5d] {\n  height: 150px;\n  width: 150px;\n  border-radius: 50%;\n  overflow: hidden;\n  margin-right: auto;\n  margin-left: auto;\n}\n.image-container > img[data-v-2325ab5d] {\n  width: inherit;\n  height: inherit;\n}\n", ""]);
+exports.push([module.i, "\n.image-container[data-v-2325ab5d] {\n    height: 150px;\n    width: 150px;\n    border-radius: 50%;\n    overflow: hidden;\n    margin-right: auto;\n    margin-left: auto;\n}\n.image-container > img[data-v-2325ab5d] {\n    width: inherit;\n    height: inherit;\n}\n", ""]);
 
 // exports
 
@@ -18317,195 +18206,132 @@ module.exports = function pad (num, size) {
 
 /***/ }),
 
-/***/ "./node_modules/get-form-data/es/index.js":
-/*!************************************************!*\
-  !*** ./node_modules/get-form-data/es/index.js ***!
-  \************************************************/
-/*! exports provided: default, getFieldData */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "./node_modules/extend/index.js":
+/*!**************************************!*\
+  !*** ./node_modules/extend/index.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return getFormData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFieldData", function() { return getFieldData; });
-var NODE_LIST_CLASSES = {
-  '[object HTMLCollection]': true,
-  '[object NodeList]': true,
-  '[object RadioNodeList]': true
 
-  // .type values for elements which can appear in .elements and should be ignored
-};var IGNORED_ELEMENT_TYPES = {
-  'button': true,
-  'fieldset': true,
-  'reset': true,
-  'submit': true
+
+var hasOwn = Object.prototype.hasOwnProperty;
+var toStr = Object.prototype.toString;
+var defineProperty = Object.defineProperty;
+var gOPD = Object.getOwnPropertyDescriptor;
+
+var isArray = function isArray(arr) {
+	if (typeof Array.isArray === 'function') {
+		return Array.isArray(arr);
+	}
+
+	return toStr.call(arr) === '[object Array]';
 };
 
-var CHECKED_INPUT_TYPES = {
-  'checkbox': true,
-  'radio': true
+var isPlainObject = function isPlainObject(obj) {
+	if (!obj || toStr.call(obj) !== '[object Object]') {
+		return false;
+	}
+
+	var hasOwnConstructor = hasOwn.call(obj, 'constructor');
+	var hasIsPrototypeOf = obj.constructor && obj.constructor.prototype && hasOwn.call(obj.constructor.prototype, 'isPrototypeOf');
+	// Not own constructor property must be Object
+	if (obj.constructor && !hasOwnConstructor && !hasIsPrototypeOf) {
+		return false;
+	}
+
+	// Own properties are enumerated firstly, so to speed up,
+	// if last one is own, then all properties are own.
+	var key;
+	for (key in obj) { /**/ }
+
+	return typeof key === 'undefined' || hasOwn.call(obj, key);
 };
 
-var TRIM_RE = /^\s+|\s+$/g;
+// If name is '__proto__', and Object.defineProperty is available, define __proto__ as an own property on target
+var setProperty = function setProperty(target, options) {
+	if (defineProperty && options.name === '__proto__') {
+		defineProperty(target, options.name, {
+			enumerable: true,
+			configurable: true,
+			value: options.newValue,
+			writable: true
+		});
+	} else {
+		target[options.name] = options.newValue;
+	}
+};
 
-var slice = Array.prototype.slice;
-var toString = Object.prototype.toString;
+// Return undefined instead of __proto__ if '__proto__' is not an own property
+var getProperty = function getProperty(obj, name) {
+	if (name === '__proto__') {
+		if (!hasOwn.call(obj, name)) {
+			return void 0;
+		} else if (gOPD) {
+			// In early versions of node, obj['__proto__'] is buggy when obj has
+			// __proto__ as an own property. Object.getOwnPropertyDescriptor() works.
+			return gOPD(obj, name).value;
+		}
+	}
 
-/**
- * @param {HTMLFormElement} form
- * @param {Object} options
- * @return {Object.<string,(string|Array.<string>)>} an object containing
- *   submittable value(s) held in the form's .elements collection, with
- *   properties named as per element names or ids.
- */
+	return obj[name];
+};
 
-function getFormData(form) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { trim: false };
+module.exports = function extend() {
+	var options, name, src, copy, copyIsArray, clone;
+	var target = arguments[0];
+	var i = 1;
+	var length = arguments.length;
+	var deep = false;
 
-  if (!form) {
-    throw new Error('A form is required by getFormData, was given form=' + form);
-  }
+	// Handle a deep copy situation
+	if (typeof target === 'boolean') {
+		deep = target;
+		target = arguments[1] || {};
+		// skip the boolean and the target
+		i = 2;
+	}
+	if (target == null || (typeof target !== 'object' && typeof target !== 'function')) {
+		target = {};
+	}
 
-  var data = {};
-  var elementName = void 0;
-  var elementNames = [];
-  var elementNameLookup = {};
+	for (; i < length; ++i) {
+		options = arguments[i];
+		// Only deal with non-null/undefined values
+		if (options != null) {
+			// Extend the base object
+			for (name in options) {
+				src = getProperty(target, name);
+				copy = getProperty(options, name);
 
-  // Get unique submittable element names for the form
-  for (var i = 0, l = form.elements.length; i < l; i++) {
-    var element = form.elements[i];
-    if (IGNORED_ELEMENT_TYPES[element.type] || element.disabled) {
-      continue;
-    }
-    elementName = element.name || element.id;
-    if (elementName && !elementNameLookup[elementName]) {
-      elementNames.push(elementName);
-      elementNameLookup[elementName] = true;
-    }
-  }
+				// Prevent never-ending loop
+				if (target !== copy) {
+					// Recurse if we're merging plain objects or arrays
+					if (deep && copy && (isPlainObject(copy) || (copyIsArray = isArray(copy)))) {
+						if (copyIsArray) {
+							copyIsArray = false;
+							clone = src && isArray(src) ? src : [];
+						} else {
+							clone = src && isPlainObject(src) ? src : {};
+						}
 
-  // Extract element data name-by-name for consistent handling of special cases
-  // around elements which contain multiple inputs.
-  for (var _i = 0, _l = elementNames.length; _i < _l; _i++) {
-    elementName = elementNames[_i];
-    var value = getFieldData(form, elementName, options);
-    if (value != null) {
-      data[elementName] = value;
-    }
-  }
+						// Never move original objects, clone them
+						setProperty(target, { name: name, newValue: extend(deep, clone, copy) });
 
-  return data;
-}
+					// Don't bring in undefined values
+					} else if (typeof copy !== 'undefined') {
+						setProperty(target, { name: name, newValue: copy });
+					}
+				}
+			}
+		}
+	}
 
-/**
- * @param {HTMLFormElement} form
- * @param {string} fieldName
- * @param {Object} options
- * @return {(string|Array.<string>)} submittable value(s) in the form for a
- *   named element from its .elements collection, or null if there was no
- *   element with that name or the element had no submittable value(s).
- */
-function getFieldData(form, fieldName) {
-  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { trim: false };
+	// Return the modified object
+	return target;
+};
 
-  if (!form) {
-    throw new Error('A form is required by getFieldData, was given form=' + form);
-  }
-  if (!fieldName && toString.call(fieldName) !== '[object String]') {
-    throw new Error('A field name is required by getFieldData, was given fieldName=' + fieldName);
-  }
-
-  var element = form.elements[fieldName];
-  if (!element || element.disabled) {
-    return null;
-  }
-
-  if (!NODE_LIST_CLASSES[toString.call(element)]) {
-    return getFormElementValue(element, options.trim);
-  }
-
-  // Deal with multiple form controls which have the same name
-  var data = [];
-  var allRadios = true;
-  for (var i = 0, l = element.length; i < l; i++) {
-    if (element[i].disabled) {
-      continue;
-    }
-    if (allRadios && element[i].type !== 'radio') {
-      allRadios = false;
-    }
-    var value = getFormElementValue(element[i], options.trim);
-    if (value != null) {
-      data = data.concat(value);
-    }
-  }
-
-  // Special case for an element with multiple same-named inputs which were all
-  // radio buttons: if there was a selected value, only return the value.
-  if (allRadios && data.length === 1) {
-    return data[0];
-  }
-
-  return data.length > 0 ? data : null;
-}
-
-/**
- * @param {HTMLElement} element a form element.
- * @param {booleam} trim should values for text entry inputs be trimmed?
- * @return {(string|Array.<string>|File|Array.<File>)} the element's submittable
- *   value(s), or null if it had none.
- */
-function getFormElementValue(element, trim) {
-  var value = null;
-  var type = element.type;
-
-
-  if (type === 'select-one') {
-    if (element.options.length) {
-      value = element.options[element.selectedIndex].value;
-    }
-    return value;
-  }
-
-  if (type === 'select-multiple') {
-    value = [];
-    for (var i = 0, l = element.options.length; i < l; i++) {
-      if (element.options[i].selected) {
-        value.push(element.options[i].value);
-      }
-    }
-    if (value.length === 0) {
-      value = null;
-    }
-    return value;
-  }
-
-  // If a file input doesn't have a files attribute, fall through to using its
-  // value attribute.
-  if (type === 'file' && 'files' in element) {
-    if (element.multiple) {
-      value = slice.call(element.files);
-      if (value.length === 0) {
-        value = null;
-      }
-    } else {
-      // Should be null if not present, according to the spec
-      value = element.files[0];
-    }
-    return value;
-  }
-
-  if (!CHECKED_INPUT_TYPES[type]) {
-    value = trim ? element.value.replace(TRIM_RE, '') : element.value;
-  } else if (element.checked) {
-    value = element.value;
-  }
-
-  return value;
-}
-
-// For UMD build access to getFieldData
-getFormData.getFieldData = getFieldData;
 
 /***/ }),
 
@@ -29518,6 +29344,243 @@ if ( typeof noGlobal === "undefined" ) {
 return jQuery;
 } );
 
+
+/***/ }),
+
+/***/ "./node_modules/js-base64/base64.js":
+/*!******************************************!*\
+  !*** ./node_modules/js-base64/base64.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
+ *  base64.js
+ *
+ *  Licensed under the BSD 3-Clause License.
+ *    http://opensource.org/licenses/BSD-3-Clause
+ *
+ *  References:
+ *    http://en.wikipedia.org/wiki/Base64
+ */
+;(function (global, factory) {
+     true
+        ? module.exports = factory(global)
+        : undefined
+}((
+    typeof self !== 'undefined' ? self
+        : typeof window !== 'undefined' ? window
+        : typeof global !== 'undefined' ? global
+: this
+), function(global) {
+    'use strict';
+    // existing version for noConflict()
+    global = global || {};
+    var _Base64 = global.Base64;
+    var version = "2.5.2";
+    // if node.js and NOT React Native, we use Buffer
+    var buffer;
+    if ( true && module.exports) {
+        try {
+            buffer = eval("require('buffer').Buffer");
+        } catch (err) {
+            buffer = undefined;
+        }
+    }
+    // constants
+    var b64chars
+        = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    var b64tab = function(bin) {
+        var t = {};
+        for (var i = 0, l = bin.length; i < l; i++) t[bin.charAt(i)] = i;
+        return t;
+    }(b64chars);
+    var fromCharCode = String.fromCharCode;
+    // encoder stuff
+    var cb_utob = function(c) {
+        if (c.length < 2) {
+            var cc = c.charCodeAt(0);
+            return cc < 0x80 ? c
+                : cc < 0x800 ? (fromCharCode(0xc0 | (cc >>> 6))
+                                + fromCharCode(0x80 | (cc & 0x3f)))
+                : (fromCharCode(0xe0 | ((cc >>> 12) & 0x0f))
+                    + fromCharCode(0x80 | ((cc >>>  6) & 0x3f))
+                    + fromCharCode(0x80 | ( cc         & 0x3f)));
+        } else {
+            var cc = 0x10000
+                + (c.charCodeAt(0) - 0xD800) * 0x400
+                + (c.charCodeAt(1) - 0xDC00);
+            return (fromCharCode(0xf0 | ((cc >>> 18) & 0x07))
+                    + fromCharCode(0x80 | ((cc >>> 12) & 0x3f))
+                    + fromCharCode(0x80 | ((cc >>>  6) & 0x3f))
+                    + fromCharCode(0x80 | ( cc         & 0x3f)));
+        }
+    };
+    var re_utob = /[\uD800-\uDBFF][\uDC00-\uDFFFF]|[^\x00-\x7F]/g;
+    var utob = function(u) {
+        return u.replace(re_utob, cb_utob);
+    };
+    var cb_encode = function(ccc) {
+        var padlen = [0, 2, 1][ccc.length % 3],
+        ord = ccc.charCodeAt(0) << 16
+            | ((ccc.length > 1 ? ccc.charCodeAt(1) : 0) << 8)
+            | ((ccc.length > 2 ? ccc.charCodeAt(2) : 0)),
+        chars = [
+            b64chars.charAt( ord >>> 18),
+            b64chars.charAt((ord >>> 12) & 63),
+            padlen >= 2 ? '=' : b64chars.charAt((ord >>> 6) & 63),
+            padlen >= 1 ? '=' : b64chars.charAt(ord & 63)
+        ];
+        return chars.join('');
+    };
+    var btoa = global.btoa ? function(b) {
+        return global.btoa(b);
+    } : function(b) {
+        return b.replace(/[\s\S]{1,3}/g, cb_encode);
+    };
+    var _encode = function(u) {
+        var isUint8Array = Object.prototype.toString.call(u) === '[object Uint8Array]';
+        return isUint8Array ? u.toString('base64')
+            : btoa(utob(String(u)));
+    }
+    var encode = function(u, urisafe) {
+        return !urisafe
+            ? _encode(u)
+            : _encode(String(u)).replace(/[+\/]/g, function(m0) {
+                return m0 == '+' ? '-' : '_';
+            }).replace(/=/g, '');
+    };
+    var encodeURI = function(u) { return encode(u, true) };
+    // decoder stuff
+    var re_btou = /[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3}/g;
+    var cb_btou = function(cccc) {
+        switch(cccc.length) {
+        case 4:
+            var cp = ((0x07 & cccc.charCodeAt(0)) << 18)
+                |    ((0x3f & cccc.charCodeAt(1)) << 12)
+                |    ((0x3f & cccc.charCodeAt(2)) <<  6)
+                |     (0x3f & cccc.charCodeAt(3)),
+            offset = cp - 0x10000;
+            return (fromCharCode((offset  >>> 10) + 0xD800)
+                    + fromCharCode((offset & 0x3FF) + 0xDC00));
+        case 3:
+            return fromCharCode(
+                ((0x0f & cccc.charCodeAt(0)) << 12)
+                    | ((0x3f & cccc.charCodeAt(1)) << 6)
+                    |  (0x3f & cccc.charCodeAt(2))
+            );
+        default:
+            return  fromCharCode(
+                ((0x1f & cccc.charCodeAt(0)) << 6)
+                    |  (0x3f & cccc.charCodeAt(1))
+            );
+        }
+    };
+    var btou = function(b) {
+        return b.replace(re_btou, cb_btou);
+    };
+    var cb_decode = function(cccc) {
+        var len = cccc.length,
+        padlen = len % 4,
+        n = (len > 0 ? b64tab[cccc.charAt(0)] << 18 : 0)
+            | (len > 1 ? b64tab[cccc.charAt(1)] << 12 : 0)
+            | (len > 2 ? b64tab[cccc.charAt(2)] <<  6 : 0)
+            | (len > 3 ? b64tab[cccc.charAt(3)]       : 0),
+        chars = [
+            fromCharCode( n >>> 16),
+            fromCharCode((n >>>  8) & 0xff),
+            fromCharCode( n         & 0xff)
+        ];
+        chars.length -= [0, 0, 2, 1][padlen];
+        return chars.join('');
+    };
+    var _atob = global.atob ? function(a) {
+        return global.atob(a);
+    } : function(a){
+        return a.replace(/\S{1,4}/g, cb_decode);
+    };
+    var atob = function(a) {
+        return _atob(String(a).replace(/[^A-Za-z0-9\+\/]/g, ''));
+    };
+    var _decode = buffer ?
+        buffer.from && Uint8Array && buffer.from !== Uint8Array.from
+        ? function(a) {
+            return (a.constructor === buffer.constructor
+                    ? a : buffer.from(a, 'base64')).toString();
+        }
+        : function(a) {
+            return (a.constructor === buffer.constructor
+                    ? a : new buffer(a, 'base64')).toString();
+        }
+        : function(a) { return btou(_atob(a)) };
+    var decode = function(a){
+        return _decode(
+            String(a).replace(/[-_]/g, function(m0) { return m0 == '-' ? '+' : '/' })
+                .replace(/[^A-Za-z0-9\+\/]/g, '')
+        );
+    };
+    var noConflict = function() {
+        var Base64 = global.Base64;
+        global.Base64 = _Base64;
+        return Base64;
+    };
+    // export Base64
+    global.Base64 = {
+        VERSION: version,
+        atob: atob,
+        btoa: btoa,
+        fromBase64: decode,
+        toBase64: encode,
+        utob: utob,
+        encode: encode,
+        encodeURI: encodeURI,
+        btou: btou,
+        decode: decode,
+        noConflict: noConflict,
+        __buffer__: buffer
+    };
+    // if ES5 is available, make Base64.extendString() available
+    if (typeof Object.defineProperty === 'function') {
+        var noEnum = function(v){
+            return {value:v,enumerable:false,writable:true,configurable:true};
+        };
+        global.Base64.extendString = function () {
+            Object.defineProperty(
+                String.prototype, 'fromBase64', noEnum(function () {
+                    return decode(this)
+                }));
+            Object.defineProperty(
+                String.prototype, 'toBase64', noEnum(function (urisafe) {
+                    return encode(this, urisafe)
+                }));
+            Object.defineProperty(
+                String.prototype, 'toBase64URI', noEnum(function () {
+                    return encode(this, true)
+                }));
+        };
+    }
+    //
+    // export Base64 to the namespace
+    //
+    if (global['Meteor']) { // Meteor.js
+        Base64 = global.Base64;
+    }
+    // module.exports and AMD are mutually exclusive.
+    // module.exports has precedence.
+    if ( true && module.exports) {
+        module.exports.Base64 = global.Base64;
+    }
+    else if (true) {
+        // AMD. Register as an anonymous module.
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function(){ return global.Base64 }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    }
+    // that's it!
+    return {Base64: global.Base64}
+}));
+
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -52126,6 +52189,926 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/querystringify/index.js":
+/*!**********************************************!*\
+  !*** ./node_modules/querystringify/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty
+  , undef;
+
+/**
+ * Decode a URI encoded string.
+ *
+ * @param {String} input The URI encoded string.
+ * @returns {String|Null} The decoded string.
+ * @api private
+ */
+function decode(input) {
+  try {
+    return decodeURIComponent(input.replace(/\+/g, ' '));
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Attempts to encode a given input.
+ *
+ * @param {String} input The string that needs to be encoded.
+ * @returns {String|Null} The encoded string.
+ * @api private
+ */
+function encode(input) {
+  try {
+    return encodeURIComponent(input);
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Simple query string parser.
+ *
+ * @param {String} query The query string that needs to be parsed.
+ * @returns {Object}
+ * @api public
+ */
+function querystring(query) {
+  var parser = /([^=?&]+)=?([^&]*)/g
+    , result = {}
+    , part;
+
+  while (part = parser.exec(query)) {
+    var key = decode(part[1])
+      , value = decode(part[2]);
+
+    //
+    // Prevent overriding of existing properties. This ensures that build-in
+    // methods like `toString` or __proto__ are not overriden by malicious
+    // querystrings.
+    //
+    // In the case if failed decoding, we want to omit the key/value pairs
+    // from the result.
+    //
+    if (key === null || value === null || key in result) continue;
+    result[key] = value;
+  }
+
+  return result;
+}
+
+/**
+ * Transform a query string to an object.
+ *
+ * @param {Object} obj Object that should be transformed.
+ * @param {String} prefix Optional prefix.
+ * @returns {String}
+ * @api public
+ */
+function querystringify(obj, prefix) {
+  prefix = prefix || '';
+
+  var pairs = []
+    , value
+    , key;
+
+  //
+  // Optionally prefix with a '?' if needed
+  //
+  if ('string' !== typeof prefix) prefix = '?';
+
+  for (key in obj) {
+    if (has.call(obj, key)) {
+      value = obj[key];
+
+      //
+      // Edge cases where we actually want to encode the value to an empty
+      // string instead of the stringified value.
+      //
+      if (!value && (value === null || value === undef || isNaN(value))) {
+        value = '';
+      }
+
+      key = encodeURIComponent(key);
+      value = encodeURIComponent(value);
+
+      //
+      // If we failed to encode the strings, we should bail out as we don't
+      // want to add invalid strings to the query.
+      //
+      if (key === null || value === null) continue;
+      pairs.push(key +'='+ value);
+    }
+  }
+
+  return pairs.length ? prefix + pairs.join('&') : '';
+}
+
+//
+// Expose the module.
+//
+exports.stringify = querystringify;
+exports.parse = querystring;
+
+
+/***/ }),
+
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/requires-port/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/requires-port/index.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Check if we're required to add a port number.
+ *
+ * @see https://url.spec.whatwg.org/#default-port
+ * @param {Number|String} port Port number we need to check
+ * @param {String} protocol Protocol we need to check against.
+ * @returns {Boolean} Is it a default port for the given protocol
+ * @api private
+ */
+module.exports = function required(port, protocol) {
+  protocol = protocol.split(':')[0];
+  port = +port;
+
+  if (!port) return false;
+
+  switch (protocol) {
+    case 'http':
+    case 'ws':
+    return port !== 80;
+
+    case 'https':
+    case 'wss':
+    return port !== 443;
+
+    case 'ftp':
+    return port !== 21;
+
+    case 'gopher':
+    return port !== 70;
+
+    case 'file':
+    return false;
+  }
+
+  return port !== 0;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js":
 /*!*************************************************************************!*\
   !*** ./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js ***!
@@ -53880,6 +54863,1828 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/tus-js-client/lib.es5/browser/fingerprint.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/browser/fingerprint.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = fingerprint;
+
+var _isReactNative = __webpack_require__(/*! ./isReactNative */ "./node_modules/tus-js-client/lib.es5/browser/isReactNative.js");
+
+var _isReactNative2 = _interopRequireDefault(_isReactNative);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Generate a fingerprint for a file which will be used the store the endpoint
+ *
+ * @param {File} file
+ * @param {Object} options
+ * @param {Function} callback
+ */
+function fingerprint(file, options, callback) {
+  if ((0, _isReactNative2.default)()) {
+    return callback(null, reactNativeFingerprint(file, options));
+  }
+
+  return callback(null, ["tus-br", file.name, file.type, file.size, file.lastModified, options.endpoint].join("-"));
+}
+
+function reactNativeFingerprint(file, options) {
+  var exifHash = file.exif ? hashCode(JSON.stringify(file.exif)) : "noexif";
+  return ["tus-rn", file.name || "noname", file.size || "nosize", exifHash, options.endpoint].join("/");
+}
+
+function hashCode(str) {
+  // from https://stackoverflow.com/a/8831937/151666
+  var hash = 0;
+  if (str.length === 0) {
+    return hash;
+  }
+  for (var i = 0; i < str.length; i++) {
+    var char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash;
+}
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/browser/isCordova.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/browser/isCordova.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var isCordova = function isCordova() {
+  return typeof window != "undefined" && (typeof window.PhoneGap != "undefined" || typeof window.Cordova != "undefined" || typeof window.cordova != "undefined");
+};
+
+exports.default = isCordova;
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/browser/isReactNative.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/browser/isReactNative.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var isReactNative = function isReactNative() {
+  return typeof navigator !== "undefined" && typeof navigator.product === "string" && navigator.product.toLowerCase() === "reactnative";
+};
+
+exports.default = isReactNative;
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/browser/readAsByteArray.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/browser/readAsByteArray.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * readAsByteArray converts a File object to a Uint8Array.
+ * This function is only used on the Apache Cordova platform.
+ * See https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file/index.html#read-a-file
+ */
+function readAsByteArray(chunk, callback) {
+  var reader = new FileReader();
+  reader.onload = function () {
+    callback(null, new Uint8Array(reader.result));
+  };
+  reader.onerror = function (err) {
+    callback(err);
+  };
+  reader.readAsArrayBuffer(chunk);
+}
+
+exports.default = readAsByteArray;
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/browser/request.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/browser/request.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.newRequest = newRequest;
+exports.resolveUrl = resolveUrl;
+
+var _urlParse = __webpack_require__(/*! url-parse */ "./node_modules/url-parse/index.js");
+
+var _urlParse2 = _interopRequireDefault(_urlParse);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function newRequest() {
+  return new window.XMLHttpRequest();
+} /* global window */
+function resolveUrl(origin, link) {
+  return new _urlParse2.default(link, origin).toString();
+}
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/browser/source.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/browser/source.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports.getSource = getSource;
+
+var _isReactNative = __webpack_require__(/*! ./isReactNative */ "./node_modules/tus-js-client/lib.es5/browser/isReactNative.js");
+
+var _isReactNative2 = _interopRequireDefault(_isReactNative);
+
+var _uriToBlob = __webpack_require__(/*! ./uriToBlob */ "./node_modules/tus-js-client/lib.es5/browser/uriToBlob.js");
+
+var _uriToBlob2 = _interopRequireDefault(_uriToBlob);
+
+var _isCordova = __webpack_require__(/*! ./isCordova */ "./node_modules/tus-js-client/lib.es5/browser/isCordova.js");
+
+var _isCordova2 = _interopRequireDefault(_isCordova);
+
+var _readAsByteArray = __webpack_require__(/*! ./readAsByteArray */ "./node_modules/tus-js-client/lib.es5/browser/readAsByteArray.js");
+
+var _readAsByteArray2 = _interopRequireDefault(_readAsByteArray);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var FileSource = function () {
+  function FileSource(file) {
+    _classCallCheck(this, FileSource);
+
+    this._file = file;
+    this.size = file.size;
+  }
+
+  _createClass(FileSource, [{
+    key: "slice",
+    value: function slice(start, end, callback) {
+      // In Apache Cordova applications, a File must be resolved using
+      // FileReader instances, see
+      // https://cordova.apache.org/docs/en/8.x/reference/cordova-plugin-file/index.html#read-a-file
+      if ((0, _isCordova2.default)()) {
+        (0, _readAsByteArray2.default)(this._file.slice(start, end), function (err, chunk) {
+          if (err) return callback(err);
+
+          callback(null, chunk);
+        });
+        return;
+      }
+
+      callback(null, this._file.slice(start, end));
+    }
+  }, {
+    key: "close",
+    value: function close() {}
+  }]);
+
+  return FileSource;
+}();
+
+var StreamSource = function () {
+  function StreamSource(reader, chunkSize) {
+    _classCallCheck(this, StreamSource);
+
+    this._chunkSize = chunkSize;
+    this._buffer = undefined;
+    this._bufferOffset = 0;
+    this._reader = reader;
+    this._done = false;
+  }
+
+  _createClass(StreamSource, [{
+    key: "slice",
+    value: function slice(start, end, callback) {
+      if (start < this._bufferOffset) {
+        callback(new Error("Requested data is before the reader's current offset"));
+        return;
+      }
+
+      return this._readUntilEnoughDataOrDone(start, end, callback);
+    }
+  }, {
+    key: "_readUntilEnoughDataOrDone",
+    value: function _readUntilEnoughDataOrDone(start, end, callback) {
+      var _this = this;
+
+      var hasEnoughData = end <= this._bufferOffset + len(this._buffer);
+      if (this._done || hasEnoughData) {
+        var value = this._getDataFromBuffer(start, end);
+        callback(null, value, value == null ? this._done : false);
+        return;
+      }
+      this._reader.read().then(function (_ref) {
+        var value = _ref.value,
+            done = _ref.done;
+
+        if (done) {
+          _this._done = true;
+        } else if (_this._buffer === undefined) {
+          _this._buffer = value;
+        } else {
+          _this._buffer = concat(_this._buffer, value);
+        }
+
+        _this._readUntilEnoughDataOrDone(start, end, callback);
+      }).catch(function (err) {
+        callback(new Error("Error during read: " + err));
+      });
+    }
+  }, {
+    key: "_getDataFromBuffer",
+    value: function _getDataFromBuffer(start, end) {
+      // Remove data from buffer before `start`.
+      // Data might be reread from the buffer if an upload fails, so we can only
+      // safely delete data when it comes *before* what is currently being read.
+      if (start > this._bufferOffset) {
+        this._buffer = this._buffer.slice(start - this._bufferOffset);
+        this._bufferOffset = start;
+      }
+      // If the buffer is empty after removing old data, all data has been read.
+      var hasAllDataBeenRead = len(this._buffer) === 0;
+      if (this._done && hasAllDataBeenRead) {
+        return null;
+      }
+      // We already removed data before `start`, so we just return the first
+      // chunk from the buffer.
+      return this._buffer.slice(0, end - start);
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      if (this._reader.cancel) {
+        this._reader.cancel();
+      }
+    }
+  }]);
+
+  return StreamSource;
+}();
+
+function len(blobOrArray) {
+  if (blobOrArray === undefined) return 0;
+  if (blobOrArray.size !== undefined) return blobOrArray.size;
+  return blobOrArray.length;
+}
+
+/*
+  Typed arrays and blobs don't have a concat method.
+  This function helps StreamSource accumulate data to reach chunkSize.
+*/
+function concat(a, b) {
+  if (a.concat) {
+    // Is `a` an Array?
+    return a.concat(b);
+  }
+  if (a instanceof Blob) {
+    return new Blob([a, b], { type: a.type });
+  }
+  if (a.set) {
+    // Is `a` a typed array?
+    var c = new a.constructor(a.length + b.length);
+    c.set(a);
+    c.set(b, a.length);
+    return c;
+  }
+  throw new Error("Unknown data type");
+}
+
+function getSource(input, chunkSize, callback) {
+  // In React Native, when user selects a file, instead of a File or Blob,
+  // you usually get a file object {} with a uri property that contains
+  // a local path to the file. We use XMLHttpRequest to fetch
+  // the file blob, before uploading with tus.
+  if ((0, _isReactNative2.default)() && input && typeof input.uri !== "undefined") {
+    (0, _uriToBlob2.default)(input.uri, function (err, blob) {
+      if (err) {
+        return callback(new Error("tus: cannot fetch `file.uri` as Blob, make sure the uri is correct and accessible. " + err));
+      }
+      callback(null, new FileSource(blob));
+    });
+    return;
+  }
+
+  // Since we emulate the Blob type in our tests (not all target browsers
+  // support it), we cannot use `instanceof` for testing whether the input value
+  // can be handled. Instead, we simply check is the slice() function and the
+  // size property are available.
+  if (typeof input.slice === "function" && typeof input.size !== "undefined") {
+    callback(null, new FileSource(input));
+    return;
+  }
+
+  if (typeof input.read === "function") {
+    chunkSize = +chunkSize;
+    if (!isFinite(chunkSize)) {
+      callback(new Error("cannot create source for stream without a finite value for the `chunkSize` option"));
+      return;
+    }
+    callback(null, new StreamSource(input, chunkSize));
+    return;
+  }
+
+  callback(new Error("source object may only be an instance of File, Blob, or Reader in this environment"));
+}
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/browser/storage.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/browser/storage.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports.getStorage = getStorage;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* global window, localStorage */
+
+var hasStorage = false;
+try {
+  hasStorage = "localStorage" in window;
+
+  // Attempt to store and read entries from the local storage to detect Private
+  // Mode on Safari on iOS (see #49)
+  var key = "tusSupport";
+  localStorage.setItem(key, localStorage.getItem(key));
+} catch (e) {
+  // If we try to access localStorage inside a sandboxed iframe, a SecurityError
+  // is thrown. When in private mode on iOS Safari, a QuotaExceededError is
+  // thrown (see #49)
+  if (e.code === e.SECURITY_ERR || e.code === e.QUOTA_EXCEEDED_ERR) {
+    hasStorage = false;
+  } else {
+    throw e;
+  }
+}
+
+var canStoreURLs = exports.canStoreURLs = hasStorage;
+
+var LocalStorage = function () {
+  function LocalStorage() {
+    _classCallCheck(this, LocalStorage);
+  }
+
+  _createClass(LocalStorage, [{
+    key: "setItem",
+    value: function setItem(key, value, cb) {
+      cb(null, localStorage.setItem(key, value));
+    }
+  }, {
+    key: "getItem",
+    value: function getItem(key, cb) {
+      cb(null, localStorage.getItem(key));
+    }
+  }, {
+    key: "removeItem",
+    value: function removeItem(key, cb) {
+      cb(null, localStorage.removeItem(key));
+    }
+  }]);
+
+  return LocalStorage;
+}();
+
+function getStorage() {
+  return hasStorage ? new LocalStorage() : null;
+}
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/browser/uriToBlob.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/browser/uriToBlob.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * uriToBlob resolves a URI to a Blob object. This is used for
+ * React Native to retrieve a file (identified by a file://
+ * URI) as a blob.
+ */
+function uriToBlob(uri, done) {
+  var xhr = new XMLHttpRequest();
+  xhr.responseType = "blob";
+  xhr.onload = function () {
+    var blob = xhr.response;
+    done(null, blob);
+  };
+  xhr.onerror = function (err) {
+    done(err);
+  };
+  xhr.open("GET", uri);
+  xhr.send();
+}
+
+exports.default = uriToBlob;
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/error.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/error.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DetailedError = function (_Error) {
+  _inherits(DetailedError, _Error);
+
+  function DetailedError(error) {
+    var causingErr = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var xhr = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+    _classCallCheck(this, DetailedError);
+
+    var _this = _possibleConstructorReturn(this, (DetailedError.__proto__ || Object.getPrototypeOf(DetailedError)).call(this, error.message));
+
+    _this.originalRequest = xhr;
+    _this.causingError = causingErr;
+
+    var message = error.message;
+    if (causingErr != null) {
+      message += ", caused by " + causingErr.toString();
+    }
+    if (xhr != null) {
+      message += ", originated from request (response code: " + xhr.status + ", response text: " + xhr.responseText + ")";
+    }
+    _this.message = message;
+    return _this;
+  }
+
+  return DetailedError;
+}(Error);
+
+exports.default = DetailedError;
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/index.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/index.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _upload = __webpack_require__(/*! ./upload */ "./node_modules/tus-js-client/lib.es5/upload.js");
+
+var _upload2 = _interopRequireDefault(_upload);
+
+var _storage = __webpack_require__(/*! ./node/storage */ "./node_modules/tus-js-client/lib.es5/browser/storage.js");
+
+var storage = _interopRequireWildcard(_storage);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* global window */
+var defaultOptions = _upload2.default.defaultOptions;
+
+
+var moduleExport = {
+  Upload: _upload2.default,
+  canStoreURLs: storage.canStoreURLs,
+  defaultOptions: defaultOptions
+};
+
+if (typeof window !== "undefined") {
+  // Browser environment using XMLHttpRequest
+  var _window = window,
+      XMLHttpRequest = _window.XMLHttpRequest,
+      Blob = _window.Blob;
+
+
+  moduleExport.isSupported = XMLHttpRequest && Blob && typeof Blob.prototype.slice === "function";
+} else {
+  // Node.js environment using http module
+  moduleExport.isSupported = true;
+  // make FileStorage module available as it will not be set by default.
+  moduleExport.FileStorage = storage.FileStorage;
+}
+
+// The usage of the commonjs exporting syntax instead of the new ECMAScript
+// one is actually inteded and prevents weird behaviour if we are trying to
+// import this module in another module using Babel.
+module.exports = moduleExport;
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.es5/upload.js":
+/*!******************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.es5/upload.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* global window */
+
+
+// We import the files used inside the Node environment which are rewritten
+// for browsers using the rules defined in the package.json
+
+
+var _error = __webpack_require__(/*! ./error */ "./node_modules/tus-js-client/lib.es5/error.js");
+
+var _error2 = _interopRequireDefault(_error);
+
+var _extend = __webpack_require__(/*! extend */ "./node_modules/extend/index.js");
+
+var _extend2 = _interopRequireDefault(_extend);
+
+var _jsBase = __webpack_require__(/*! js-base64 */ "./node_modules/js-base64/base64.js");
+
+var _request = __webpack_require__(/*! ./node/request */ "./node_modules/tus-js-client/lib.es5/browser/request.js");
+
+var _source = __webpack_require__(/*! ./node/source */ "./node_modules/tus-js-client/lib.es5/browser/source.js");
+
+var _storage = __webpack_require__(/*! ./node/storage */ "./node_modules/tus-js-client/lib.es5/browser/storage.js");
+
+var _fingerprint = __webpack_require__(/*! ./node/fingerprint */ "./node_modules/tus-js-client/lib.es5/browser/fingerprint.js");
+
+var _fingerprint2 = _interopRequireDefault(_fingerprint);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var defaultOptions = {
+  endpoint: null,
+  fingerprint: _fingerprint2.default,
+  resume: true,
+  onProgress: null,
+  onChunkComplete: null,
+  onSuccess: null,
+  onError: null,
+  headers: {},
+  chunkSize: Infinity,
+  withCredentials: false,
+  uploadUrl: null,
+  uploadSize: null,
+  overridePatchMethod: false,
+  retryDelays: null,
+  removeFingerprintOnSuccess: false,
+  uploadLengthDeferred: false,
+  urlStorage: null,
+  fileReader: null,
+  uploadDataDuringCreation: false
+};
+
+var Upload = function () {
+  function Upload(file, options) {
+    _classCallCheck(this, Upload);
+
+    this.options = (0, _extend2.default)(true, {}, defaultOptions, options);
+
+    // The storage module used to store URLs
+    this._storage = this.options.urlStorage;
+
+    // The underlying File/Blob object
+    this.file = file;
+
+    // The URL against which the file will be uploaded
+    this.url = null;
+
+    // The underlying XHR object for the current PATCH request
+    this._xhr = null;
+
+    // The fingerpinrt for the current file (set after start())
+    this._fingerprint = null;
+
+    // The offset used in the current PATCH request
+    this._offset = null;
+
+    // True if the current PATCH request has been aborted
+    this._aborted = false;
+
+    // The file's size in bytes
+    this._size = null;
+
+    // The Source object which will wrap around the given file and provides us
+    // with a unified interface for getting its size and slice chunks from its
+    // content allowing us to easily handle Files, Blobs, Buffers and Streams.
+    this._source = null;
+
+    // The current count of attempts which have been made. Null indicates none.
+    this._retryAttempt = 0;
+
+    // The timeout's ID which is used to delay the next retry
+    this._retryTimeout = null;
+
+    // The offset of the remote upload before the latest attempt was started.
+    this._offsetBeforeRetry = 0;
+  }
+
+  _createClass(Upload, [{
+    key: "start",
+    value: function start() {
+      var _this = this;
+
+      var file = this.file;
+
+      if (!file) {
+        this._emitError(new Error("tus: no file or stream to upload provided"));
+        return;
+      }
+
+      if (!this.options.endpoint && !this.options.uploadUrl) {
+        this._emitError(new Error("tus: neither an endpoint or an upload URL is provided"));
+        return;
+      }
+
+      if (this.options.resume && this._storage == null) {
+        this._storage = (0, _storage.getStorage)();
+      }
+
+      if (this._source) {
+        this._start(this._source);
+      } else {
+        var fileReader = this.options.fileReader || _source.getSource;
+        fileReader(file, this.options.chunkSize, function (err, source) {
+          if (err) {
+            _this._emitError(err);
+            return;
+          }
+
+          _this._source = source;
+          _this._start(source);
+        });
+      }
+    }
+  }, {
+    key: "_start",
+    value: function _start(source) {
+      var _this2 = this;
+
+      var file = this.file;
+
+      // First, we look at the uploadLengthDeferred option.
+      // Next, we check if the caller has supplied a manual upload size.
+      // Finally, we try to use the calculated size from the source object.
+      if (this.options.uploadLengthDeferred) {
+        this._size = null;
+      } else if (this.options.uploadSize != null) {
+        this._size = +this.options.uploadSize;
+        if (isNaN(this._size)) {
+          this._emitError(new Error("tus: cannot convert `uploadSize` option into a number"));
+          return;
+        }
+      } else {
+        this._size = source.size;
+        if (this._size == null) {
+          this._emitError(new Error("tus: cannot automatically derive upload's size from input and must be specified manually using the `uploadSize` option"));
+          return;
+        }
+      }
+
+      var retryDelays = this.options.retryDelays;
+      if (retryDelays != null) {
+        if (Object.prototype.toString.call(retryDelays) !== "[object Array]") {
+          this._emitError(new Error("tus: the `retryDelays` option must either be an array or null"));
+          return;
+        } else {
+          var errorCallback = this.options.onError;
+          this.options.onError = function (err) {
+            // Restore the original error callback which may have been set.
+            _this2.options.onError = errorCallback;
+
+            // We will reset the attempt counter if
+            // - we were already able to connect to the server (offset != null) and
+            // - we were able to upload a small chunk of data to the server
+            var shouldResetDelays = _this2._offset != null && _this2._offset > _this2._offsetBeforeRetry;
+            if (shouldResetDelays) {
+              _this2._retryAttempt = 0;
+            }
+
+            var isOnline = true;
+            if (typeof window !== "undefined" && "navigator" in window && window.navigator.onLine === false) {
+              isOnline = false;
+            }
+
+            // We only attempt a retry if
+            // - we didn't exceed the maxium number of retries, yet, and
+            // - this error was caused by a request or it's response and
+            // - the error is server error (i.e. no a status 4xx or a 409 or 423) and
+            // - the browser does not indicate that we are offline
+            var status = err.originalRequest ? err.originalRequest.status : 0;
+            var isServerError = !inStatusCategory(status, 400) || status === 409 || status === 423;
+            var shouldRetry = _this2._retryAttempt < retryDelays.length && err.originalRequest != null && isServerError && isOnline;
+
+            if (!shouldRetry) {
+              _this2._emitError(err);
+              return;
+            }
+
+            var delay = retryDelays[_this2._retryAttempt++];
+
+            _this2._offsetBeforeRetry = _this2._offset;
+            _this2.options.uploadUrl = _this2.url;
+
+            _this2._retryTimeout = setTimeout(function () {
+              _this2.start();
+            }, delay);
+          };
+        }
+      }
+
+      // Reset the aborted flag when the upload is started or else the
+      // _startUpload will stop before sending a request if the upload has been
+      // aborted previously.
+      this._aborted = false;
+
+      // The upload had been started previously and we should reuse this URL.
+      if (this.url != null) {
+        this._resumeUpload();
+        return;
+      }
+
+      // A URL has manually been specified, so we try to resume
+      if (this.options.uploadUrl != null) {
+        this.url = this.options.uploadUrl;
+        this._resumeUpload();
+        return;
+      }
+
+      // Try to find the endpoint for the file in the storage
+      if (this._hasStorage()) {
+        this.options.fingerprint(file, this.options, function (err, fingerprintValue) {
+          if (err) {
+            _this2._emitError(err);
+            return;
+          }
+
+          _this2._fingerprint = fingerprintValue;
+          _this2._storage.getItem(_this2._fingerprint, function (err, resumedUrl) {
+            if (err) {
+              _this2._emitError(err);
+              return;
+            }
+
+            if (resumedUrl != null) {
+              _this2.url = resumedUrl;
+              _this2._resumeUpload();
+            } else {
+              _this2._createUpload();
+            }
+          });
+        });
+      } else {
+        // An upload has not started for the file yet, so we start a new one
+        this._createUpload();
+      }
+    }
+  }, {
+    key: "abort",
+    value: function abort(shouldTerminate, cb) {
+      var _this3 = this;
+
+      if (this._xhr !== null) {
+        this._xhr.abort();
+        this._source.close();
+      }
+      this._aborted = true;
+
+      if (this._retryTimeout != null) {
+        clearTimeout(this._retryTimeout);
+        this._retryTimeout = null;
+      }
+
+      cb = cb || function () {};
+      if (shouldTerminate) {
+        Upload.terminate(this.url, this.options, function (err, xhr) {
+          if (err) {
+            return cb(err, xhr);
+          }
+
+          _this3._hasStorage() ? _this3._storage.removeItem(_this3._fingerprint, cb) : cb();
+        });
+      } else {
+        cb();
+      }
+    }
+  }, {
+    key: "_hasStorage",
+    value: function _hasStorage() {
+      return this.options.resume && this._storage;
+    }
+  }, {
+    key: "_emitXhrError",
+    value: function _emitXhrError(xhr, err, causingErr) {
+      this._emitError(new _error2.default(err, causingErr, xhr));
+    }
+  }, {
+    key: "_emitError",
+    value: function _emitError(err) {
+      if (typeof this.options.onError === "function") {
+        this.options.onError(err);
+      } else {
+        throw err;
+      }
+    }
+  }, {
+    key: "_emitSuccess",
+    value: function _emitSuccess() {
+      if (typeof this.options.onSuccess === "function") {
+        this.options.onSuccess();
+      }
+    }
+
+    /**
+     * Publishes notification when data has been sent to the server. This
+     * data may not have been accepted by the server yet.
+     * @param  {number} bytesSent  Number of bytes sent to the server.
+     * @param  {number} bytesTotal Total number of bytes to be sent to the server.
+     */
+
+  }, {
+    key: "_emitProgress",
+    value: function _emitProgress(bytesSent, bytesTotal) {
+      if (typeof this.options.onProgress === "function") {
+        this.options.onProgress(bytesSent, bytesTotal);
+      }
+    }
+
+    /**
+     * Publishes notification when a chunk of data has been sent to the server
+     * and accepted by the server.
+     * @param  {number} chunkSize  Size of the chunk that was accepted by the
+     *                             server.
+     * @param  {number} bytesAccepted Total number of bytes that have been
+     *                                accepted by the server.
+     * @param  {number} bytesTotal Total number of bytes to be sent to the server.
+     */
+
+  }, {
+    key: "_emitChunkComplete",
+    value: function _emitChunkComplete(chunkSize, bytesAccepted, bytesTotal) {
+      if (typeof this.options.onChunkComplete === "function") {
+        this.options.onChunkComplete(chunkSize, bytesAccepted, bytesTotal);
+      }
+    }
+
+    /**
+     * Set the headers used in the request and the withCredentials property
+     * as defined in the options
+     *
+     * @param {XMLHttpRequest} xhr
+     */
+
+  }, {
+    key: "_setupXHR",
+    value: function _setupXHR(xhr) {
+      this._xhr = xhr;
+      setupXHR(xhr, this.options);
+    }
+
+    /**
+     * Create a new upload using the creation extension by sending a POST
+     * request to the endpoint. After successful creation the file will be
+     * uploaded
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_createUpload",
+    value: function _createUpload() {
+      var _this4 = this;
+
+      if (!this.options.endpoint) {
+        this._emitError(new Error("tus: unable to create upload because no endpoint is provided"));
+        return;
+      }
+
+      var xhr = (0, _request.newRequest)();
+      xhr.open("POST", this.options.endpoint, true);
+
+      xhr.onload = function () {
+        if (!inStatusCategory(xhr.status, 200)) {
+          _this4._emitXhrError(xhr, new Error("tus: unexpected response while creating upload"));
+          return;
+        }
+
+        var location = xhr.getResponseHeader("Location");
+        if (location == null) {
+          _this4._emitXhrError(xhr, new Error("tus: invalid or missing Location header"));
+          return;
+        }
+
+        _this4.url = (0, _request.resolveUrl)(_this4.options.endpoint, location);
+
+        if (_this4._size === 0) {
+          // Nothing to upload and file was successfully created
+          _this4._emitSuccess();
+          _this4._source.close();
+          return;
+        }
+
+        if (_this4._hasStorage()) {
+          _this4._storage.setItem(_this4._fingerprint, _this4.url, function (err) {
+            if (err) {
+              _this4._emitError(err);
+            }
+          });
+        }
+
+        if (_this4.options.uploadDataDuringCreation) {
+          _this4._handleUploadResponse(xhr);
+        } else {
+          _this4._offset = 0;
+          _this4._startUpload();
+        }
+      };
+
+      xhr.onerror = function (err) {
+        _this4._emitXhrError(xhr, new Error("tus: failed to create upload"), err);
+      };
+
+      this._setupXHR(xhr);
+      if (this.options.uploadLengthDeferred) {
+        xhr.setRequestHeader("Upload-Defer-Length", 1);
+      } else {
+        xhr.setRequestHeader("Upload-Length", this._size);
+      }
+
+      // Add metadata if values have been added
+      var metadata = encodeMetadata(this.options.metadata);
+      if (metadata !== "") {
+        xhr.setRequestHeader("Upload-Metadata", metadata);
+      }
+
+      if (this.options.uploadDataDuringCreation && !this.options.uploadLengthDeferred) {
+        this._offset = 0;
+        this._addChunkToRequest(xhr);
+      } else {
+        xhr.send(null);
+      }
+    }
+
+    /*
+     * Try to resume an existing upload. First a HEAD request will be sent
+     * to retrieve the offset. If the request fails a new upload will be
+     * created. In the case of a successful response the file will be uploaded.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_resumeUpload",
+    value: function _resumeUpload() {
+      var _this5 = this;
+
+      var xhr = (0, _request.newRequest)();
+      xhr.open("HEAD", this.url, true);
+
+      xhr.onload = function () {
+        if (!inStatusCategory(xhr.status, 200)) {
+          if (_this5._hasStorage() && inStatusCategory(xhr.status, 400)) {
+            // Remove stored fingerprint and corresponding endpoint,
+            // on client errors since the file can not be found
+            _this5._storage.removeItem(_this5._fingerprint, function (err) {
+              if (err) {
+                _this5._emitError(err);
+              }
+            });
+          }
+
+          // If the upload is locked (indicated by the 423 Locked status code), we
+          // emit an error instead of directly starting a new upload. This way the
+          // retry logic can catch the error and will retry the upload. An upload
+          // is usually locked for a short period of time and will be available
+          // afterwards.
+          if (xhr.status === 423) {
+            _this5._emitXhrError(xhr, new Error("tus: upload is currently locked; retry later"));
+            return;
+          }
+
+          if (!_this5.options.endpoint) {
+            // Don't attempt to create a new upload if no endpoint is provided.
+            _this5._emitXhrError(xhr, new Error("tus: unable to resume upload (new upload cannot be created without an endpoint)"));
+            return;
+          }
+
+          // Try to create a new upload
+          _this5.url = null;
+          _this5._createUpload();
+          return;
+        }
+
+        var offset = parseInt(xhr.getResponseHeader("Upload-Offset"), 10);
+        if (isNaN(offset)) {
+          _this5._emitXhrError(xhr, new Error("tus: invalid or missing offset value"));
+          return;
+        }
+
+        var length = parseInt(xhr.getResponseHeader("Upload-Length"), 10);
+        if (isNaN(length) && !_this5.options.uploadLengthDeferred) {
+          _this5._emitXhrError(xhr, new Error("tus: invalid or missing length value"));
+          return;
+        }
+
+        // Upload has already been completed and we do not need to send additional
+        // data to the server
+        if (offset === length) {
+          _this5._emitProgress(length, length);
+          _this5._emitSuccess();
+          return;
+        }
+
+        _this5._offset = offset;
+        _this5._startUpload();
+      };
+
+      xhr.onerror = function (err) {
+        _this5._emitXhrError(xhr, new Error("tus: failed to resume upload"), err);
+      };
+
+      this._setupXHR(xhr);
+      xhr.send(null);
+    }
+
+    /**
+     * Start uploading the file using PATCH requests. The file will be divided
+     * into chunks as specified in the chunkSize option. During the upload
+     * the onProgress event handler may be invoked multiple times.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_startUpload",
+    value: function _startUpload() {
+      var _this6 = this;
+
+      // If the upload has been aborted, we will not send the next PATCH request.
+      // This is important if the abort method was called during a callback, such
+      // as onChunkComplete or onProgress.
+      if (this._aborted) {
+        return;
+      }
+
+      var xhr = (0, _request.newRequest)();
+
+      // Some browser and servers may not support the PATCH method. For those
+      // cases, you can tell tus-js-client to use a POST request with the
+      // X-HTTP-Method-Override header for simulating a PATCH request.
+      if (this.options.overridePatchMethod) {
+        xhr.open("POST", this.url, true);
+        xhr.setRequestHeader("X-HTTP-Method-Override", "PATCH");
+      } else {
+        xhr.open("PATCH", this.url, true);
+      }
+
+      xhr.onload = function () {
+        if (!inStatusCategory(xhr.status, 200)) {
+          _this6._emitXhrError(xhr, new Error("tus: unexpected response while uploading chunk"));
+          return;
+        }
+
+        _this6._handleUploadResponse(xhr);
+      };
+
+      xhr.onerror = function (err) {
+        // Don't emit an error if the upload was aborted manually
+        if (_this6._aborted) {
+          return;
+        }
+
+        _this6._emitXhrError(xhr, new Error("tus: failed to upload chunk at offset " + _this6._offset), err);
+      };
+
+      this._setupXHR(xhr);
+
+      xhr.setRequestHeader("Upload-Offset", this._offset);
+      this._addChunkToRequest(xhr);
+    }
+
+    /**
+     * _addChunktoRequest reads a chunk from the source and sends it using the
+     * supplied XHR object. It will not handle the response.
+     */
+
+  }, {
+    key: "_addChunkToRequest",
+    value: function _addChunkToRequest(xhr) {
+      var _this7 = this;
+
+      // Test support for progress events before attaching an event listener
+      if ("upload" in xhr) {
+        xhr.upload.onprogress = function (e) {
+          if (!e.lengthComputable) {
+            return;
+          }
+
+          _this7._emitProgress(start + e.loaded, _this7._size);
+        };
+      }
+
+      xhr.setRequestHeader("Content-Type", "application/offset+octet-stream");
+
+      var start = this._offset;
+      var end = this._offset + this.options.chunkSize;
+
+      // The specified chunkSize may be Infinity or the calcluated end position
+      // may exceed the file's size. In both cases, we limit the end position to
+      // the input's total size for simpler calculations and correctness.
+      if ((end === Infinity || end > this._size) && !this.options.uploadLengthDeferred) {
+        end = this._size;
+      }
+
+      this._source.slice(start, end, function (err, value, complete) {
+        if (err) {
+          _this7._emitError(err);
+          return;
+        }
+
+        if (_this7.options.uploadLengthDeferred) {
+          if (complete) {
+            _this7._size = _this7._offset + (value && value.size ? value.size : 0);
+            xhr.setRequestHeader("Upload-Length", _this7._size);
+          }
+        }
+
+        if (value === null) {
+          xhr.send();
+        } else {
+          xhr.send(value);
+          _this7._emitProgress(_this7._offset, _this7._size);
+        }
+      });
+    }
+
+    /**
+     * _handleUploadResponse is used by requests that haven been sent using _addChunkToRequest
+     * and already have received a response.
+     */
+
+  }, {
+    key: "_handleUploadResponse",
+    value: function _handleUploadResponse(xhr) {
+      var _this8 = this;
+
+      var offset = parseInt(xhr.getResponseHeader("Upload-Offset"), 10);
+      if (isNaN(offset)) {
+        this._emitXhrError(xhr, new Error("tus: invalid or missing offset value"));
+        return;
+      }
+
+      this._emitProgress(offset, this._size);
+      this._emitChunkComplete(offset - this._offset, offset, this._size);
+
+      this._offset = offset;
+
+      if (offset == this._size) {
+        if (this.options.removeFingerprintOnSuccess && this.options.resume) {
+          // Remove stored fingerprint and corresponding endpoint. This causes
+          // new upload of the same file must be treated as a different file.
+          this._storage.removeItem(this._fingerprint, function (err) {
+            if (err) {
+              _this8._emitError(err);
+            }
+          });
+        }
+
+        // Yay, finally done :)
+        this._emitSuccess();
+        this._source.close();
+        return;
+      }
+
+      this._startUpload();
+    }
+  }], [{
+    key: "terminate",
+    value: function terminate(url, options, cb) {
+      if (typeof options !== "function" && typeof cb !== "function") {
+        throw new Error("tus: a callback function must be specified");
+      }
+
+      if (typeof options === "function") {
+        cb = options;
+        options = {};
+      }
+
+      var xhr = (0, _request.newRequest)();
+      xhr.open("DELETE", url, true);
+
+      xhr.onload = function () {
+        if (xhr.status !== 204) {
+          cb(new _error2.default(new Error("tus: unexpected response while terminating upload"), null, xhr));
+          return;
+        }
+
+        cb();
+      };
+
+      xhr.onerror = function (err) {
+        cb(new _error2.default(err, new Error("tus: failed to terminate upload"), xhr));
+      };
+
+      setupXHR(xhr, options);
+      xhr.send(null);
+    }
+  }]);
+
+  return Upload;
+}();
+
+function encodeMetadata(metadata) {
+  var encoded = [];
+
+  for (var key in metadata) {
+    encoded.push(key + " " + _jsBase.Base64.encode(metadata[key]));
+  }
+
+  return encoded.join(",");
+}
+
+/**
+ * Checks whether a given status is in the range of the expected category.
+ * For example, only a status between 200 and 299 will satisfy the category 200.
+ *
+ * @api private
+ */
+function inStatusCategory(status, category) {
+  return status >= category && status < category + 100;
+}
+
+function setupXHR(xhr, options) {
+  xhr.setRequestHeader("Tus-Resumable", "1.0.0");
+  var headers = options.headers || {};
+
+  for (var name in headers) {
+    xhr.setRequestHeader(name, headers[name]);
+  }
+
+  xhr.withCredentials = options.withCredentials;
+}
+
+Upload.defaultOptions = defaultOptions;
+
+exports.default = Upload;
+
+/***/ }),
+
+/***/ "./node_modules/url-parse/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/url-parse/index.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {
+
+var required = __webpack_require__(/*! requires-port */ "./node_modules/requires-port/index.js")
+  , qs = __webpack_require__(/*! querystringify */ "./node_modules/querystringify/index.js")
+  , slashes = /^[A-Za-z][A-Za-z0-9+-.]*:\/\//
+  , protocolre = /^([a-z][a-z0-9.+-]*:)?(\/\/)?([\S\s]*)/i
+  , whitespace = '[\\x09\\x0A\\x0B\\x0C\\x0D\\x20\\xA0\\u1680\\u180E\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200A\\u202F\\u205F\\u3000\\u2028\\u2029\\uFEFF]'
+  , left = new RegExp('^'+ whitespace +'+');
+
+/**
+ * Trim a given string.
+ *
+ * @param {String} str String to trim.
+ * @public
+ */
+function trimLeft(str) {
+  return (str ? str : '').toString().replace(left, '');
+}
+
+/**
+ * These are the parse rules for the URL parser, it informs the parser
+ * about:
+ *
+ * 0. The char it Needs to parse, if it's a string it should be done using
+ *    indexOf, RegExp using exec and NaN means set as current value.
+ * 1. The property we should set when parsing this value.
+ * 2. Indication if it's backwards or forward parsing, when set as number it's
+ *    the value of extra chars that should be split off.
+ * 3. Inherit from location if non existing in the parser.
+ * 4. `toLowerCase` the resulting value.
+ */
+var rules = [
+  ['#', 'hash'],                        // Extract from the back.
+  ['?', 'query'],                       // Extract from the back.
+  function sanitize(address) {          // Sanitize what is left of the address
+    return address.replace('\\', '/');
+  },
+  ['/', 'pathname'],                    // Extract from the back.
+  ['@', 'auth', 1],                     // Extract from the front.
+  [NaN, 'host', undefined, 1, 1],       // Set left over value.
+  [/:(\d+)$/, 'port', undefined, 1],    // RegExp the back.
+  [NaN, 'hostname', undefined, 1, 1]    // Set left over.
+];
+
+/**
+ * These properties should not be copied or inherited from. This is only needed
+ * for all non blob URL's as a blob URL does not include a hash, only the
+ * origin.
+ *
+ * @type {Object}
+ * @private
+ */
+var ignore = { hash: 1, query: 1 };
+
+/**
+ * The location object differs when your code is loaded through a normal page,
+ * Worker or through a worker using a blob. And with the blobble begins the
+ * trouble as the location object will contain the URL of the blob, not the
+ * location of the page where our code is loaded in. The actual origin is
+ * encoded in the `pathname` so we can thankfully generate a good "default"
+ * location from it so we can generate proper relative URL's again.
+ *
+ * @param {Object|String} loc Optional default location object.
+ * @returns {Object} lolcation object.
+ * @public
+ */
+function lolcation(loc) {
+  var globalVar;
+
+  if (typeof window !== 'undefined') globalVar = window;
+  else if (typeof global !== 'undefined') globalVar = global;
+  else if (typeof self !== 'undefined') globalVar = self;
+  else globalVar = {};
+
+  var location = globalVar.location || {};
+  loc = loc || location;
+
+  var finaldestination = {}
+    , type = typeof loc
+    , key;
+
+  if ('blob:' === loc.protocol) {
+    finaldestination = new Url(unescape(loc.pathname), {});
+  } else if ('string' === type) {
+    finaldestination = new Url(loc, {});
+    for (key in ignore) delete finaldestination[key];
+  } else if ('object' === type) {
+    for (key in loc) {
+      if (key in ignore) continue;
+      finaldestination[key] = loc[key];
+    }
+
+    if (finaldestination.slashes === undefined) {
+      finaldestination.slashes = slashes.test(loc.href);
+    }
+  }
+
+  return finaldestination;
+}
+
+/**
+ * @typedef ProtocolExtract
+ * @type Object
+ * @property {String} protocol Protocol matched in the URL, in lowercase.
+ * @property {Boolean} slashes `true` if protocol is followed by "//", else `false`.
+ * @property {String} rest Rest of the URL that is not part of the protocol.
+ */
+
+/**
+ * Extract protocol information from a URL with/without double slash ("//").
+ *
+ * @param {String} address URL we want to extract from.
+ * @return {ProtocolExtract} Extracted information.
+ * @private
+ */
+function extractProtocol(address) {
+  address = trimLeft(address);
+  var match = protocolre.exec(address);
+
+  return {
+    protocol: match[1] ? match[1].toLowerCase() : '',
+    slashes: !!match[2],
+    rest: match[3]
+  };
+}
+
+/**
+ * Resolve a relative URL pathname against a base URL pathname.
+ *
+ * @param {String} relative Pathname of the relative URL.
+ * @param {String} base Pathname of the base URL.
+ * @return {String} Resolved pathname.
+ * @private
+ */
+function resolve(relative, base) {
+  if (relative === '') return base;
+
+  var path = (base || '/').split('/').slice(0, -1).concat(relative.split('/'))
+    , i = path.length
+    , last = path[i - 1]
+    , unshift = false
+    , up = 0;
+
+  while (i--) {
+    if (path[i] === '.') {
+      path.splice(i, 1);
+    } else if (path[i] === '..') {
+      path.splice(i, 1);
+      up++;
+    } else if (up) {
+      if (i === 0) unshift = true;
+      path.splice(i, 1);
+      up--;
+    }
+  }
+
+  if (unshift) path.unshift('');
+  if (last === '.' || last === '..') path.push('');
+
+  return path.join('/');
+}
+
+/**
+ * The actual URL instance. Instead of returning an object we've opted-in to
+ * create an actual constructor as it's much more memory efficient and
+ * faster and it pleases my OCD.
+ *
+ * It is worth noting that we should not use `URL` as class name to prevent
+ * clashes with the global URL instance that got introduced in browsers.
+ *
+ * @constructor
+ * @param {String} address URL we want to parse.
+ * @param {Object|String} [location] Location defaults for relative paths.
+ * @param {Boolean|Function} [parser] Parser for the query string.
+ * @private
+ */
+function Url(address, location, parser) {
+  address = trimLeft(address);
+
+  if (!(this instanceof Url)) {
+    return new Url(address, location, parser);
+  }
+
+  var relative, extracted, parse, instruction, index, key
+    , instructions = rules.slice()
+    , type = typeof location
+    , url = this
+    , i = 0;
+
+  //
+  // The following if statements allows this module two have compatibility with
+  // 2 different API:
+  //
+  // 1. Node.js's `url.parse` api which accepts a URL, boolean as arguments
+  //    where the boolean indicates that the query string should also be parsed.
+  //
+  // 2. The `URL` interface of the browser which accepts a URL, object as
+  //    arguments. The supplied object will be used as default values / fall-back
+  //    for relative paths.
+  //
+  if ('object' !== type && 'string' !== type) {
+    parser = location;
+    location = null;
+  }
+
+  if (parser && 'function' !== typeof parser) parser = qs.parse;
+
+  location = lolcation(location);
+
+  //
+  // Extract protocol information before running the instructions.
+  //
+  extracted = extractProtocol(address || '');
+  relative = !extracted.protocol && !extracted.slashes;
+  url.slashes = extracted.slashes || relative && location.slashes;
+  url.protocol = extracted.protocol || location.protocol || '';
+  address = extracted.rest;
+
+  //
+  // When the authority component is absent the URL starts with a path
+  // component.
+  //
+  if (!extracted.slashes) instructions[3] = [/(.*)/, 'pathname'];
+
+  for (; i < instructions.length; i++) {
+    instruction = instructions[i];
+
+    if (typeof instruction === 'function') {
+      address = instruction(address);
+      continue;
+    }
+
+    parse = instruction[0];
+    key = instruction[1];
+
+    if (parse !== parse) {
+      url[key] = address;
+    } else if ('string' === typeof parse) {
+      if (~(index = address.indexOf(parse))) {
+        if ('number' === typeof instruction[2]) {
+          url[key] = address.slice(0, index);
+          address = address.slice(index + instruction[2]);
+        } else {
+          url[key] = address.slice(index);
+          address = address.slice(0, index);
+        }
+      }
+    } else if ((index = parse.exec(address))) {
+      url[key] = index[1];
+      address = address.slice(0, index.index);
+    }
+
+    url[key] = url[key] || (
+      relative && instruction[3] ? location[key] || '' : ''
+    );
+
+    //
+    // Hostname, host and protocol should be lowercased so they can be used to
+    // create a proper `origin`.
+    //
+    if (instruction[4]) url[key] = url[key].toLowerCase();
+  }
+
+  //
+  // Also parse the supplied query string in to an object. If we're supplied
+  // with a custom parser as function use that instead of the default build-in
+  // parser.
+  //
+  if (parser) url.query = parser(url.query);
+
+  //
+  // If the URL is relative, resolve the pathname against the base URL.
+  //
+  if (
+      relative
+    && location.slashes
+    && url.pathname.charAt(0) !== '/'
+    && (url.pathname !== '' || location.pathname !== '')
+  ) {
+    url.pathname = resolve(url.pathname, location.pathname);
+  }
+
+  //
+  // We should not add port numbers if they are already the default port number
+  // for a given protocol. As the host also contains the port number we're going
+  // override it with the hostname which contains no port number.
+  //
+  if (!required(url.port, url.protocol)) {
+    url.host = url.hostname;
+    url.port = '';
+  }
+
+  //
+  // Parse down the `auth` for the username and password.
+  //
+  url.username = url.password = '';
+  if (url.auth) {
+    instruction = url.auth.split(':');
+    url.username = instruction[0] || '';
+    url.password = instruction[1] || '';
+  }
+
+  url.origin = url.protocol && url.host && url.protocol !== 'file:'
+    ? url.protocol +'//'+ url.host
+    : 'null';
+
+  //
+  // The href is just the compiled result.
+  //
+  url.href = url.toString();
+}
+
+/**
+ * This is convenience method for changing properties in the URL instance to
+ * insure that they all propagate correctly.
+ *
+ * @param {String} part          Property we need to adjust.
+ * @param {Mixed} value          The newly assigned value.
+ * @param {Boolean|Function} fn  When setting the query, it will be the function
+ *                               used to parse the query.
+ *                               When setting the protocol, double slash will be
+ *                               removed from the final url if it is true.
+ * @returns {URL} URL instance for chaining.
+ * @public
+ */
+function set(part, value, fn) {
+  var url = this;
+
+  switch (part) {
+    case 'query':
+      if ('string' === typeof value && value.length) {
+        value = (fn || qs.parse)(value);
+      }
+
+      url[part] = value;
+      break;
+
+    case 'port':
+      url[part] = value;
+
+      if (!required(value, url.protocol)) {
+        url.host = url.hostname;
+        url[part] = '';
+      } else if (value) {
+        url.host = url.hostname +':'+ value;
+      }
+
+      break;
+
+    case 'hostname':
+      url[part] = value;
+
+      if (url.port) value += ':'+ url.port;
+      url.host = value;
+      break;
+
+    case 'host':
+      url[part] = value;
+
+      if (/:\d+$/.test(value)) {
+        value = value.split(':');
+        url.port = value.pop();
+        url.hostname = value.join(':');
+      } else {
+        url.hostname = value;
+        url.port = '';
+      }
+
+      break;
+
+    case 'protocol':
+      url.protocol = value.toLowerCase();
+      url.slashes = !fn;
+      break;
+
+    case 'pathname':
+    case 'hash':
+      if (value) {
+        var char = part === 'pathname' ? '/' : '#';
+        url[part] = value.charAt(0) !== char ? char + value : value;
+      } else {
+        url[part] = value;
+      }
+      break;
+
+    default:
+      url[part] = value;
+  }
+
+  for (var i = 0; i < rules.length; i++) {
+    var ins = rules[i];
+
+    if (ins[4]) url[ins[1]] = url[ins[1]].toLowerCase();
+  }
+
+  url.origin = url.protocol && url.host && url.protocol !== 'file:'
+    ? url.protocol +'//'+ url.host
+    : 'null';
+
+  url.href = url.toString();
+
+  return url;
+}
+
+/**
+ * Transform the properties back in to a valid and full URL string.
+ *
+ * @param {Function} stringify Optional query stringify function.
+ * @returns {String} Compiled version of the URL.
+ * @public
+ */
+function toString(stringify) {
+  if (!stringify || 'function' !== typeof stringify) stringify = qs.stringify;
+
+  var query
+    , url = this
+    , protocol = url.protocol;
+
+  if (protocol && protocol.charAt(protocol.length - 1) !== ':') protocol += ':';
+
+  var result = protocol + (url.slashes ? '//' : '');
+
+  if (url.username) {
+    result += url.username;
+    if (url.password) result += ':'+ url.password;
+    result += '@';
+  }
+
+  result += url.host + url.pathname;
+
+  query = 'object' === typeof url.query ? stringify(url.query) : url.query;
+  if (query) result += '?' !== query.charAt(0) ? '?'+ query : query;
+
+  if (url.hash) result += url.hash;
+
+  return result;
+}
+
+Url.prototype = { set: set, toString: toString };
+
+//
+// Expose the URL parser and some additional properties that might be useful for
+// others or testing.
+//
+Url.extractProtocol = extractProtocol;
+Url.location = lolcation;
+Url.trimLeft = trimLeft;
+Url.qs = qs;
+
+module.exports = Url;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -53946,7 +56751,7 @@ var render = function() {
     _c(
       "button",
       { staticClass: "btn btn-primary", attrs: { id: "uppy-select-files" } },
-      [_vm._v("Upload Video")]
+      [_vm._v("\n        Upload Video\n    ")]
     ),
     _vm._v(" "),
     _c("div", {
@@ -66498,8 +69303,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/ritesh/Projects/Nuri/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/ritesh/Projects/Nuri/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/ritesh/Projects/VimeoUploads/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/ritesh/Projects/VimeoUploads/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
