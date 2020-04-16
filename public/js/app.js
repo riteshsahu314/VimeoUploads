@@ -11148,12 +11148,19 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -11193,7 +11200,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       uploadLink: "",
       selectedFile: null,
       uploadOffset: 0,
-      checkProgressInterval: 0
+      checkProgressInterval: 0,
+      isUploadInProgress: false
     };
   },
   mounted: function mounted() {
@@ -11211,20 +11219,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           allowedFileTypes: ["video/*"]
         },
         allowMultipleUploads: false
-      }).use(_uppy_dashboard__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }).use(_uppy_dashboard__WEBPACK_IMPORTED_MODULE_2___default.a, _defineProperty({
         hideUploadButton: false,
-        height: 450,
+        height: 300,
+        inline: true,
         target: this.$refs.dashboardContainer,
         replaceTargetContent: true,
         showProgressDetails: true,
         browserBackButtonClose: true,
         closeModalOnClickOutside: true
-      }).use(_uppy_tus__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        uploadUrl: this.uploadLink,
-        resume: true,
-        autoRetry: true,
-        retryDelays: [0, 1000, 3000, 5000]
-      });
+      }, "hideUploadButton", true));
       this.uppy.on("upload", /*#__PURE__*/function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(data) {
           return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -11234,14 +11238,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   // data object consists of `id` with upload ID and `fileIDs` array
                   // with file IDs in current upload
                   // data: { id, fileIDs }
-                  console.log("Starting upload id: ".concat(data.id, ", fileIDs: ").concat(data.fileIDs));
-                  _context.next = 3;
-                  return _this.getUploadLink();
+                  console.log("Starting upload id: ".concat(data.id, ", fileIDs: ").concat(data.fileIDs)); // await this.getUploadLink();
 
-                case 3:
                   console.log("upload link", _this.uploadLink);
 
-                case 4:
+                case 2:
                 case "end":
                   return _context.stop();
               }
@@ -11260,9 +11261,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       this.uppy.on("upload-success", function (file, response) {
         console.log("upload-success", file.name, response.uploadURL);
+        _this.selectedFile = null;
+        _this.isUploadInProgress = false;
       });
       this.uppy.on("upload-error", function (file, error, response) {
         console.log("error with file:", file.id);
+        _this.isUploadInProgress = false;
         console.log("error message:", error);
       });
       this.uppy.on("upload-retry", function (fileID) {
@@ -11270,6 +11274,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       this.uppy.on("complete", function (event) {
         console.log("complted", event);
+        _this.isUploadInProgress = false;
+        _this.selectedFile = null;
 
         if (event.successful[0] !== undefined) {// this.payload = event.successful[0].response.body.path;
           // this.confirmUpload();
@@ -11294,6 +11300,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         description: description
       };
       return this;
+    },
+    startUpload: function startUpload() {
+      var _this2 = this;
+
+      this.isUploadInProgress = true;
+      this.getUploadLink().then(function (uploadLink) {
+        _this2.uploadLink = uploadLink;
+        console.log("startupload", uploadLink, _this2.uploadLink);
+
+        _this2.uppy.use(_uppy_tus__WEBPACK_IMPORTED_MODULE_5___default.a, {
+          uploadUrl: uploadLink,
+          resume: true,
+          autoRetry: true,
+          retryDelays: [0, 1000, 3000, 5000]
+        });
+
+        _this2.uppy.upload();
+      });
     },
     getUploadLink: function getUploadLink() {
       return axios.post("/videos/uploadLink", _objectSpread({}, this.selectedFile), {
@@ -56748,12 +56772,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "button",
-      { staticClass: "btn btn-primary", attrs: { id: "uppy-select-files" } },
-      [_vm._v("\n        Upload Video\n    ")]
-    ),
-    _vm._v(" "),
     _c("div", {
       directives: [
         {
@@ -56769,10 +56787,25 @@ var render = function() {
       domProps: { textContent: _vm._s(_vm.status.description) }
     }),
     _vm._v(" "),
-    _c("form", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("div", { ref: "dashboardContainer" })
-      ])
+    _c("div", { staticClass: "form-group" }, [
+      _c("div", { ref: "dashboardContainer" })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "text-right" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          class: !_vm.isUploadInProgress ? "btn-primary" : "btn-secondary",
+          attrs: { disabled: _vm.isUploadInProgress, id: "uppy-select-files" },
+          on: {
+            click: function($event) {
+              return _vm.startUpload()
+            }
+          }
+        },
+        [_vm._v("\n            Upload Video\n        ")]
+      )
     ])
   ])
 }
