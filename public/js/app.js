@@ -11144,16 +11144,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _uppy_tus__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_uppy_tus__WEBPACK_IMPORTED_MODULE_5__);
 
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -11228,7 +11226,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         showProgressDetails: true,
         browserBackButtonClose: true,
         closeModalOnClickOutside: true
-      }, "hideUploadButton", true));
+      }, "hideUploadButton", true)).use(_uppy_tus__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        endpoint: "/me/videos",
+        resume: true,
+        autoRetry: true,
+        retryDelays: [0, 1000, 3000, 5000],
+        metaFields: null,
+        limit: 1
+      });
       this.uppy.on("upload", /*#__PURE__*/function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(data) {
           return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -11238,11 +11243,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   // data object consists of `id` with upload ID and `fileIDs` array
                   // with file IDs in current upload
                   // data: { id, fileIDs }
-                  console.log("Starting upload id: ".concat(data.id, ", fileIDs: ").concat(data.fileIDs)); // await this.getUploadLink();
+                  console.log("Starting upload id: ".concat(data.id, ", fileIDs: ").concat(data.fileIDs));
 
-                  console.log("upload link", _this.uploadLink);
-
-                case 2:
+                case 1:
                 case "end":
                   return _context.stop();
               }
@@ -11277,10 +11280,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log("complted", event);
         _this.isUploadButtonDisabled = false;
         _this.selectedFile = null;
-
-        if (event.successful[0] !== undefined) {// this.payload = event.successful[0].response.body.path;
-          // this.confirmUpload();
-        }
       });
       this.uppy.on("dashboard:modal-open", function () {
         _this.setStatus("", "");
@@ -11305,51 +11304,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this;
     },
     startUpload: function startUpload() {
-      var _this2 = this;
-
       this.isUploadButtonDisabled = true;
-      this.getUploadLink().then(function (uploadLink) {
-        _this2.uploadLink = uploadLink;
-        console.log("startupload", uploadLink, _this2.uploadLink);
-
-        _this2.uppy.use(_uppy_tus__WEBPACK_IMPORTED_MODULE_5___default.a, {
-          uploadUrl: uploadLink,
-          resume: true,
-          autoRetry: true,
-          retryDelays: [0, 1000, 3000, 5000],
-          headers: {
-            "Accept": "application/vnd.vimeo.*+json;version=3.4"
-          }
-        });
-
-        _this2.uppy.upload();
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    },
-    getUploadLink: function getUploadLink() {
-      return axios.post("/videos/uploadLink", _objectSpread({}, this.selectedFile), {
-        headers: {
-          "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-        }
-      }).then(function (res) {
-        if (res.data) {
-          var data = res.data.body;
-          console.log("uploadLink Data", data);
-          return data.upload.upload_link;
-        }
-      })["catch"](function (err) {
-        throw err;
-      });
-    },
-    closeModal: function closeModal() {
-      this.uppy.getPlugin("Dashboard").closeModal();
-      return this;
-    },
-    updatePreviewPath: function updatePreviewPath(_ref2) {
-      var path = _ref2.path;
-      this.previewPath = path;
-      return this;
+      this.uppy.upload();
     },
     resetUploader: function resetUploader() {
       this.uppy.reset();
