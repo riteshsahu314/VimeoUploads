@@ -11201,7 +11201,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       selectedFile: null,
       uploadOffset: 0,
       checkProgressInterval: 0,
-      isUploadInProgress: false
+      isUploadButtonDisabled: true
     };
   },
   mounted: function mounted() {
@@ -11258,15 +11258,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // file: { id, name, type, ... }
         // progress: { uploader, bytesUploaded, bytesTotal }
         console.log("upload-progress", file.id, progress.bytesUploaded, progress.bytesTotal);
+        _this.uploadOffset = progress.bytesUploaded;
       });
       this.uppy.on("upload-success", function (file, response) {
         console.log("upload-success", file.name, response.uploadURL);
         _this.selectedFile = null;
-        _this.isUploadInProgress = false;
+        _this.isUploadButtonDisabled = false;
       });
       this.uppy.on("upload-error", function (file, error, response) {
         console.log("error with file:", file.id);
-        _this.isUploadInProgress = false;
+        _this.isUploadButtonDisabled = false;
         console.log("error message:", error);
       });
       this.uppy.on("upload-retry", function (fileID) {
@@ -11274,7 +11275,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.uppy.on("complete", function (event) {
         console.log("complted", event);
-        _this.isUploadInProgress = false;
+        _this.isUploadButtonDisabled = false;
         _this.selectedFile = null;
 
         if (event.successful[0] !== undefined) {// this.payload = event.successful[0].response.body.path;
@@ -11287,10 +11288,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.uppy.on("file-added", function (file) {
         console.log("file-added", file);
         _this.selectedFile = file;
+        _this.isUploadButtonDisabled = false;
         console.log("this.selectedFile", _this.selectedFile);
       });
       this.uppy.on("file-removed", function (file) {
         _this.selectedFile = null;
+        _this.isUploadButtonDisabled = true;
         console.log("Removed file", file);
       });
     },
@@ -11304,7 +11307,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     startUpload: function startUpload() {
       var _this2 = this;
 
-      this.isUploadInProgress = true;
+      this.isUploadButtonDisabled = true;
       this.getUploadLink().then(function (uploadLink) {
         _this2.uploadLink = uploadLink;
         console.log("startupload", uploadLink, _this2.uploadLink);
@@ -11313,10 +11316,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           uploadUrl: uploadLink,
           resume: true,
           autoRetry: true,
-          retryDelays: [0, 1000, 3000, 5000]
+          retryDelays: [0, 1000, 3000, 5000],
+          headers: {
+            "Accept": "application/vnd.vimeo.*+json;version=3.4"
+          }
         });
 
         _this2.uppy.upload();
+      })["catch"](function (err) {
+        console.log(err);
       });
     },
     getUploadLink: function getUploadLink() {
@@ -56795,9 +56803,12 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-primary",
-          class: !_vm.isUploadInProgress ? "btn-primary" : "btn-secondary",
-          attrs: { disabled: _vm.isUploadInProgress, id: "uppy-select-files" },
+          staticClass: "btn",
+          class: _vm.isUploadButtonDisabled ? "btn-secondary" : "btn-primary",
+          attrs: {
+            disabled: _vm.isUploadButtonDisabled,
+            id: "uppy-select-files"
+          },
           on: {
             click: function($event) {
               return _vm.startUpload()
