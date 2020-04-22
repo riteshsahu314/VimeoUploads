@@ -11235,8 +11235,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         limit: 1,
         headers: {
           Accept: "application/vnd.vimeo.*+json;version=3.4"
-        },
-        chunkSize: 4194304
+        } // chunkSize: 4194304
+
       });
       this.uppy.on("upload", /*#__PURE__*/function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(data) {
