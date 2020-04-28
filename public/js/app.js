@@ -11190,19 +11190,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         closeModalOnClickOutside: true
       }, "hideUploadButton", true)).use(_uppy_tus__WEBPACK_IMPORTED_MODULE_4___default.a, {
         endpoint: "/me/videos",
+        // endpoint: "https://master.tus.io/files/",
         resume: true,
         autoRetry: true,
         retryDelays: [0, 1000, 3000, 5000],
         metaFields: null,
-        limit: 1,
-        headers: {
-          Accept: "application/vnd.vimeo.*+json;version=3.4"
-        } // chunkSize: 4194304
+        limit: 1 // chunkSize: 4194304 // set chunk size to 4 mb
 
       });
       this.uppy.on("upload-success", function (file, response) {
-        _this.selectedFile = null;
+        console.log("upload sucessd");
         _this.isUploadButtonDisabled = false;
+
+        _this.updateVideoStatusToSuccess(btoa(_this.selectedFile.id));
+
+        _this.selectedFile = null;
       });
       this.uppy.on("upload-error", function (file, error, response) {
         _this.isUploadButtonDisabled = false;
@@ -11213,6 +11215,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.uppy.on("file-added", function (file) {
         _this.selectedFile = file;
+
+        _this.uppy.setMeta({
+          fileId: file.id
+        });
+
         _this.isUploadButtonDisabled = false;
       });
       this.uppy.on("file-removed", function (file) {
@@ -11223,6 +11230,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     startUpload: function startUpload() {
       this.isUploadButtonDisabled = true;
       this.uppy.upload();
+    },
+    updateVideoStatusToSuccess: function updateVideoStatusToSuccess(id) {
+      axios.patch("/me/videos/".concat(id), {
+        upload_success: true
+      }).then(function () {
+        console.log("Video uploaded succesfully");
+      });
     }
   }
 });
