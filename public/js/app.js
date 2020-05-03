@@ -11439,6 +11439,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         browserBackButtonClose: true,
         closeModalOnClickOutside: true
       }, "hideUploadButton", true)).use(_uppy_tus__WEBPACK_IMPORTED_MODULE_4___default.a, {
+        endpoint: "/me/videos",
         resume: true,
         autoRetry: true,
         retryDelays: [0, 1000, 3000, 5000],
@@ -11451,12 +11452,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.isUploadButtonDisabled = false; // this.updateVideoStatusToSuccess(btoa(this.selectedFile.id));
 
         _this.selectedFile = null;
-<<<<<<< HEAD
-        _this.isUploadButtonDisabled = false;
-
-        _this.updateVideoStatusToSuccess();
-=======
->>>>>>> masterTus
       });
       this.uppy.on("upload-error", function (file, error, response) {
         _this.isUploadButtonDisabled = false;
@@ -11480,44 +11475,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     startUpload: function startUpload() {
-      var _this2 = this;
-
       this.isUploadButtonDisabled = true;
-<<<<<<< HEAD
-      this.createVideo().then(function (data) {
-        console.log("api data", data);
-        _this2.createdVideoData = data.data.data;
-
-        _this2.uppy.getPlugin("Tus").setOptions({
-          uploadUrl: data.headers.location
-        });
-
-        _this2.uppy.upload();
-      });
-    },
-    updateVideoStatusToSuccess: function updateVideoStatusToSuccess() {
-      return axios.patch("/me/videos/".concat(this.createdVideoData.id), {
-=======
       this.uppy.upload();
     },
     updateVideoStatusToSuccess: function updateVideoStatusToSuccess(id) {
       axios.patch("/me/videos/".concat(id), {
->>>>>>> masterTus
         upload_success: true
       }).then(function () {
         console.log("Video uploaded succesfully");
       });
-<<<<<<< HEAD
-    },
-    createVideo: function createVideo() {
-      return axios.post("/me/videos/", {
-        filename: this.selectedFile.name,
-        size: this.selectedFile.size
-      }).then(function (data) {
-        return data;
-      });
-=======
->>>>>>> masterTus
     }
   }
 });
