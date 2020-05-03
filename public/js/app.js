@@ -704,7 +704,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 var preact = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js");
 
-var findDOMElement = __webpack_require__(/*! @uppy/utils/lib/findDOMElement */ "./node_modules/@uppy/utils/lib/findDOMElement.js");
+var findDOMElement = __webpack_require__(/*! @uppy/utils/lib/findDOMElement */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/findDOMElement.js");
 /**
  * Defer a frequent call to the microtask queue.
  */
@@ -745,9 +745,7 @@ function debounce(fn) {
  */
 
 
-module.exports =
-/*#__PURE__*/
-function () {
+module.exports = /*#__PURE__*/function () {
   function Plugin(uppy, opts) {
     this.uppy = uppy;
     this.opts = opts || {};
@@ -915,9 +913,9 @@ function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.crea
 
 function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
 
-function isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 
-function _construct(Parent, args, Class) { if (isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
 
@@ -925,7 +923,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-var Translator = __webpack_require__(/*! @uppy/utils/lib/Translator */ "./node_modules/@uppy/utils/lib/Translator.js");
+var Translator = __webpack_require__(/*! @uppy/utils/lib/Translator */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/Translator.js");
 
 var ee = __webpack_require__(/*! namespace-emitter */ "./node_modules/namespace-emitter/index.js");
 
@@ -933,17 +931,17 @@ var cuid = __webpack_require__(/*! cuid */ "./node_modules/cuid/index.js");
 
 var throttle = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
 
-var prettyBytes = __webpack_require__(/*! @uppy/utils/lib/prettyBytes */ "./node_modules/@uppy/utils/lib/prettyBytes.js");
+var prettyBytes = __webpack_require__(/*! @uppy/utils/lib/prettyBytes */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/prettyBytes.js");
 
 var match = __webpack_require__(/*! mime-match */ "./node_modules/mime-match/index.js");
 
 var DefaultStore = __webpack_require__(/*! @uppy/store-default */ "./node_modules/@uppy/store-default/lib/index.js");
 
-var getFileType = __webpack_require__(/*! @uppy/utils/lib/getFileType */ "./node_modules/@uppy/utils/lib/getFileType.js");
+var getFileType = __webpack_require__(/*! @uppy/utils/lib/getFileType */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getFileType.js");
 
-var getFileNameAndExtension = __webpack_require__(/*! @uppy/utils/lib/getFileNameAndExtension */ "./node_modules/@uppy/utils/lib/getFileNameAndExtension.js");
+var getFileNameAndExtension = __webpack_require__(/*! @uppy/utils/lib/getFileNameAndExtension */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getFileNameAndExtension.js");
 
-var generateFileID = __webpack_require__(/*! @uppy/utils/lib/generateFileID */ "./node_modules/@uppy/utils/lib/generateFileID.js");
+var generateFileID = __webpack_require__(/*! @uppy/utils/lib/generateFileID */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/generateFileID.js");
 
 var supportsUploadProgress = __webpack_require__(/*! ./supportsUploadProgress */ "./node_modules/@uppy/core/lib/supportsUploadProgress.js");
 
@@ -954,9 +952,7 @@ var _require = __webpack_require__(/*! ./loggers */ "./node_modules/@uppy/core/l
 var Plugin = __webpack_require__(/*! ./Plugin */ "./node_modules/@uppy/core/lib/Plugin.js"); // Exported from here.
 
 
-var RestrictionError =
-/*#__PURE__*/
-function (_Error) {
+var RestrictionError = /*#__PURE__*/function (_Error) {
   _inheritsLoose(RestrictionError, _Error);
 
   function RestrictionError() {
@@ -972,7 +968,7 @@ function (_Error) {
   }
 
   return RestrictionError;
-}(_wrapNativeSuper(Error));
+}( /*#__PURE__*/_wrapNativeSuper(Error));
 /**
  * Uppy Core module.
  * Manages plugins, state updates, acts as an event bus,
@@ -980,9 +976,7 @@ function (_Error) {
  */
 
 
-var Uppy =
-/*#__PURE__*/
-function () {
+var Uppy = /*#__PURE__*/function () {
   /**
    * Instantiate Uppy
    *
@@ -2644,6 +2638,8 @@ function () {
 
     return Promise.resolve().then(function () {
       return _this10._checkMinNumberOfFiles(files);
+    }).catch(function (err) {
+      _this10._showOrLogErrorAndThrow(err);
     }).then(function () {
       var _this10$getState = _this10.getState(),
           currentUploads = _this10$getState.currentUploads; // get a list of files that are currently assigned to uploads
@@ -2666,7 +2662,9 @@ function () {
 
       return _this10._runUpload(uploadID);
     }).catch(function (err) {
-      _this10._showOrLogErrorAndThrow(err);
+      _this10._showOrLogErrorAndThrow(err, {
+        showInformer: false
+      });
     });
   };
 
@@ -2680,7 +2678,7 @@ function () {
   return Uppy;
 }();
 
-Uppy.VERSION = "1.10.1";
+Uppy.VERSION = "1.10.4";
 
 module.exports = function (opts) {
   return new Uppy(opts);
@@ -2700,7 +2698,7 @@ module.exports.debugLogger = debugLogger;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getTimeStamp = __webpack_require__(/*! @uppy/utils/lib/getTimeStamp */ "./node_modules/@uppy/utils/lib/getTimeStamp.js"); // Swallow all logs, except errors.
+var getTimeStamp = __webpack_require__(/*! @uppy/utils/lib/getTimeStamp */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getTimeStamp.js"); // Swallow all logs, except errors.
 // default if logger is not set or debug: false
 
 
@@ -2800,6 +2798,486 @@ module.exports = function supportsUploadProgress(userAgent) {
 
   return false;
 };
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/Translator.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/Translator.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+var has = __webpack_require__(/*! ./hasProperty */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/hasProperty.js");
+/**
+ * Translates strings with interpolation & pluralization support.
+ * Extensible with custom dictionaries and pluralization functions.
+ *
+ * Borrows heavily from and inspired by Polyglot https://github.com/airbnb/polyglot.js,
+ * basically a stripped-down version of it. Differences: pluralization functions are not hardcoded
+ * and can be easily added among with dictionaries, nested objects are used for pluralization
+ * as opposed to `||||` delimeter
+ *
+ * Usage example: `translator.translate('files_chosen', {smart_count: 3})`
+ */
+
+
+module.exports = /*#__PURE__*/function () {
+  /**
+   * @param {object|Array<object>} locales - locale or list of locales.
+   */
+  function Translator(locales) {
+    var _this = this;
+
+    this.locale = {
+      strings: {},
+      pluralize: function pluralize(n) {
+        if (n === 1) {
+          return 0;
+        }
+
+        return 1;
+      }
+    };
+
+    if (Array.isArray(locales)) {
+      locales.forEach(function (locale) {
+        return _this._apply(locale);
+      });
+    } else {
+      this._apply(locales);
+    }
+  }
+
+  var _proto = Translator.prototype;
+
+  _proto._apply = function _apply(locale) {
+    if (!locale || !locale.strings) {
+      return;
+    }
+
+    var prevLocale = this.locale;
+    this.locale = _extends({}, prevLocale, {
+      strings: _extends({}, prevLocale.strings, locale.strings)
+    });
+    this.locale.pluralize = locale.pluralize || prevLocale.pluralize;
+  }
+  /**
+   * Takes a string with placeholder variables like `%{smart_count} file selected`
+   * and replaces it with values from options `{smart_count: 5}`
+   *
+   * @license https://github.com/airbnb/polyglot.js/blob/master/LICENSE
+   * taken from https://github.com/airbnb/polyglot.js/blob/master/lib/polyglot.js#L299
+   *
+   * @param {string} phrase that needs interpolation, with placeholders
+   * @param {object} options with values that will be used to replace placeholders
+   * @returns {string} interpolated
+   */
+  ;
+
+  _proto.interpolate = function interpolate(phrase, options) {
+    var _String$prototype = String.prototype,
+        split = _String$prototype.split,
+        replace = _String$prototype.replace;
+    var dollarRegex = /\$/g;
+    var dollarBillsYall = '$$$$';
+    var interpolated = [phrase];
+
+    for (var arg in options) {
+      if (arg !== '_' && has(options, arg)) {
+        // Ensure replacement value is escaped to prevent special $-prefixed
+        // regex replace tokens. the "$$$$" is needed because each "$" needs to
+        // be escaped with "$" itself, and we need two in the resulting output.
+        var replacement = options[arg];
+
+        if (typeof replacement === 'string') {
+          replacement = replace.call(options[arg], dollarRegex, dollarBillsYall);
+        } // We create a new `RegExp` each time instead of using a more-efficient
+        // string replace so that the same argument can be replaced multiple times
+        // in the same phrase.
+
+
+        interpolated = insertReplacement(interpolated, new RegExp('%\\{' + arg + '\\}', 'g'), replacement);
+      }
+    }
+
+    return interpolated;
+
+    function insertReplacement(source, rx, replacement) {
+      var newParts = [];
+      source.forEach(function (chunk) {
+        // When the source contains multiple placeholders for interpolation,
+        // we should ignore chunks that are not strings, because those
+        // can be JSX objects and will be otherwise incorrectly turned into strings.
+        // Without this condition we’d get this: [object Object] hello [object Object] my <button>
+        if (typeof chunk !== 'string') {
+          return newParts.push(chunk);
+        }
+
+        split.call(chunk, rx).forEach(function (raw, i, list) {
+          if (raw !== '') {
+            newParts.push(raw);
+          } // Interlace with the `replacement` value
+
+
+          if (i < list.length - 1) {
+            newParts.push(replacement);
+          }
+        });
+      });
+      return newParts;
+    }
+  }
+  /**
+   * Public translate method
+   *
+   * @param {string} key
+   * @param {object} options with values that will be used later to replace placeholders in string
+   * @returns {string} translated (and interpolated)
+   */
+  ;
+
+  _proto.translate = function translate(key, options) {
+    return this.translateArray(key, options).join('');
+  }
+  /**
+   * Get a translation and return the translated and interpolated parts as an array.
+   *
+   * @param {string} key
+   * @param {object} options with values that will be used to replace placeholders
+   * @returns {Array} The translated and interpolated parts, in order.
+   */
+  ;
+
+  _proto.translateArray = function translateArray(key, options) {
+    var string = this.locale.strings[key];
+    var hasPluralForms = typeof string === 'object';
+
+    if (hasPluralForms) {
+      if (options && typeof options.smart_count !== 'undefined') {
+        var plural = this.locale.pluralize(options.smart_count);
+        return this.interpolate(string[plural], options);
+      } else {
+        throw new Error('Attempted to use a string with plural forms, but no value was given for %{smart_count}');
+      }
+    }
+
+    return this.interpolate(string, options);
+  };
+
+  return Translator;
+}();
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/findDOMElement.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/findDOMElement.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isDOMElement = __webpack_require__(/*! ./isDOMElement */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/isDOMElement.js");
+/**
+ * Find a DOM element.
+ *
+ * @param {Node|string} element
+ * @returns {Node|null}
+ */
+
+
+module.exports = function findDOMElement(element, context) {
+  if (context === void 0) {
+    context = document;
+  }
+
+  if (typeof element === 'string') {
+    return context.querySelector(element);
+  }
+
+  if (isDOMElement(element)) {
+    return element;
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/generateFileID.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/generateFileID.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Takes a file object and turns it into fileID, by converting file.name to lowercase,
+ * removing extra characters and adding type, size and lastModified
+ *
+ * @param {object} file
+ * @returns {string} the fileID
+ */
+module.exports = function generateFileID(file) {
+  // It's tempting to do `[items].filter(Boolean).join('-')` here, but that
+  // is slower! simple string concatenation is fast
+  var id = 'uppy';
+
+  if (typeof file.name === 'string') {
+    id += '-' + encodeFilename(file.name.toLowerCase());
+  }
+
+  if (file.type !== undefined) {
+    id += '-' + file.type;
+  }
+
+  if (file.meta && typeof file.meta.relativePath === 'string') {
+    id += '-' + encodeFilename(file.meta.relativePath.toLowerCase());
+  }
+
+  if (file.data.size !== undefined) {
+    id += '-' + file.data.size;
+  }
+
+  if (file.data.lastModified !== undefined) {
+    id += '-' + file.data.lastModified;
+  }
+
+  return id;
+};
+
+function encodeFilename(name) {
+  var suffix = '';
+  return name.replace(/[^A-Z0-9]/ig, function (character) {
+    suffix += '-' + encodeCharacter(character);
+    return '/';
+  }) + suffix;
+}
+
+function encodeCharacter(character) {
+  return character.charCodeAt(0).toString(32);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getFileNameAndExtension.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getFileNameAndExtension.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Takes a full filename string and returns an object {name, extension}
+ *
+ * @param {string} fullFileName
+ * @returns {object} {name, extension}
+ */
+module.exports = function getFileNameAndExtension(fullFileName) {
+  var lastDot = fullFileName.lastIndexOf('.'); // these count as no extension: "no-dot", "trailing-dot."
+
+  if (lastDot === -1 || lastDot === fullFileName.length - 1) {
+    return {
+      name: fullFileName,
+      extension: undefined
+    };
+  } else {
+    return {
+      name: fullFileName.slice(0, lastDot),
+      extension: fullFileName.slice(lastDot + 1)
+    };
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getFileType.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getFileType.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getFileNameAndExtension = __webpack_require__(/*! ./getFileNameAndExtension */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getFileNameAndExtension.js");
+
+var mimeTypes = __webpack_require__(/*! ./mimeTypes */ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/mimeTypes.js");
+
+module.exports = function getFileType(file) {
+  var fileExtension = file.name ? getFileNameAndExtension(file.name).extension : null;
+  fileExtension = fileExtension ? fileExtension.toLowerCase() : null;
+
+  if (file.type) {
+    // if mime type is set in the file object already, use that
+    return file.type;
+  } else if (fileExtension && mimeTypes[fileExtension]) {
+    // else, see if we can map extension to a mime type
+    return mimeTypes[fileExtension];
+  } else {
+    // if all fails, fall back to a generic byte stream type
+    return 'application/octet-stream';
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getTimeStamp.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/getTimeStamp.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Returns a timestamp in the format of `hours:minutes:seconds`
+ */
+module.exports = function getTimeStamp() {
+  var date = new Date();
+  var hours = pad(date.getHours().toString());
+  var minutes = pad(date.getMinutes().toString());
+  var seconds = pad(date.getSeconds().toString());
+  return hours + ':' + minutes + ':' + seconds;
+};
+/**
+ * Adds zero to strings shorter than two characters
+ */
+
+
+function pad(str) {
+  return str.length !== 2 ? 0 + str : str;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/hasProperty.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/hasProperty.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function has(object, key) {
+  return Object.prototype.hasOwnProperty.call(object, key);
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/isDOMElement.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/isDOMElement.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Check if an object is a DOM element. Duck-typing based on `nodeType`.
+ *
+ * @param {*} obj
+ */
+module.exports = function isDOMElement(obj) {
+  return obj && typeof obj === 'object' && obj.nodeType === Node.ELEMENT_NODE;
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/mimeTypes.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/mimeTypes.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// ___Why not add the mime-types package?
+//    It's 19.7kB gzipped, and we only need mime types for well-known extensions (for file previews).
+// ___Where to take new extensions from?
+//    https://github.com/jshttp/mime-db/blob/master/db.json
+module.exports = {
+  md: 'text/markdown',
+  markdown: 'text/markdown',
+  mp4: 'video/mp4',
+  mp3: 'audio/mp3',
+  svg: 'image/svg+xml',
+  jpg: 'image/jpeg',
+  png: 'image/png',
+  gif: 'image/gif',
+  heic: 'image/heic',
+  heif: 'image/heif',
+  yaml: 'text/yaml',
+  yml: 'text/yaml',
+  csv: 'text/csv',
+  tsv: 'text/tab-separated-values',
+  tab: 'text/tab-separated-values',
+  avi: 'video/x-msvideo',
+  mks: 'video/x-matroska',
+  mkv: 'video/x-matroska',
+  mov: 'video/quicktime',
+  doc: 'application/msword',
+  docm: 'application/vnd.ms-word.document.macroenabled.12',
+  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  dot: 'application/msword',
+  dotm: 'application/vnd.ms-word.template.macroenabled.12',
+  dotx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+  xla: 'application/vnd.ms-excel',
+  xlam: 'application/vnd.ms-excel.addin.macroenabled.12',
+  xlc: 'application/vnd.ms-excel',
+  xlf: 'application/x-xliff+xml',
+  xlm: 'application/vnd.ms-excel',
+  xls: 'application/vnd.ms-excel',
+  xlsb: 'application/vnd.ms-excel.sheet.binary.macroenabled.12',
+  xlsm: 'application/vnd.ms-excel.sheet.macroenabled.12',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  xlt: 'application/vnd.ms-excel',
+  xltm: 'application/vnd.ms-excel.template.macroenabled.12',
+  xltx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+  xlw: 'application/vnd.ms-excel',
+  txt: 'text/plain',
+  text: 'text/plain',
+  conf: 'text/plain',
+  log: 'text/plain',
+  pdf: 'application/pdf'
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/core/node_modules/@uppy/utils/lib/prettyBytes.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/@uppy/core/node_modules/@uppy/utils/lib/prettyBytes.js ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// Adapted from https://github.com/Flet/prettier-bytes/
+// Changing 1000 bytes to 1024, so we can keep uppercase KB vs kB
+// ISC License (c) Dan Flettre https://github.com/Flet/prettier-bytes/blob/master/LICENSE
+module.exports = prettierBytes;
+
+function prettierBytes(num) {
+  if (typeof num !== 'number' || isNaN(num)) {
+    throw new TypeError('Expected a number, got ' + typeof num);
+  }
+
+  var neg = num < 0;
+  var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  if (neg) {
+    num = -num;
+  }
+
+  if (num < 1) {
+    return (neg ? '-' : '') + num + ' B';
+  }
+
+  var exponent = Math.min(Math.floor(Math.log(num) / Math.log(1024)), units.length - 1);
+  num = Number(num / Math.pow(1024, exponent));
+  var unit = units[exponent];
+
+  if (num >= 10 || num % 1 === 0) {
+    // Do not show decimals when the number is two-digit, or if the number has no
+    // decimal component.
+    return (neg ? '-' : '') + num.toFixed(0) + ' ' + unit;
+  } else {
+    return (neg ? '-' : '') + num.toFixed(1) + ' ' + unit;
+  }
+}
 
 /***/ }),
 
@@ -8609,94 +9087,6 @@ module.exports = function findAllDOMElements(element) {
 
 /***/ }),
 
-/***/ "./node_modules/@uppy/utils/lib/findDOMElement.js":
-/*!********************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/findDOMElement.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isDOMElement = __webpack_require__(/*! ./isDOMElement */ "./node_modules/@uppy/utils/lib/isDOMElement.js");
-/**
- * Find a DOM element.
- *
- * @param {Node|string} element
- * @returns {Node|null}
- */
-
-
-module.exports = function findDOMElement(element, context) {
-  if (context === void 0) {
-    context = document;
-  }
-
-  if (typeof element === 'string') {
-    return context.querySelector(element);
-  }
-
-  if (typeof element === 'object' && isDOMElement(element)) {
-    return element;
-  }
-};
-
-/***/ }),
-
-/***/ "./node_modules/@uppy/utils/lib/generateFileID.js":
-/*!********************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/generateFileID.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Takes a file object and turns it into fileID, by converting file.name to lowercase,
- * removing extra characters and adding type, size and lastModified
- *
- * @param {object} file
- * @returns {string} the fileID
- */
-module.exports = function generateFileID(file) {
-  // It's tempting to do `[items].filter(Boolean).join('-')` here, but that
-  // is slower! simple string concatenation is fast
-  var id = 'uppy';
-
-  if (typeof file.name === 'string') {
-    id += '-' + encodeFilename(file.name.toLowerCase());
-  }
-
-  if (file.type !== undefined) {
-    id += '-' + file.type;
-  }
-
-  if (file.meta && typeof file.meta.relativePath === 'string') {
-    id += '-' + encodeFilename(file.meta.relativePath.toLowerCase());
-  }
-
-  if (file.data.size !== undefined) {
-    id += '-' + file.data.size;
-  }
-
-  if (file.data.lastModified !== undefined) {
-    id += '-' + file.data.lastModified;
-  }
-
-  return id;
-};
-
-function encodeFilename(name) {
-  var suffix = '';
-  return name.replace(/[^A-Z0-9]/ig, function (character) {
-    suffix += '-' + encodeCharacter(character);
-    return '/';
-  }) + suffix;
-}
-
-function encodeCharacter(character) {
-  return character.charCodeAt(0).toString(32);
-}
-
-/***/ }),
-
 /***/ "./node_modules/@uppy/utils/lib/getBytesRemaining.js":
 /*!***********************************************************!*\
   !*** ./node_modules/@uppy/utils/lib/getBytesRemaining.js ***!
@@ -8895,66 +9285,6 @@ module.exports = function webkitGetAsEntryApi(dataTransfer, logDropError) {
 
 /***/ }),
 
-/***/ "./node_modules/@uppy/utils/lib/getFileNameAndExtension.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/getFileNameAndExtension.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Takes a full filename string and returns an object {name, extension}
- *
- * @param {string} fullFileName
- * @returns {object} {name, extension}
- */
-module.exports = function getFileNameAndExtension(fullFileName) {
-  var lastDot = fullFileName.lastIndexOf('.'); // these count as no extension: "no-dot", "trailing-dot."
-
-  if (lastDot === -1 || lastDot === fullFileName.length - 1) {
-    return {
-      name: fullFileName,
-      extension: undefined
-    };
-  } else {
-    return {
-      name: fullFileName.slice(0, lastDot),
-      extension: fullFileName.slice(lastDot + 1)
-    };
-  }
-};
-
-/***/ }),
-
-/***/ "./node_modules/@uppy/utils/lib/getFileType.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/getFileType.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getFileNameAndExtension = __webpack_require__(/*! ./getFileNameAndExtension */ "./node_modules/@uppy/utils/lib/getFileNameAndExtension.js");
-
-var mimeTypes = __webpack_require__(/*! ./mimeTypes */ "./node_modules/@uppy/utils/lib/mimeTypes.js");
-
-module.exports = function getFileType(file) {
-  var fileExtension = file.name ? getFileNameAndExtension(file.name).extension : null;
-  fileExtension = fileExtension ? fileExtension.toLowerCase() : null;
-
-  if (file.type) {
-    // if mime type is set in the file object already, use that
-    return file.type;
-  } else if (fileExtension && mimeTypes[fileExtension]) {
-    // else, see if we can map extension to a mime type
-    return mimeTypes[fileExtension];
-  } else {
-    // if all fails, fall back to a generic byte stream type
-    return 'application/octet-stream';
-  }
-};
-
-/***/ }),
-
 /***/ "./node_modules/@uppy/utils/lib/getSpeed.js":
 /*!**************************************************!*\
   !*** ./node_modules/@uppy/utils/lib/getSpeed.js ***!
@@ -8968,34 +9298,6 @@ module.exports = function getSpeed(fileProgress) {
   var uploadSpeed = fileProgress.bytesUploaded / (timeElapsed / 1000);
   return uploadSpeed;
 };
-
-/***/ }),
-
-/***/ "./node_modules/@uppy/utils/lib/getTimeStamp.js":
-/*!******************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/getTimeStamp.js ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Returns a timestamp in the format of `hours:minutes:seconds`
- */
-module.exports = function getTimeStamp() {
-  var date = new Date();
-  var hours = pad(date.getHours().toString());
-  var minutes = pad(date.getMinutes().toString());
-  var seconds = pad(date.getSeconds().toString());
-  return hours + ':' + minutes + ':' + seconds;
-};
-/**
- * Adds zero to strings shorter than two characters
- */
-
-
-function pad(str) {
-  return str.length !== 2 ? 0 + str : str;
-}
 
 /***/ }),
 
@@ -9097,65 +9399,6 @@ module.exports = function isPreviewSupported(fileType) {
   }
 
   return false;
-};
-
-/***/ }),
-
-/***/ "./node_modules/@uppy/utils/lib/mimeTypes.js":
-/*!***************************************************!*\
-  !*** ./node_modules/@uppy/utils/lib/mimeTypes.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// ___Why not add the mime-types package?
-//    It's 19.7kB gzipped, and we only need mime types for well-known extensions (for file previews).
-// ___Where to take new extensions from?
-//    https://github.com/jshttp/mime-db/blob/master/db.json
-module.exports = {
-  md: 'text/markdown',
-  markdown: 'text/markdown',
-  mp4: 'video/mp4',
-  mp3: 'audio/mp3',
-  svg: 'image/svg+xml',
-  jpg: 'image/jpeg',
-  png: 'image/png',
-  gif: 'image/gif',
-  heic: 'image/heic',
-  heif: 'image/heif',
-  yaml: 'text/yaml',
-  yml: 'text/yaml',
-  csv: 'text/csv',
-  tsv: 'text/tab-separated-values',
-  tab: 'text/tab-separated-values',
-  avi: 'video/x-msvideo',
-  mks: 'video/x-matroska',
-  mkv: 'video/x-matroska',
-  mov: 'video/quicktime',
-  doc: 'application/msword',
-  docm: 'application/vnd.ms-word.document.macroenabled.12',
-  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  dot: 'application/msword',
-  dotm: 'application/vnd.ms-word.template.macroenabled.12',
-  dotx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-  xla: 'application/vnd.ms-excel',
-  xlam: 'application/vnd.ms-excel.addin.macroenabled.12',
-  xlc: 'application/vnd.ms-excel',
-  xlf: 'application/x-xliff+xml',
-  xlm: 'application/vnd.ms-excel',
-  xls: 'application/vnd.ms-excel',
-  xlsb: 'application/vnd.ms-excel.sheet.binary.macroenabled.12',
-  xlsm: 'application/vnd.ms-excel.sheet.macroenabled.12',
-  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  xlt: 'application/vnd.ms-excel',
-  xltm: 'application/vnd.ms-excel.template.macroenabled.12',
-  xltx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-  xlw: 'application/vnd.ms-excel',
-  txt: 'text/plain',
-  text: 'text/plain',
-  conf: 'text/plain',
-  log: 'text/plain',
-  pdf: 'application/pdf'
 };
 
 /***/ }),
@@ -11158,6 +11401,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // props: {
+  //     link: {
+  //         type: String,
+  //         required: true
+  //     }
+  // },
   data: function data() {
     return {
       selectedFile: null,
@@ -11195,16 +11444,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         retryDelays: [0, 1000, 3000, 5000],
         metaFields: null,
         limit: 1,
-        headers: {
-          Accept: "application/vnd.vimeo.*+json;version=3.4"
-        } // chunkSize: 4194304
+        chunkSize: 4194304 // set chunk size to 4 mb
 
       });
       this.uppy.on("upload-success", function (file, response) {
+        _this.isUploadButtonDisabled = false; // this.updateVideoStatusToSuccess(btoa(this.selectedFile.id));
+
         _this.selectedFile = null;
+<<<<<<< HEAD
         _this.isUploadButtonDisabled = false;
 
         _this.updateVideoStatusToSuccess();
+=======
+>>>>>>> masterTus
       });
       this.uppy.on("upload-error", function (file, error, response) {
         _this.isUploadButtonDisabled = false;
@@ -11215,6 +11467,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
       this.uppy.on("file-added", function (file) {
         _this.selectedFile = file;
+
+        _this.uppy.setMeta({
+          fileId: file.id
+        });
+
         _this.isUploadButtonDisabled = false;
       });
       this.uppy.on("file-removed", function (file) {
@@ -11226,6 +11483,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       this.isUploadButtonDisabled = true;
+<<<<<<< HEAD
       this.createVideo().then(function (data) {
         console.log("api data", data);
         _this2.createdVideoData = data.data.data;
@@ -11239,10 +11497,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     updateVideoStatusToSuccess: function updateVideoStatusToSuccess() {
       return axios.patch("/me/videos/".concat(this.createdVideoData.id), {
+=======
+      this.uppy.upload();
+    },
+    updateVideoStatusToSuccess: function updateVideoStatusToSuccess(id) {
+      axios.patch("/me/videos/".concat(id), {
+>>>>>>> masterTus
         upload_success: true
       }).then(function () {
         console.log("Video uploaded succesfully");
       });
+<<<<<<< HEAD
     },
     createVideo: function createVideo() {
       return axios.post("/me/videos/", {
@@ -11251,6 +11516,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (data) {
         return data;
       });
+=======
+>>>>>>> masterTus
     }
   }
 });
@@ -17828,7 +18095,7 @@ exports = module.exports = __webpack_require__(/*! ../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "/**\n* General Uppy styles that apply to everything inside the .Uppy container\n*/\n.uppy-Root {\n  box-sizing: border-box;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\";\n  line-height: 1;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  text-align: left;\n  position: relative;\n  color: #333; }\n\n.uppy-Root *, .uppy-Root *:before, .uppy-Root *:after {\n  box-sizing: inherit; }\n\n.uppy-Root [hidden] {\n  display: none; }\n\n.UppyIcon {\n  max-width: 100%;\n  max-height: 100%;\n  fill: currentColor;\n  /* no !important */\n  display: inline-block;\n  overflow: hidden; }\n\n.uppy-u-reset {\n  -webkit-appearance: none;\n  line-height: 1;\n  padding: 0;\n  margin: 0;\n  border: 0;\n  color: inherit;\n  -webkit-backface-visibility: visible;\n          backface-visibility: visible;\n  background: none;\n  border: medium none currentColor;\n  border-collapse: separate;\n  -o-border-image: none;\n     border-image: none;\n  border-radius: 0;\n  border-spacing: 0;\n  box-shadow: none;\n  clear: none;\n  cursor: auto;\n  display: inline;\n  empty-cells: show;\n  float: none;\n  font-family: inherit;\n  font-size: inherit;\n  font-style: normal;\n  font-variant: normal;\n  font-weight: normal;\n  font-stretch: normal;\n  -webkit-hyphens: none;\n      -ms-hyphens: none;\n          hyphens: none;\n  left: auto;\n  letter-spacing: normal;\n  list-style: none;\n  margin: 0;\n  max-height: none;\n  max-width: none;\n  min-height: 0;\n  min-width: 0;\n  opacity: 1;\n  outline: medium none invert;\n  overflow: visible;\n  overflow-x: visible;\n  overflow-y: visible;\n  text-align: left;\n  text-decoration: none;\n  text-indent: 0;\n  text-shadow: none;\n  text-transform: none;\n  top: auto;\n  transform: none;\n  transform-origin: 50% 50% 0;\n  transform-style: flat;\n  transition: none 0s ease 0s;\n  unicode-bidi: normal;\n  vertical-align: baseline;\n  visibility: visible;\n  white-space: normal;\n  z-index: auto; }\n\n.uppy-c-textInput {\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-size: 14px;\n  line-height: 1.5;\n  padding: 6px 8px;\n  background-color: #fff; }\n  .uppy-size--md .uppy-c-textInput {\n    padding: 8px 10px; }\n  .uppy-c-textInput:focus {\n    border-color: rgba(34, 117, 215, 0.6);\n    outline: none;\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.15); }\n  [data-uppy-theme=\"dark\"] .uppy-c-textInput {\n    background-color: #333;\n    border-color: #333;\n    color: #fff; }\n  [data-uppy-theme=\"dark\"] .uppy-c-textInput:focus {\n    border-color: #cfcfcf; }\n\n.uppy-c-btn {\n  display: inline-block;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: middle;\n  font-family: inherit;\n  font-size: 16px;\n  line-height: 1;\n  font-weight: 500;\n  transition-property: background-color, color;\n  transition-duration: 0.3s;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n\n.uppy-c-btn:not(:disabled):not(.disabled) {\n  cursor: pointer; }\n\n.uppy-c-btn::-moz-focus-inner {\n  border: 0; }\n\n.uppy-c-btn-primary {\n  font-size: 14px;\n  padding: 10px 18px;\n  border-radius: 4px;\n  background-color: #2275d7;\n  color: #fff; }\n  .uppy-c-btn-primary:hover {\n    background-color: #1b5dab; }\n  .uppy-c-btn-primary:focus {\n    outline: none;\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.4); }\n  .uppy-size--md .uppy-c-btn-primary {\n    padding: 13px 22px; }\n  [data-uppy-theme=\"dark\"] .uppy-c-btn-primary:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.6); }\n\n.uppy-c-btn-link {\n  font-size: 14px;\n  line-height: 1;\n  padding: 10px 15px;\n  border-radius: 4px;\n  background-color: transparent;\n  color: #525252; }\n  .uppy-c-btn-link:hover {\n    color: #333; }\n  .uppy-c-btn-link:focus {\n    outline: none;\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.25); }\n  .uppy-size--md .uppy-c-btn-link {\n    padding: 13px 18px; }\n  [data-uppy-theme=\"dark\"] .uppy-c-btn-link {\n    color: #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-c-btn-link:hover {\n    color: #939393; }\n\n.uppy-c-btn--small {\n  font-size: 0.9em;\n  padding: 7px 16px;\n  border-radius: 2px; }\n  .uppy-size--md .uppy-c-btn--small {\n    padding: 8px 10px;\n    border-radius: 2px; }\n", ""]);
+exports.push([module.i, "/**\n* General Uppy styles that apply to everything inside the .Uppy container\n*/\n.uppy-Root {\n  box-sizing: border-box;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\";\n  line-height: 1;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  text-align: left;\n  position: relative;\n  color: #333; }\n\n.uppy-Root *, .uppy-Root *:before, .uppy-Root *:after {\n  box-sizing: inherit; }\n\n.uppy-Root [hidden] {\n  display: none; }\n\n.UppyIcon {\n  max-width: 100%;\n  max-height: 100%;\n  fill: currentColor;\n  /* no !important */\n  display: inline-block;\n  overflow: hidden; }\n\n.uppy-u-reset {\n  -webkit-appearance: none;\n  line-height: 1;\n  padding: 0;\n  margin: 0;\n  border: 0;\n  color: inherit;\n  -webkit-backface-visibility: visible;\n          backface-visibility: visible;\n  background: none;\n  border: medium none currentColor;\n  border-collapse: separate;\n  -o-border-image: none;\n     border-image: none;\n  border-radius: 0;\n  border-spacing: 0;\n  box-shadow: none;\n  clear: none;\n  cursor: auto;\n  display: inline;\n  empty-cells: show;\n  float: none;\n  font-family: inherit;\n  font-size: inherit;\n  font-style: normal;\n  font-variant: normal;\n  font-weight: normal;\n  font-stretch: normal;\n  -webkit-hyphens: none;\n      -ms-hyphens: none;\n          hyphens: none;\n  left: auto;\n  letter-spacing: normal;\n  list-style: none;\n  margin: 0;\n  max-height: none;\n  max-width: none;\n  min-height: 0;\n  min-width: 0;\n  opacity: 1;\n  outline: medium none invert;\n  overflow: visible;\n  overflow-x: visible;\n  overflow-y: visible;\n  text-align: left;\n  text-decoration: none;\n  text-indent: 0;\n  text-shadow: none;\n  text-transform: none;\n  top: auto;\n  transform: none;\n  transform-origin: 50% 50% 0;\n  transform-style: flat;\n  transition: none 0s ease 0s;\n  unicode-bidi: normal;\n  vertical-align: baseline;\n  visibility: visible;\n  white-space: normal;\n  z-index: auto; }\n\n.uppy-c-textInput {\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-size: 14px;\n  line-height: 1.5;\n  padding: 6px 8px;\n  background-color: #fff; }\n  .uppy-size--md .uppy-c-textInput {\n    padding: 8px 10px; }\n  .uppy-c-textInput:focus {\n    border-color: rgba(34, 117, 215, 0.6);\n    outline: none;\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.15); }\n  [data-uppy-theme=\"dark\"] .uppy-c-textInput {\n    background-color: #333;\n    border-color: #333;\n    color: #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-c-textInput:focus {\n    border-color: #cfcfcf; }\n\n.uppy-c-btn {\n  display: inline-block;\n  text-align: center;\n  white-space: nowrap;\n  vertical-align: middle;\n  font-family: inherit;\n  font-size: 16px;\n  line-height: 1;\n  font-weight: 500;\n  transition-property: background-color, color;\n  transition-duration: 0.3s;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none; }\n\n.uppy-c-btn:not(:disabled):not(.disabled) {\n  cursor: pointer; }\n\n.uppy-c-btn::-moz-focus-inner {\n  border: 0; }\n\n.uppy-c-btn-primary {\n  font-size: 14px;\n  padding: 10px 18px;\n  border-radius: 4px;\n  background-color: #2275d7;\n  color: #fff; }\n  .uppy-c-btn-primary:hover {\n    background-color: #1b5dab; }\n  .uppy-c-btn-primary:focus {\n    outline: none;\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.4); }\n  .uppy-size--md .uppy-c-btn-primary {\n    padding: 13px 22px; }\n  [data-uppy-theme=\"dark\"] .uppy-c-btn-primary {\n    color: #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-c-btn-primary:focus {\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.6); }\n\n.uppy-c-btn-link {\n  font-size: 14px;\n  line-height: 1;\n  padding: 10px 15px;\n  border-radius: 4px;\n  background-color: transparent;\n  color: #525252; }\n  .uppy-c-btn-link:hover {\n    color: #333; }\n  .uppy-c-btn-link:focus {\n    outline: none;\n    box-shadow: 0 0 0 3px rgba(34, 117, 215, 0.25); }\n  .uppy-size--md .uppy-c-btn-link {\n    padding: 13px 18px; }\n  [data-uppy-theme=\"dark\"] .uppy-c-btn-link {\n    color: #eaeaea; }\n  [data-uppy-theme=\"dark\"] .uppy-c-btn-link:hover {\n    color: #939393; }\n\n.uppy-c-btn--small {\n  font-size: 0.9em;\n  padding: 7px 16px;\n  border-radius: 2px; }\n  .uppy-size--md .uppy-c-btn--small {\n    padding: 8px 10px;\n    border-radius: 2px; }\n", ""]);
 
 // exports
 
@@ -68251,7 +68518,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  * Vue components. It will recursively scan this directory for the Vue
  * components and automatically register them with their "basename".
  *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ * Eg. ./components/ExampleComponent.vue -> <example-compone    nt></example-component>
  */
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
@@ -68299,6 +68566,13 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+var token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
