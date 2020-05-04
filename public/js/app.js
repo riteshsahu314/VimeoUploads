@@ -11439,13 +11439,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         browserBackButtonClose: true,
         closeModalOnClickOutside: true
       }, "hideUploadButton", true)).use(_uppy_tus__WEBPACK_IMPORTED_MODULE_4___default.a, {
-        endpoint: "/me/videos",
+        endpoint: "https://master.tus.io/files/",
         resume: true,
         autoRetry: true,
         retryDelays: [0, 1000, 3000, 5000],
         metaFields: null,
         limit: 1,
         chunkSize: 4194304 // set chunk size to 4 mb
+        // headers: {
+        //     "Access-Control-Allow-Origin": "*",
+        //     "sec-fetch-dest": "empty",
+        //     "sec-fetch-mode": "cors",
+        //     "sec-fetch-site": "cross-site"
+        // }
 
       });
       this.uppy.on("upload-success", function (file, response) {
